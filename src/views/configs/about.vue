@@ -1,8 +1,8 @@
 <template>
   <div class="app-container">
     <el-form ref="form" :model="form" :rules="rules" label-width="120px">
-      <el-form-item label="关于沣源公社" prop="value">
-        <el-input v-model="form.value" :rows="20" type="textarea" placeholder="关于沣源公社" clearable />
+      <el-form-item label="关于人人回收" prop="value">
+        <el-input v-model="form.value" :rows="20" type="textarea" placeholder="关于人人回收" clearable />
       </el-form-item>
       <el-form-item>
         <el-button type="primary" :loading="btnLoading" @click="onFormSubmit()">
@@ -25,7 +25,7 @@ export default {
       },
       rules: {
         value: [
-          { required: true, message: '关于沣源公社不能为空', trigger: 'blur' }
+          { required: true, message: '关于人人回收不能为空', trigger: 'blur' }
         ]
       }
     }

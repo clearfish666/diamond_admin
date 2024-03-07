@@ -1,6 +1,6 @@
 <template>
   <div class="dashboard-container">
-    <div class="welcome">欢迎登录沣源公社后台管理系统</div>
+    <div class="welcome">欢迎登录人人回收后台管理系统</div>
     <div class="test-clock-container" :style="'height:' + pageheight + 'px;'">
       <flip-clock />
     </div>

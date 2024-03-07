@@ -1,5 +1,5 @@
 /* Layout */
-import Layout from '@/layout'
+import Layout from "@/layout";
 
 /**
  * asyncRoutes
@@ -7,223 +7,224 @@ import Layout from '@/layout'
  */
 export const routes_insidesystem = [
   {
-    path: '/user',
+    path: "/statistical",
     component: Layout,
-    name: 'UserManage',
+    name: "StatisticalManage",
     hidden: true,
     meta: {
-      title: '用户管理',
-      icon: 'peoples'
+      title: "统计管理",
+      icon: "chart",
     },
     children: [
       {
-        path: 'index',
-        component: () => import('@/views/user/index'),
-        name: 'UserList',
+        path: "recharge",
+        component: () => import("@/views/statistical/recharge"),
+        name: "RechargeStatistical",
         hidden: true,
         meta: {
-          title: '用户管理'
-        }
-      }
-    ]
+          title: "充值统计",
+        },
+      },
+    ],
   },
   {
-    path: '/vip',
+    path: "/user",
     component: Layout,
-    name: 'VipManage',
+    name: "UserManage",
     hidden: true,
     meta: {
-      title: '会员管理',
-      icon: 'peoples'
+      title: "用户管理",
+      icon: "peoples",
     },
     children: [
       {
-        path: 'index',
-        component: () => import('@/views/vip/index'),
-        name: 'VipList',
+        path: "index",
+        component: () => import("@/views/user/index"),
+        name: "UserList",
         hidden: true,
         meta: {
-          title: '会员列表'
-        }
+          title: "用户管理",
+        },
       },
-      {
-        path: 'equity',
-        component: () => import('@/views/vip/equity'),
-        name: 'VipEquityList',
-        hidden: true,
-        meta: {
-          title: '会员权益'
-        }
-      },
-      {
-        path: 'order',
-        component: () => import('@/views/vip/order'),
-        name: 'VipOrderList',
-        hidden: true,
-        meta: {
-          title: '会员订单'
-        }
-      }
-    ]
-  },
-  {
-    path: '/ad',
-    component: Layout,
-    name: 'Ad',
-    hidden: true,
-    meta: {
-      title: '广告管理',
-      icon: 'poster'
-    },
-    children: [
-      {
-        path: 'index',
-        component: () => import('@/views/ad/index'),
-        name: 'Ads',
-        hidden: true,
-        meta: {
-          title: '广告管理'
-        }
-      }
-    ]
+    ],
   },
   // {
-  //   path: '/statistical',
+  //   path: "/vip",
   //   component: Layout,
-  //   name: 'StatisticalManage',
+  //   name: "VipManage",
   //   hidden: true,
   //   meta: {
-  //     title: '统计管理',
-  //     icon: 'chart'
+  //     title: "会员管理",
+  //     icon: "peoples",
   //   },
   //   children: [
   //     {
-  //       path: 'recharge',
-  //       component: () => import('@/views/statistical/recharge'),
-  //       name: 'RechargeStatistical',
+  //       path: "index",
+  //       component: () => import("@/views/vip/index"),
+  //       name: "VipList",
   //       hidden: true,
   //       meta: {
-  //         title: '充值统计'
-  //       }
-  //     }
-  //   ]
+  //         title: "会员列表",
+  //       },
+  //     },
+  //     {
+  //       path: "equity",
+  //       component: () => import("@/views/vip/equity"),
+  //       name: "VipEquityList",
+  //       hidden: true,
+  //       meta: {
+  //         title: "会员权益",
+  //       },
+  //     },
+  //     {
+  //       path: "order",
+  //       component: () => import("@/views/vip/order"),
+  //       name: "VipOrderList",
+  //       hidden: true,
+  //       meta: {
+  //         title: "会员订单",
+  //       },
+  //     },
+  //   ],
   // },
   {
-    path: '/wallet',
+    path: "/ad",
     component: Layout,
-    name: 'WalletManage',
+    name: "Ad",
     hidden: true,
     meta: {
-      title: '钱包管理',
-      icon: 'money'
+      title: "广告管理",
+      icon: "poster",
     },
     children: [
       {
-        path: 'index',
-        component: () => import('@/views/wallet/index'),
-        name: 'WalletList',
+        path: "index",
+        component: () => import("@/views/ad/index"),
+        name: "Ads",
         hidden: true,
         meta: {
-          title: '钱包列表'
-        }
+          title: "广告管理",
+        },
+      },
+    ],
+  },
+
+  {
+    path: "/wallet",
+    component: Layout,
+    name: "WalletManage",
+    hidden: true,
+    meta: {
+      title: "钱包管理",
+      icon: "money",
+    },
+    children: [
+      {
+        path: "index",
+        component: () => import("@/views/wallet/index"),
+        name: "WalletList",
+        hidden: true,
+        meta: {
+          title: "钱包列表",
+        },
       },
       {
-        path: 'logs',
-        component: () => import('@/views/wallet/logs'),
-        name: 'WalletLogList',
+        path: "logs",
+        component: () => import("@/views/wallet/logs"),
+        name: "WalletLogList",
         hidden: true,
         meta: {
-          title: '钱包日志'
-        }
+          title: "钱包日志",
+        },
       },
       {
-        path: 'transfer',
-        component: () => import('@/views/wallet/transfer'),
-        name: 'WalletTransfer',
+        path: "transfer",
+        component: () => import("@/views/wallet/transfer"),
+        name: "WalletTransfer",
         hidden: true,
         meta: {
-          title: '转仓管理'
-        }
+          title: "转仓管理",
+        },
       },
       {
-        path: 'exchange',
-        component: () => import('@/views/wallet/exchange'),
-        name: 'WalletExchange',
+        path: "exchange",
+        component: () => import("@/views/wallet/exchange"),
+        name: "WalletExchange",
         hidden: true,
         meta: {
-          title: '兑换管理'
-        }
-      }
-    ]
+          title: "兑换管理",
+        },
+      },
+    ],
   },
   {
-    path: '/store',
+    path: "/store",
     component: Layout,
-    name: 'StoreManage',
+    name: "StoreManage",
     hidden: true,
     meta: {
-      title: '商店管理',
-      icon: 'store'
+      title: "商店管理",
+      icon: "store",
     },
     children: [
       {
-        path: 'index',
-        component: () => import('@/views/store/goods'),
-        name: 'StoreGoodsList',
+        path: "index",
+        component: () => import("@/views/store/goods"),
+        name: "StoreGoodsList",
         hidden: true,
         meta: {
-          title: '商品列表'
-        }
+          title: "商品列表",
+        },
       },
       {
-        path: 'category',
-        component: () => import('@/views/store/category'),
-        name: 'StoreGoodsCategoryList',
+        path: "category",
+        component: () => import("@/views/store/category"),
+        name: "StoreGoodsCategoryList",
         hidden: true,
         meta: {
-          title: '分类列表'
-        }
+          title: "手机型号",
+        },
       },
       {
-        path: 'goods',
-        component: () => import('@/views/store/AddOrUpdate'),
-        name: 'StoreGoodsEdit',
+        path: "goods",
+        component: () => import("@/views/store/AddOrUpdate"),
+        name: "StoreGoodsEdit",
         hidden: true,
         meta: {
-          title: '商品编辑'
-        }
+          title: "商品编辑",
+        },
       },
       {
-        path: 'order',
-        component: () => import('@/views/store/order'),
-        name: 'StoreOrderList',
+        path: "order",
+        component: () => import("@/views/store/order"),
+        name: "StoreOrderList",
         hidden: true,
         meta: {
-          title: '商品订单'
-        }
-      }
-    ]
+          title: "订单管理",
+        },
+      },
+    ],
   },
   {
-    path: '/verification',
+    path: "/verification",
     component: Layout,
-    name: 'VerificationManage',
+    name: "VerificationManage",
     hidden: true,
     meta: {
-      title: '验证码管理',
-      icon: 'verifications'
+      title: "验证码管理",
+      icon: "verifications",
     },
     children: [
       {
-        path: 'index',
-        component: () => import('@/views/verification/index'),
-        name: 'VerificationList',
+        path: "index",
+        component: () => import("@/views/verification/index"),
+        name: "VerificationList",
         hidden: true,
         meta: {
-          title: '验证码管理'
-        }
-      }
-    ]
+          title: "验证码管理",
+        },
+      },
+    ],
   },
   // {
   //   path: '/feedback',
@@ -247,25 +248,25 @@ export const routes_insidesystem = [
   //   ]
   // },
   {
-    path: '/article',
+    path: "/article",
     component: Layout,
-    name: 'ArticleManage',
+    name: "ArticleManage",
     hidden: true,
     meta: {
-      title: '文章管理',
-      icon: 'help'
+      title: "文章管理",
+      icon: "help",
     },
     children: [
       {
-        path: 'index',
-        component: () => import('@/views/articles/index'),
-        name: 'ArticleList',
+        path: "index",
+        component: () => import("@/views/articles/index"),
+        name: "ArticleList",
         hidden: true,
         meta: {
-          title: '文章列表'
-        }
-      }
-    ]
+          title: "文章列表",
+        },
+      },
+    ],
   },
   // {
   //   path: '/message',
@@ -310,136 +311,136 @@ export const routes_insidesystem = [
   //   ]
   // },
   {
-    path: '/menu',
+    path: "/menu",
     component: Layout,
-    name: 'MenuManage',
+    name: "MenuManage",
     hidden: true,
     meta: {
-      title: '权限管理',
-      icon: 'tree-table'
+      title: "权限管理",
+      icon: "tree-table",
     },
     children: [
       {
-        path: 'index',
-        component: () => import('@/views/menu/index'),
-        name: 'MenuList',
+        path: "index",
+        component: () => import("@/views/menu/index"),
+        name: "MenuList",
         hidden: true,
         meta: {
-          title: '权限管理'
-        }
-      }
-    ]
+          title: "权限管理",
+        },
+      },
+    ],
   },
   {
-    path: '/role',
+    path: "/role",
     component: Layout,
-    name: 'RoleManage',
+    name: "RoleManage",
     hidden: true,
     meta: {
-      title: '角色管理',
-      icon: 'tree'
+      title: "角色管理",
+      icon: "tree",
     },
     children: [
       {
-        path: 'index',
-        component: () => import('@/views/role/index'),
-        name: 'RoleList',
+        path: "index",
+        component: () => import("@/views/role/index"),
+        name: "RoleList",
         hidden: true,
         meta: {
-          title: '角色管理'
-        }
-      }
-    ]
+          title: "角色管理",
+        },
+      },
+    ],
   },
   {
-    path: '/admin',
+    path: "/admin",
     component: Layout,
-    name: 'AdminManage',
+    name: "AdminManage",
     hidden: true,
     meta: {
-      title: '管理员管理',
-      icon: 'user'
+      title: "管理员管理",
+      icon: "user",
     },
     children: [
       {
-        path: 'index',
-        component: () => import('@/views/admin/index'),
-        name: 'AdminList',
+        path: "index",
+        component: () => import("@/views/admin/index"),
+        name: "AdminList",
         hidden: true,
         meta: {
-          title: '管理员管理'
-        }
-      }
-    ]
+          title: "管理员管理",
+        },
+      },
+    ],
   },
   {
-    path: '/configs',
+    path: "/configs",
     component: Layout,
-    name: 'ConfigManage',
+    name: "ConfigManage",
     hidden: true,
     meta: {
-      title: '系统配置',
-      icon: 'configs'
+      title: "系统配置",
+      icon: "configs",
     },
     children: [
       {
-        path: 'system',
-        component: () => import('@/views/configs/system'),
-        name: 'SystemConfig',
+        path: "system",
+        component: () => import("@/views/configs/system"),
+        name: "SystemConfig",
         hidden: true,
         meta: {
-          title: '基础配置'
-        }
+          title: "基础配置",
+        },
       },
       {
-        path: 'vip',
-        component: () => import('@/views/configs/vip'),
-        name: 'VipConfig',
+        path: "vip",
+        component: () => import("@/views/configs/vip"),
+        name: "VipConfig",
         hidden: true,
         meta: {
-          title: '会员配置'
-        }
+          title: "会员配置",
+        },
       },
       {
-        path: 'food-stamps',
-        component: () => import('@/views/configs/food-stamps'),
-        name: 'FoodStampsConfig',
+        path: "food-stamps",
+        component: () => import("@/views/configs/food-stamps"),
+        name: "FoodStampsConfig",
         hidden: true,
         meta: {
-          title: '粮票配置'
-        }
+          title: "粮票配置",
+        },
       },
       {
-        path: 'share-equity',
-        component: () => import('@/views/configs/share-equity'),
-        name: 'ShareEquityConfig',
+        path: "share-equity",
+        component: () => import("@/views/configs/share-equity"),
+        name: "ShareEquityConfig",
         hidden: true,
         meta: {
-          title: '分享权益配置'
-        }
+          title: "分享权益配置",
+        },
       },
       {
-        path: 'ration-equity',
-        component: () => import('@/views/configs/ration-equity'),
-        name: 'RationEquityConfig',
+        path: "ration-equity",
+        component: () => import("@/views/configs/ration-equity"),
+        name: "RationEquityConfig",
         hidden: true,
         meta: {
-          title: '配售权益配置'
-        }
+          title: "配售权益配置",
+        },
       },
       {
-        path: 'store',
-        component: () => import('@/views/configs/store'),
-        name: 'StoreConfig',
+        path: "store",
+        component: () => import("@/views/configs/store"),
+        name: "StoreConfig",
         hidden: true,
         meta: {
-          title: '商城配置'
-        }
-      }
-    ]
+          title: "商城配置",
+        },
+      },
+    ],
   },
   // 404 page must be placed at the end !!!
-  { path: '*', redirect: '/404', hidden: true }
-]
+  { path: "*", redirect: "/404", hidden: true },
+];
 
-export default routes_insidesystem
+export default routes_insidesystem;

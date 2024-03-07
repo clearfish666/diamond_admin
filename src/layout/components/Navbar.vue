@@ -108,7 +108,7 @@ export default {
   },
   mounted() {
     this.environment =
-      process.env.VUE_APP_BASE_API === 'https://www.沣源公社.news/admin/'
+      process.env.VUE_APP_BASE_API === 'https://www.人人回收.news/admin/'
         ? 'production'
         : 'development'
   },

@@ -1,27 +1,48 @@
-import request from '@/utils/request'
+import request from "@/utils/request";
 
 // 商品列表
 export function getCategoryList(params) {
-  return request.get('/store/category', {
-    params
-  })
+  return request.get("/store/category", {
+    params,
+  });
 }
 
 // 添加 / 修改
 export function addOrUpdate({ id, ...data }) {
-  let method = 'POST'
-  let url = '/store/category'
+  let method = "POST";
+  let url = "/store/category";
 
   if (id > 0) {
-    method = 'PUT'
-    url += `/${id}`
-    data.id = id
+    method = "PUT";
+    url += `/${id}`;
+    data.id = id;
   }
 
-  return request({ url, method, data })
+  return request({ url, method, data });
 }
 
 // 删除
 export function deleteData(id) {
-  return request.delete(`/store/category/${id}`)
+  return request.delete(`/store/category/${id}`);
+}
+
+// 获取属性
+export function getCategoryAttr(params) {
+  return request.get("/store/category/attr", {
+    params,
+  });
+}
+
+// 添加 / 修改属性
+export function addOrUpdateAttr({ id, ...data }) {
+  let method = "POST";
+  let url = "/store/category/attr";
+
+  if (id > 0) {
+    method = "PUT";
+    url += `/${id}`;
+    data.id = id;
+  }
+
+  return request({ url, method, data });
 }
