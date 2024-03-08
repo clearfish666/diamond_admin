@@ -12,15 +12,92 @@
         :rules="baseInfoRules"
         label-width="160px"
       >
-        <!-- <el-form-item label="商品名称:" prop="name">
-          <el-input v-model="baseInfoForm.name" placeholder="商品名称" clearable />
-        </el-form-item> -->
+        <el-form-item label="IMIE码:" prop="imie">
+          <el-input
+            v-model="baseInfoForm.imie"
+            placeholder="IMIE码"
+            clearable
+          />
+        </el-form-item>
+        <el-form-item label="等级:" prop="level">
+          <el-select ref="level" v-model="baseInfoForm.level"
+            ><el-option
+              v-for="item in levelOptions"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            >
+            </el-option>
+          </el-select>
+        </el-form-item>
         <el-form-item label="机型:" prop="cate_id">
           <el-cascader
             ref="category"
             v-model="baseInfoForm.cate_id"
             :props="category"
           />
+        </el-form-item>
+
+        <el-form-item label="进货价:" prop="base_price">
+          <el-input-number
+            v-model="baseInfoForm.base_price"
+            :min="0"
+            :step="1"
+            :precision="2"
+            placeholder="进货价"
+          />
+        </el-form-item>
+
+        <el-form-item label="售卖价:" prop="price">
+          <el-input-number
+            v-model="baseInfoForm.price"
+            :min="0"
+            :step="1"
+            :precision="2"
+            placeholder="售卖价"
+          />
+        </el-form-item>
+
+        <el-form-item label="整备费用:" prop="fix_price">
+          <el-input-number
+            v-model="baseInfoForm.fix_price"
+            :min="0"
+            :step="1"
+            :precision="2"
+            placeholder="整备费用"
+          />
+        </el-form-item>
+
+        <el-form-item label="整备费用备注:" prop="fix_intro">
+          <el-input
+            v-model="baseInfoForm.fix_intro"
+            placeholder="整备费用备注：换屏花费200"
+            clearable
+          />
+        </el-form-item>
+
+        <el-form-item label="运费:" prop="trans_fee">
+          <el-input-number
+            v-model="baseInfoForm.trans_fee"
+            :min="0"
+            :step="1"
+            :precision="2"
+            placeholder="运费"
+          />
+        </el-form-item>
+
+        <el-form-item label="排序:" prop="sort">
+          <el-input-number
+            v-model="baseInfoForm.sort"
+            :min="0"
+            placeholder="排序"
+          />
+        </el-form-item>
+        <el-form-item label="状态:" prop="status">
+          <el-radio-group v-model="baseInfoForm.status">
+            <el-radio :label="0">下架</el-radio>
+            <el-radio :label="1">上架</el-radio>
+          </el-radio-group>
         </el-form-item>
         <el-form-item prop="image" label="商品封面">
           <goods-images v-model="goodsPoster" :limit="1" />
@@ -32,29 +109,7 @@
             建议尺寸：800*800像素，你可以拖拽图片调整顺序，最多上传15张
           </p>
         </el-form-item>
-        <el-form-item label="排序:" prop="sort">
-          <el-input-number
-            v-model="baseInfoForm.sort"
-            :min="0"
-            placeholder="排序"
-          />
-        </el-form-item>
 
-        <el-form-item label="运费:" prop="trans_fee">
-          <el-input-number
-            v-model="baseInfoForm.trans_fee"
-            :min="0"
-            :step="1"
-            :precision="2"
-            placeholder="排序"
-          />
-        </el-form-item>
-        <el-form-item label="状态:" prop="status">
-          <el-radio-group v-model="baseInfoForm.status">
-            <el-radio :label="0">下架</el-radio>
-            <el-radio :label="1">上架</el-radio>
-          </el-radio-group>
-        </el-form-item>
         <el-form-item>
           <el-button style="margin-top: 12px" @click="next">下一步</el-button>
         </el-form-item>
@@ -69,10 +124,10 @@
             class="o-goodsSpecs"
           >
             <el-form-item :label="specs.name">
-              <el-radio-group v-model="attrs[specs.name]">
+              <el-radio-group v-model="attrs[specs.id]">
                 <el-radio
                   v-for="(item, subIndex) in specs.properties"
-                  :label="subIndex"
+                  :label="item"
                   :key="`o-goodsSpecs-item${item}-${subIndex}`"
                   >{{ item }}</el-radio
                 >
@@ -134,10 +189,16 @@ export default {
       // 基础信息
       baseInfoForm: {
         id: 0,
+        imie: "",
+        level: "S",
         name: "",
         image: "",
         cate_id: [],
         trans_fee: 0,
+        base_price: 0,
+        price: 0,
+        fix_price: 0,
+        fix_intro: "",
         pics: [],
         sort: 0,
         status: 0,
@@ -145,46 +206,34 @@ export default {
       goodsPoster: [],
       goodsImages: [],
       baseInfoRules: {
-        // name: [{ required: true, message: "商品名不能为空", trigger: "blur" }],
-        // image: [{ required: true, message: '请上传封面图', trigger: 'change' }],
+        price: [
+          { required: true, message: "价格不能为空", trigger: "blur" },
+          { validator: this.validateExampleField, trigger: "blur" },
+        ],
+        imie: [{ required: true, message: "IMIE不能为空", trigger: "blur" }],
+        image: [{ required: true, message: "请上传封面图", trigger: "change" }],
         cate_id: [{ required: true, message: "请选择机型", trigger: "change" }],
         status: [{ required: true, message: "请选择状态" }],
       },
-      attrs: {
-        存储容量: 0,
-        购买渠道: 0,
-        机身颜色: 0,
-        苹果保修期时长: 0,
-        边框背板: 0,
-        屏幕外观: 0,
-        屏幕显示: 0,
-        机身弯曲情况: 0,
-        前摄维修情况: 0,
-        后摄维修情况: 0,
-        后壳维修情况: 0,
-        零件维修情况: 0,
-        维修情况: 0,
-        受潮情况: 0,
-        售后案例情况: 0,
-        开机情况: 0,
-        是否可回复出厂设置: 0,
-        前摄拍摄功能: 0,
-        后摄拍摄功能: 0,
-        通话功能: 0,
-        声音功能: 0,
-        iClound是否可注销: 0,
-        充电功能: 0,
-        无线充电功能: 0,
-        无线功能: 0,
-        指南针功能: 0,
-        触摸功能: 0,
-        面容识别功能: 0,
-        屏幕传感器功能: 0,
-        振动功能: 0,
-        数据连接功能: 0,
-        侧键: 0,
-        电池健康度: 0,
-      },
+      levelOptions: [
+        {
+          label: "S",
+          value: "S",
+        },
+        {
+          label: "A",
+          value: "A",
+        },
+        {
+          label: "B",
+          value: "B",
+        },
+        {
+          label: "C",
+          value: "C",
+        },
+      ],
+      attrs: {},
       goodsDetail: {
         details: "",
       },
@@ -296,13 +345,12 @@ export default {
               // 商品规格信息
               for (const i in attrsValues) {
                 attrsValues[i] = {
+                  id: attrsValues[i].id,
                   name: attrsValues[i].name,
                   properties: attrsValues[i].value,
                 };
               }
               this.specs_properties = attrsValues;
-
-              console.log(this.attrs);
 
               this.tinymceVisible = true;
               this.loading = false;
@@ -321,14 +369,29 @@ export default {
           );
       }
     },
+    validateExampleField(rule, value, callback) {
+      // 自定义验证函数，确保字段值大于0
+      value = parseFloat(value);
+      if (value > 0) {
+        callback(); // 验证通过
+      } else {
+        callback(new Error("该字段必须大于0")); // 验证失败，返回错误信息
+      }
+    },
     next() {
       if (this.active === 0) {
         this.$refs["baseInfoForm"].validate((valid) => {
           if (valid) {
             this.active++;
-            this.getAttr()
-              .then(() => {})
-              .catch(() => {});
+            if (
+              this.attrs === null ||
+              this.attrs === undefined ||
+              Object.keys(this.attrs).length === 0
+            ) {
+              this.getAttr()
+                .then(() => {})
+                .catch(() => {});
+            }
           }
         });
       } else if (this.active === 1) {
@@ -350,15 +413,43 @@ export default {
       await getCategoryAttr({ category_id: this.baseInfoForm.cate_id }).then(
         (response) => {
           let attrsValues = response.data.attrsValues;
+          // let attrsTemp = response.data.attrs;
+
+          // for (const i in attrsTemp) {
+          //   for (const j in attrsValues) {
+          //     if (attrsTemp[i].name === attrsValues[j].name) {
+          //       var key = attrsTemp[i].id;
+          //       var item = { [key]: attrsValues[j].value[0] };
+          //       this.attrs.push(item);
+
+          //       attrsValues[j] = {
+          //         id: attrsTemp[i].id,
+          //         name: attrsValues[j].name,
+          //         properties: attrsValues[j].value,
+          //       };
+
+          //       break;
+          //     }
+          //   }
+          // }
+
+          // this.specs_properties = attrsValues;
 
           // 商品规格信息
-          for (const i in attrsValues) {
-            attrsValues[i] = {
-              name: attrsValues[i].name,
-              properties: attrsValues[i].value,
+          for (const k in attrsValues) {
+            var key = attrsValues[k].id;
+            // var item = { [key]: attrsValues[k].value[0] };
+            // this.attrs.push(item);
+            this.$set(this.attrs, key, attrsValues[k].value[0]);
+
+            attrsValues[k] = {
+              id: attrsValues[k].id,
+              name: attrsValues[k].name,
+              properties: attrsValues[k].value,
             };
           }
           this.specs_properties = attrsValues;
+          console.log(this.attrs);
         }
       );
     },

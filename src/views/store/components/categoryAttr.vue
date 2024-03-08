@@ -21,7 +21,7 @@
             <el-tag
               :key="specs.name"
               type="success"
-              :closable="!isInSpec"
+              :closable="specs.id > 218"
               style="height: 28px; line-height: 26px"
               @close="deleteSpecSHandle(index)"
               >{{ specs.name }}</el-tag
@@ -131,6 +131,8 @@ export default {
       specs_properties: [],
       isCanSpecsAdd: true,
       isInSpec: false,
+      //最新一个属性ID
+      lastId: 0,
       // 添加新规格
       newSpecs: {
         key: "",
@@ -188,7 +190,10 @@ export default {
         return;
       }
 
+      this.lastId += 1;
+      let id = this.lastId;
       this.specs_properties.push({
+        id,
         name,
         properties: [value],
       });
@@ -285,7 +290,9 @@ export default {
 
           // 商品规格信息
           for (const i in attrsValues) {
+            this.lastId = attrsValues[i].id;
             attrsValues[i] = {
+              id: attrsValues[i].id,
               name: attrsValues[i].name,
               properties: attrsValues[i].value,
             };
