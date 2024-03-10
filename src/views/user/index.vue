@@ -42,7 +42,12 @@
         <el-button icon="el-icon-search" @click="getList(1)">
           {{ $t("table.search") }}
         </el-button>
-        <el-button v-if="hasPermissionNode('UserAdd')" type="primary" icon="el-icon-plus" @click="onAddOrUpdate()">
+        <el-button
+          v-if="hasPermissionNode('UserAdd')"
+          type="primary"
+          icon="el-icon-plus"
+          @click="onAddOrUpdate()"
+        >
           {{ $t("table.add") }}
         </el-button>
       </el-form>
@@ -54,7 +59,7 @@
           <user-info :user="row" />
         </template>
       </el-table-column>
-      <el-table-column label="等级" width="100" align="center">
+      <!-- <el-table-column label="等级" width="100" align="center">
         <template slot-scope="{ row:{level,level_log} }">
           <span v-if="level && (level_log.level == 1 || (level_log.level > 1 && level_log.status == 1))">
             {{ level.name }} <el-tag v-if="level_log.status == 0" type="danger">未激活</el-tag>
@@ -62,12 +67,11 @@
           <span v-else>-</span>
         </template>
       </el-table-column>
-      <el-table-column prop="code" label="邀请码" align="center" />
+      <el-table-column prop="code" label="邀请码" align="center" /> -->
       <el-table-column prop="state" label="状态" align="center">
         <template slot-scope="{ row }">
-          <el-tag
-            :type="row.state ? 'danger' : 'success'"
-          >{{ row.state | paraphrase(stateOptions) }}
+          <el-tag :type="row.state ? 'danger' : 'success'"
+            >{{ row.state | paraphrase(stateOptions) }}
           </el-tag>
         </template>
       </el-table-column>
@@ -84,9 +88,14 @@
               v-if="hasPermissionNode('UserEdit')"
               type="primary"
               @click="onAddOrUpdate(row)"
-            >编辑
+              >编辑
             </el-button>
-            <el-button v-if="hasPermissionNode('LooKUserWallets')" type="primary" @click="onWallet(row)">钱包</el-button>
+            <el-button
+              v-if="hasPermissionNode('LooKUserWallets')"
+              type="primary"
+              @click="onWallet(row)"
+              >钱包</el-button
+            >
           </el-button-group>
           <p v-if="hasPermissionNode('LooKUserInvite')" />
           <el-button-group>
@@ -94,7 +103,8 @@
               v-if="hasPermissionNode('LooKUserInvite')"
               type="primary"
               @click="onSubset(row)"
-            >邀请</el-button>
+              >邀请</el-button
+            >
           </el-button-group>
         </template>
       </el-table-column>
@@ -121,23 +131,23 @@
 </template>
 
 <script>
-import Pagination from '@/components/Pagination'
-import { dataList } from '@/api/user'
-import AddOrUpdate from './components/AddOrUpdate'
-import Subset from './components/Subset'
-import Wallet from './components/Wallet'
-import { getToken, DominKey } from '@/utils/auth'
-import { mixin } from '@/utils/mixin'
-import UserInfo from '@/components/User/info'
+import Pagination from "@/components/Pagination";
+import { dataList } from "@/api/user";
+import AddOrUpdate from "./components/AddOrUpdate";
+import Subset from "./components/Subset";
+import Wallet from "./components/Wallet";
+import { getToken, DominKey } from "@/utils/auth";
+import { mixin } from "@/utils/mixin";
+import UserInfo from "@/components/User/info";
 
 export default {
-  name: 'UserList',
+  name: "UserList",
   components: {
     Pagination,
     AddOrUpdate,
     Subset,
     Wallet,
-    UserInfo
+    UserInfo,
   },
   mixins: [mixin],
   data() {
@@ -148,77 +158,77 @@ export default {
         uid: null,
         name: null,
         phone: null,
-        state: null
+        state: null,
       },
       pages: {
         total: 0,
         limit: 20,
-        current: 1
+        current: 1,
       },
       stateOptions: [
-        { label: '全部', value: null },
-        { label: '正常', value: 0 },
-        { label: '禁用', value: 1 }
+        { label: "全部", value: null },
+        { label: "正常", value: 0 },
+        { label: "禁用", value: 1 },
       ],
       loading: false,
       addOrUpdateVisible: false,
       subsetVisible: false,
-      walletVisible: false
-    }
+      walletVisible: false,
+    };
   },
   created() {
-    this.init()
+    this.init();
   },
   methods: {
     init() {
-      this.getList()
+      this.getList();
     },
     getList(page = this.pages.current, loading = true) {
-      if (this.loading) return
-      this.loading = loading
-      if (page === 1) this.pages.current = page
+      if (this.loading) return;
+      this.loading = loading;
+      if (page === 1) this.pages.current = page;
       dataList({ page, ...this.search, limit: this.pages.limit })
         .then((response) => {
-          if (response.code !== 0) return
-          this.list = response.data.data
-          this.pages.total = response.data.total
+          if (response.code !== 0) return;
+          this.list = response.data.data;
+          this.pages.total = response.data.total;
         })
         .catch(() => {})
         .finally(() => {
-          this.loading = false
-        })
+          this.loading = false;
+        });
     },
     onAddOrUpdate(data) {
-      this.addOrUpdateVisible = true
+      this.addOrUpdateVisible = true;
       this.$nextTick(() => {
-        this.$refs.addOrUpdate && this.$refs.addOrUpdate.init(data)
-      })
+        this.$refs.addOrUpdate && this.$refs.addOrUpdate.init(data);
+      });
     },
     onSubset(data) {
-      this.subsetVisible = true
+      this.subsetVisible = true;
       this.$nextTick(() => {
-        this.$refs.subset && this.$refs.subset.init(data)
-      })
+        this.$refs.subset && this.$refs.subset.init(data);
+      });
     },
     onWallet(data) {
-      this.walletVisible = true
+      this.walletVisible = true;
       this.$nextTick(() => {
-        this.$refs.wallet && this.$refs.wallet.init(data)
-      })
+        this.$refs.wallet && this.$refs.wallet.init(data);
+      });
     },
     onDelete({ name, id }) {
-      this.$confirm(`确定对[${name}(#${id})]进行[删除]操作?`, '删除', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'error'
+      this.$confirm(`确定对[${name}(#${id})]进行[删除]操作?`, "删除", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "error",
       })
         .then(() => {
-          this.$message.success('删除成功')
+          this.$message.success("删除成功");
         })
-        .catch(() => {})
-    }
-  }
-}
+        .catch(() => {});
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>

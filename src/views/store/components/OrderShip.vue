@@ -12,6 +12,10 @@
       <el-form-item label="快递单号" prop="express_no">
         <el-input v-model="form.express_no" placeholder="快递单号" clearable />
       </el-form-item>
+
+      <el-form-item label="IMIE" prop="imie">
+        <el-input v-model="form.imie" placeholder="IMIE" clearable />
+      </el-form-item>
     </el-form>
     <div slot="footer" class="dialog-footer">
       <el-button type="primary" :loading="btnLoading" @click="onFormSubmit()">
@@ -25,58 +29,66 @@
 </template>
 
 <script>
-import { ship } from '@/api/store/order'
+import { ship } from "@/api/store/order";
 
 export default {
-  name: 'OrderShip',
+  name: "OrderShip",
   data() {
     return {
       visible: false,
       btnLoading: false,
       form: {
-        express_no: ''
+        express_no: "",
+        imie: "",
       },
       rules: {
         express_no: [
           {
             required: true,
-            message: '请上填写快递单号',
-            trigger: ['blur', 'change']
-          }
-        ]
-      }
-    }
+            message: "请上填写快递单号",
+            trigger: ["blur", "change"],
+          },
+        ],
+        imie: [
+          {
+            required: true,
+            message: "请上填写IMIE",
+            trigger: ["blur", "change"],
+          },
+        ],
+      },
+    };
   },
   methods: {
     init(data) {
-      this.visible = true
+      this.visible = true;
       if (data) {
-        this.form = Object.assign({}, data)
+        this.form = Object.assign({}, data);
       }
     },
     onFormSubmit() {
-      this.$refs['form'].validate((valid) => {
+      this.$refs["form"].validate((valid) => {
         if (valid) {
-          this.btnLoading = true
-          const data = []
-          data.order_id = this.form.id
-          data.express_no = this.form.express_no
+          this.btnLoading = true;
+          const data = [];
+          data.order_id = this.form.id;
+          data.express_no = this.form.express_no;
           ship(data)
             .then(({ msg }) => {
-              this.$message.success(msg)
-              this.visible = false
-              this.$emit('refreshList')
+              this.$message.success(msg);
+              this.visible = false;
+              this.$emit("refreshList");
             })
             .catch(() => {
-              this.btnLoading = false
-            })
+              this.btnLoading = false;
+            });
         }
-      })
+      });
     },
     onClose() {
-      this.btnLoading = false
-      this.$reset()
-    }
-  }
-}
+      this.btnLoading = false;
+      this.$reset();
+    },
+  },
+};
 </script>

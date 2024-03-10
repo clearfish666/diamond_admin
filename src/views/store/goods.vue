@@ -3,55 +3,116 @@
     <div id="search-box" class="filter-container">
       <el-form :inline="true" :model="search">
         <el-form-item label="名称">
-          <el-input v-model="search.name" placeholder="名称" clearable @clear="getList(1)"
-            @keyup.enter.native="getList(1)" />
+          <el-input
+            v-model="search.name"
+            placeholder="名称"
+            clearable
+            @clear="getList(1)"
+            @keyup.enter.native="getList(1)"
+          />
+        </el-form-item>
+        <el-form-item label="IMIE">
+          <el-input
+            v-model="search.imie"
+            placeholder="IMIE"
+            clearable
+            @clear="getList(1)"
+            @keyup.enter.native="getList(1)"
+          />
         </el-form-item>
         <el-button icon="el-icon-search" @click="getList(1)">
           {{ $t("table.search") }}
         </el-button>
-        <el-button v-if="hasPermissionNode('StoreGoodsAdd')" type="primary" icon="el-icon-plus"
-          @click="onGoodsAddOrUpdate()">
+        <el-button
+          v-if="hasPermissionNode('StoreGoodsAdd')"
+          type="primary"
+          icon="el-icon-plus"
+          @click="onGoodsAddOrUpdate()"
+        >
           {{ $t("table.add") }}
         </el-button>
       </el-form>
     </div>
-    <el-table v-loading="loading" border highlight-current-row :data="list" :height="pageheight">
+    <el-table
+      v-loading="loading"
+      border
+      highlight-current-row
+      :data="list"
+      :height="pageheight"
+    >
       <el-table-column prop="id" label="ID" align="center" />
-      <el-table-column prop="name" label="名称" align="center" />
+
       <el-table-column label="封面" width="120" align="center">
         <template slot-scope="{ row }">
-          <el-image style="width: 100px; height: 100px" :src="(row.pics.length > 0 ? row.pics[0] : '')"
-            :preview-src-list="row.pics" />
+          <el-image
+            style="width: 100px; height: 100px"
+            :src="row.pics.length > 0 ? row.pics[0] : ''"
+            :preview-src-list="row.pics"
+          />
         </template>
       </el-table-column>
-      <el-table-column prop="price" label="价格" align="center" />
-      <el-table-column prop="stock" label="库存" align="center" />
-      <el-table-column prop="sales_volume" label="销量" align="center" />
+      <el-table-column prop="name" label="名称" align="center" />
+
+      <el-table-column prop="phone_str" label="属性" align="center" />
+
+      <el-table-column prop="imie" label="IMIE" align="center" />
+      <el-table-column label="价格信息" width="138" header-align="center">
+        <template slot-scope="{ row }">
+          <div>成本价：{{ row.base_price }}</div>
+          <div>售卖价：{{ row.price }}</div>
+          <div>整备费用：{{ row.fix_price }}</div>
+          <!-- <div>抵扣单价：{{ row.deduction_unit_price }}</div> -->
+        </template>
+      </el-table-column>
+      <el-table-column label="上架状态" width="120" align="center">
+        <template slot-scope="{ row }">
+          <el-tag v-if="row.status === 1" :type="statusColors[row.status]">
+            {{ row.status | paraphrase(statusOptions) }}
+          </el-tag>
+          <span v-else>-</span>
+        </template>
+      </el-table-column>
+
+      <!-- <el-table-column prop="price" label="价格" align="center" /> -->
+      <!-- <el-table-column prop="stock" label="库存" align="center" /> -->
+      <!-- <el-table-column prop="sales_volume" label="销量" align="center" /> -->
       <el-table-column label="操作" align="center" width="150">
         <template slot-scope="{ row }">
           <el-button-group>
-            <el-button v-if="hasPermissionNode('StoreGoodsEdit')" type="primary" @click="onGoodsAddOrUpdate(row)">编辑
+            <el-button
+              v-if="hasPermissionNode('StoreGoodsEdit')"
+              type="primary"
+              @click="onGoodsAddOrUpdate(row)"
+              >编辑
             </el-button>
-            <el-button v-if="hasPermissionNode('StoreGoodsDelete') && !row.vip" type="danger"
-              @click="onGoodsDelete(row)">删除</el-button>
+            <el-button
+              v-if="hasPermissionNode('StoreGoodsDelete') && !row.vip"
+              type="danger"
+              @click="onGoodsDelete(row)"
+              >删除</el-button
+            >
           </el-button-group>
         </template>
       </el-table-column>
     </el-table>
-    <pagination v-show="pages.total > 0" :total="pages.total" :page.sync="pages.current" :limit.sync="pages.limit"
-      @pagination="getList()" />
-
+    <pagination
+      v-show="pages.total > 0"
+      :total="pages.total"
+      :page.sync="pages.current"
+      :limit.sync="pages.limit"
+      @pagination="getList()"
+    />
   </div>
 </template>
 
 <script>
-import Pagination from '@/components/Pagination'
-import { getGoodsList, deleteData } from '@/api/store/goods'
-import { mixin } from '@/utils/mixin'
-import { getToken, DominKey } from '@/utils/auth'
+import Pagination from "@/components/Pagination";
+import { getGoodsList, deleteData } from "@/api/store/goods";
+import { mixin } from "@/utils/mixin";
+import { getToken, DominKey } from "@/utils/auth";
 
 export default {
-  name: 'StoreGoodsList',
+  name: "StoreGoodsList",
   components: { Pagination },
   mixins: [mixin],
   data() {
@@ -59,80 +120,89 @@ export default {
       domin: getToken(DominKey),
       list: [],
       search: {
-        name: null
+        name: null,
       },
       pages: {
         total: 0,
         limit: 20,
-        current: 1
+        current: 1,
       },
-      loading: false
-    }
+      statusOptions: [
+        { label: "下架", value: 0 },
+        { label: "上架", value: 1 },
+      ],
+      statusColors: {
+        0: "info",
+        1: "primary",
+        // 2: "success",
+      },
+      loading: false,
+    };
   },
   watch: {
     $route(to, from) {
       // 监听路由是否变化
       if (to.params !== from.params) {
-        this.init() // 重新加载数据
+        this.init(); // 重新加载数据
       }
-    }
+    },
   },
   created() {
-    this.init()
+    this.init();
   },
   methods: {
     init() {
-      this.getList()
+      this.getList();
     },
     getList(page = this.pages.current, loading = true) {
-      if (this.loading) return
-      this.loading = loading
-      if (page === 1) this.pages.current = page
+      if (this.loading) return;
+      this.loading = loading;
+      if (page === 1) this.pages.current = page;
       getGoodsList({ page, ...this.search, limit: this.pages.limit })
         .then((response) => {
-          if (response.code !== 0) return
-          this.list = response.data.data
-          this.pages.total = response.data.total
+          if (response.code !== 0) return;
+          this.list = response.data.data;
+          this.pages.total = response.data.total;
         })
         .catch((error) => {
-          this.$message.error(error.msg)
+          this.$message.error(error.msg);
         })
         .finally(() => {
-          this.loading = false
-        })
+          this.loading = false;
+        });
     },
     onGoodsAddOrUpdate(row) {
-      const params = {}
+      const params = {};
       if (row) {
-        params.goods_id = row.id
-        params.title = '修改商品'
+        params.goods_id = row.id;
+        params.title = "修改商品";
       } else {
-        params.goods_id = 0
-        params.title = '添加商品'
+        params.goods_id = 0;
+        params.title = "添加商品";
       }
 
       this.$router.push({
-        name: 'StoreGoodsEdit',
-        params: params
-      })
+        name: "StoreGoodsEdit",
+        params: params,
+      });
     },
     onGoodsDelete({ name, id }) {
-      this.$confirm(`确定对[${name}(#${id})]进行[删除]操作?`, '删除', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'error'
+      this.$confirm(`确定对[${name}(#${id})]进行[删除]操作?`, "删除", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "error",
       })
         .then(() => {
           deleteData(id)
-            .then(({ msg = '删除成功' }) => {
-              this.$message.success(msg)
-              this.getList()
+            .then(({ msg = "删除成功" }) => {
+              this.$message.success(msg);
+              this.getList();
             })
-            .catch(() => { })
+            .catch(() => {});
         })
 
-        .catch(() => { })
-    }
-  }
-}
+        .catch(() => {});
+    },
+  },
+};
 </script>

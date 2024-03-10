@@ -109,54 +109,54 @@ export const routes_insidesystem = [
     ],
   },
 
-  {
-    path: "/wallet",
-    component: Layout,
-    name: "WalletManage",
-    hidden: true,
-    meta: {
-      title: "钱包管理",
-      icon: "money",
-    },
-    children: [
-      {
-        path: "index",
-        component: () => import("@/views/wallet/index"),
-        name: "WalletList",
-        hidden: true,
-        meta: {
-          title: "钱包列表",
-        },
-      },
-      {
-        path: "logs",
-        component: () => import("@/views/wallet/logs"),
-        name: "WalletLogList",
-        hidden: true,
-        meta: {
-          title: "钱包日志",
-        },
-      },
-      {
-        path: "transfer",
-        component: () => import("@/views/wallet/transfer"),
-        name: "WalletTransfer",
-        hidden: true,
-        meta: {
-          title: "转仓管理",
-        },
-      },
-      {
-        path: "exchange",
-        component: () => import("@/views/wallet/exchange"),
-        name: "WalletExchange",
-        hidden: true,
-        meta: {
-          title: "兑换管理",
-        },
-      },
-    ],
-  },
+  // {
+  //   path: "/wallet",
+  //   component: Layout,
+  //   name: "WalletManage",
+  //   hidden: true,
+  //   meta: {
+  //     title: "钱包管理",
+  //     icon: "money",
+  //   },
+  //   children: [
+  //     {
+  //       path: "index",
+  //       component: () => import("@/views/wallet/index"),
+  //       name: "WalletList",
+  //       hidden: true,
+  //       meta: {
+  //         title: "钱包列表",
+  //       },
+  //     },
+  //     {
+  //       path: "logs",
+  //       component: () => import("@/views/wallet/logs"),
+  //       name: "WalletLogList",
+  //       hidden: true,
+  //       meta: {
+  //         title: "钱包日志",
+  //       },
+  //     },
+  //     {
+  //       path: "transfer",
+  //       component: () => import("@/views/wallet/transfer"),
+  //       name: "WalletTransfer",
+  //       hidden: true,
+  //       meta: {
+  //         title: "转仓管理",
+  //       },
+  //     },
+  //     {
+  //       path: "exchange",
+  //       component: () => import("@/views/wallet/exchange"),
+  //       name: "WalletExchange",
+  //       hidden: true,
+  //       meta: {
+  //         title: "兑换管理",
+  //       },
+  //     },
+  //   ],
+  // },
   {
     path: "/store",
     component: Layout,
@@ -205,27 +205,27 @@ export const routes_insidesystem = [
       },
     ],
   },
-  {
-    path: "/verification",
-    component: Layout,
-    name: "VerificationManage",
-    hidden: true,
-    meta: {
-      title: "验证码管理",
-      icon: "verifications",
-    },
-    children: [
-      {
-        path: "index",
-        component: () => import("@/views/verification/index"),
-        name: "VerificationList",
-        hidden: true,
-        meta: {
-          title: "验证码管理",
-        },
-      },
-    ],
-  },
+  // {
+  //   path: "/verification",
+  //   component: Layout,
+  //   name: "VerificationManage",
+  //   hidden: true,
+  //   meta: {
+  //     title: "验证码管理",
+  //     icon: "verifications",
+  //   },
+  //   children: [
+  //     {
+  //       path: "index",
+  //       component: () => import("@/views/verification/index"),
+  //       name: "VerificationList",
+  //       hidden: true,
+  //       meta: {
+  //         title: "验证码管理",
+  //       },
+  //     },
+  //   ],
+  // },
   // {
   //   path: '/feedback',
   //   component: Layout,
@@ -383,51 +383,51 @@ export const routes_insidesystem = [
       icon: "configs",
     },
     children: [
-      {
-        path: "system",
-        component: () => import("@/views/configs/system"),
-        name: "SystemConfig",
-        hidden: true,
-        meta: {
-          title: "基础配置",
-        },
-      },
-      {
-        path: "vip",
-        component: () => import("@/views/configs/vip"),
-        name: "VipConfig",
-        hidden: true,
-        meta: {
-          title: "会员配置",
-        },
-      },
-      {
-        path: "food-stamps",
-        component: () => import("@/views/configs/food-stamps"),
-        name: "FoodStampsConfig",
-        hidden: true,
-        meta: {
-          title: "粮票配置",
-        },
-      },
-      {
-        path: "share-equity",
-        component: () => import("@/views/configs/share-equity"),
-        name: "ShareEquityConfig",
-        hidden: true,
-        meta: {
-          title: "分享权益配置",
-        },
-      },
-      {
-        path: "ration-equity",
-        component: () => import("@/views/configs/ration-equity"),
-        name: "RationEquityConfig",
-        hidden: true,
-        meta: {
-          title: "配售权益配置",
-        },
-      },
+      // {
+      //   path: "system",
+      //   component: () => import("@/views/configs/system"),
+      //   name: "SystemConfig",
+      //   hidden: true,
+      //   meta: {
+      //     title: "基础配置",
+      //   },
+      // },
+      // {
+      //   path: "vip",
+      //   component: () => import("@/views/configs/vip"),
+      //   name: "VipConfig",
+      //   hidden: true,
+      //   meta: {
+      //     title: "会员配置",
+      //   },
+      // },
+      // {
+      //   path: "food-stamps",
+      //   component: () => import("@/views/configs/food-stamps"),
+      //   name: "FoodStampsConfig",
+      //   hidden: true,
+      //   meta: {
+      //     title: "粮票配置",
+      //   },
+      // },
+      // {
+      //   path: "share-equity",
+      //   component: () => import("@/views/configs/share-equity"),
+      //   name: "ShareEquityConfig",
+      //   hidden: true,
+      //   meta: {
+      //     title: "分享权益配置",
+      //   },
+      // },
+      // {
+      //   path: "ration-equity",
+      //   component: () => import("@/views/configs/ration-equity"),
+      //   name: "RationEquityConfig",
+      //   hidden: true,
+      //   meta: {
+      //     title: "配售权益配置",
+      //   },
+      // },
       {
         path: "store",
         component: () => import("@/views/configs/store"),
