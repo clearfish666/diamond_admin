@@ -17,14 +17,14 @@ export const routes_insidesystem = [
     },
     children: [
       {
-        path: "recharge",
-        component: () => import("@/views/statistical/recharge"),
-        name: "RechargeStatistical",
+        path: 'index',
+        component: () => import('@/views/statistical/index'),
+        name: 'Statistical',
         hidden: true,
         meta: {
-          title: "充值统计",
-        },
-      },
+          title: '统计数据'
+        }
+      }
     ],
   },
   {
@@ -201,6 +201,15 @@ export const routes_insidesystem = [
         hidden: true,
         meta: {
           title: "订单管理",
+        },
+      },
+      {
+        path: "usergoodslog",
+        component: () => import("@/views/store/goodslog"),
+        name: "StoreGoodsUserLog",
+        hidden: true,
+        meta: {
+          title: "用户浏览记录",
         },
       },
     ],
