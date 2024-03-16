@@ -159,7 +159,7 @@ import * as echarts from 'echarts'
 import { userCount } from '@/api/stats'
 
 export default {
-  name: 'Countuser',
+  name: 'Statistical',
   props: {
     id: {
       type: String,

@@ -212,6 +212,24 @@ export const routes_insidesystem = [
           title: "用户浏览记录",
         },
       },
+      {
+        path: "offlinelog",
+        component: () => import("@/views/store/offlinelog"),
+        name: "StoreOfflineList",
+        hidden: true,
+        meta: {
+          title: "线下销售登记",
+        },
+      },
+      {
+        path: "offlinelogEdit",
+        component: () => import("@/views/store/offline_AddOrUpdate"),
+        name: "StoreOfflineLogEdit",
+        hidden: true,
+        meta: {
+          title: "销售登记编辑",
+        },
+      },
     ],
   },
   // {
@@ -392,15 +410,15 @@ export const routes_insidesystem = [
       icon: "configs",
     },
     children: [
-      // {
-      //   path: "system",
-      //   component: () => import("@/views/configs/system"),
-      //   name: "SystemConfig",
-      //   hidden: true,
-      //   meta: {
-      //     title: "基础配置",
-      //   },
-      // },
+      {
+        path: "system",
+        component: () => import("@/views/configs/system"),
+        name: "SystemConfig",
+        hidden: true,
+        meta: {
+          title: "基础配置",
+        },
+      },
       // {
       //   path: "vip",
       //   component: () => import("@/views/configs/vip"),
