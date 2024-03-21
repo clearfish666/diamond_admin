@@ -230,6 +230,15 @@ export const routes_insidesystem = [
           title: "销售登记编辑",
         },
       },
+      {
+        path: "todayprice",
+        component: () => import("@/views/store/link/index"),
+        name: "TodayPriceList",
+        hidden: true,
+        meta: {
+          title: "当日价格表",
+        },
+      },
     ],
   },
   // {
