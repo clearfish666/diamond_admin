@@ -27,9 +27,27 @@
           v-if="hasPermissionNode('StoreGoodsAdd')"
           type="primary"
           icon="el-icon-plus"
-          @click="onGoodsAddOrUpdate()"
+          @click="onAddStock()"
         >
-          {{ $t("table.add") }}
+          新增入库
+        </el-button>
+
+        <el-button
+          v-if="hasPermissionNode('StoreGoodsAdd')"
+          type="danger"
+          icon="el-icon-minus"
+          @click="onOffline(1)"
+        >
+          线下出库
+        </el-button>
+
+        <el-button
+          v-if="hasPermissionNode('StoreGoodsAdd')"
+          type="primary"
+          icon="el-icon-plus"
+          @click="onOffline(2)"
+        >
+          线下回库
         </el-button>
       </el-form>
     </div>
@@ -76,22 +94,51 @@
       <!-- <el-table-column prop="price" label="价格" align="center" /> -->
       <!-- <el-table-column prop="stock" label="库存" align="center" /> -->
       <!-- <el-table-column prop="sales_volume" label="销量" align="center" /> -->
-      <el-table-column label="操作" align="center" width="150">
+      <el-table-column label="操作" align="center" width="280">
         <template slot-scope="{ row }">
-          <el-button-group>
-            <el-button
-              v-if="hasPermissionNode('StoreGoodsEdit')"
-              type="primary"
-              @click="onGoodsAddOrUpdate(row)"
-              >编辑
-            </el-button>
-            <el-button
-              v-if="hasPermissionNode('StoreGoodsDelete') && !row.vip"
-              type="danger"
-              @click="onGoodsDelete(row)"
-              >删除</el-button
-            >
-          </el-button-group>
+          <div class="el-button-group">
+            <el-button-group>
+              <el-button
+                v-if="hasPermissionNode('StoreGoodsEdit')"
+                type="primary"
+                @click="onAddStock(row)"
+                >IMIE修改
+              </el-button>
+            </el-button-group>
+
+            <el-button-group>
+              <el-button
+                v-if="hasPermissionNode('StoreGoodsEdit')"
+                type="primary"
+                @click="onCheck(row)"
+                >质检
+              </el-button>
+              <el-button
+                v-if="hasPermissionNode('StoreGoodsDelete')"
+                type="primary"
+                @click="onImage(row)"
+                >图片信息</el-button
+              >
+            </el-button-group>
+          </div>
+
+          <div class="el-button-group">
+            <el-button-group>
+              <el-button
+                v-if="hasPermissionNode('StoreGoodsEdit')"
+                type="success"
+                @click="onPrice(row)"
+                >价格信息
+              </el-button>
+
+              <el-button
+                v-if="hasPermissionNode('StoreGoodsDelete')"
+                type="danger"
+                @click="onGoodsDelete(row)"
+                >删除</el-button
+              >
+            </el-button-group>
+          </div>
         </template>
       </el-table-column>
     </el-table>
@@ -102,18 +149,50 @@
       :limit.sync="pages.limit"
       @pagination="getList()"
     />
+
+    <!-- 新增库存 -->
+    <add-stock v-if="addStockVisible" ref="addStock" @refreshList="getList()" />
+
+    <!-- 质检 -->
+    <check v-if="checkVisible" ref="check" @refreshList="getList()" />
+
+    <!-- 图片信息 -->
+    <image-update v-if="imageVisible" ref="imageRef" @refreshList="getList()" />
+
+    <!-- 价格信息 -->
+    <price-update v-if="priceVisible" ref="priceRef" @refreshList="getList()" />
+
+    <!-- 线下库存修改 -->
+    <stock-offline
+      v-if="offlineVisible"
+      ref="offlineRef"
+      @refreshList="getList()"
+    />
   </div>
 </template>
 
 <script>
 import Pagination from "@/components/Pagination";
+import AddStock from "./components/goods/addStock";
+import Check from "./components/goods/check";
+import ImageUpdate from "./components/goods/image";
+import PriceUpdate from "./components/goods/price";
+import StockOffline from "./components/goods/stockOffline";
+
 import { getGoodsList, deleteData } from "@/api/store/goods";
 import { mixin } from "@/utils/mixin";
 import { getToken, DominKey } from "@/utils/auth";
 
 export default {
   name: "StoreGoodsList",
-  components: { Pagination },
+  components: {
+    Pagination,
+    AddStock,
+    Check,
+    ImageUpdate,
+    PriceUpdate,
+    StockOffline,
+  },
   mixins: [mixin],
   data() {
     return {
@@ -121,6 +200,7 @@ export default {
       list: [],
       search: {
         name: null,
+        imie: null,
       },
       pages: {
         total: 0,
@@ -137,6 +217,11 @@ export default {
         // 2: "success",
       },
       loading: false,
+      addStockVisible: false,
+      checkVisible: false,
+      imageVisible: false,
+      priceVisible: false,
+      offlineVisible: false,
     };
   },
   watch: {
@@ -203,6 +288,74 @@ export default {
 
         .catch(() => {});
     },
+
+    //出库
+    onGoodsSold({ name, id }) {
+      this.$confirm(`确定对[${name}(#${id})]进行[线下出库]操作?`, "出库", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "error",
+      })
+        .then(() => {
+          stockOut(id)
+            .then(({ msg = "出库成功" }) => {
+              this.$message.success(msg);
+              this.getList();
+            })
+            .catch(() => {});
+        })
+
+        .catch(() => {});
+    },
+
+    //新增库存商品
+    onAddStock(row) {
+      this.addStockVisible = true;
+      this.$nextTick(() => {
+        this.$refs.addStock && this.$refs.addStock.init(row);
+      });
+    },
+
+    //质检
+    onCheck(row) {
+      this.checkVisible = true;
+      this.$nextTick(() => {
+        this.$refs.check && this.$refs.check.init(row);
+      });
+    },
+
+    //图片
+    onImage(row) {
+      this.imageVisible = true;
+      this.$nextTick(() => {
+        this.$refs.imageRef && this.$refs.imageRef.init(row);
+      });
+    },
+
+    //价格
+    onPrice(row) {
+      this.priceVisible = true;
+      this.$nextTick(() => {
+        this.$refs.priceRef && this.$refs.priceRef.init(row);
+      });
+    },
+
+    //线下库存修改
+    onOffline(type) {
+      this.offlineVisible = true;
+      this.$nextTick(() => {
+        this.$refs.offlineRef && this.$refs.offlineRef.init(type);
+      });
+    },
   },
 };
 </script>
+
+<style>
+.el-button-group {
+  margin: 5px 0;
+}
+.el-button-group el-button {
+  margin: 0 5px;
+}
+</style>

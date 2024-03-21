@@ -17,14 +17,14 @@ export const routes_insidesystem = [
     },
     children: [
       {
-        path: 'index',
-        component: () => import('@/views/statistical/index'),
-        name: 'Statistical',
+        path: "index",
+        component: () => import("@/views/statistical/index"),
+        name: "Statistical",
         hidden: true,
         meta: {
-          title: '统计数据'
-        }
-      }
+          title: "统计数据",
+        },
+      },
     ],
   },
   {
@@ -237,6 +237,15 @@ export const routes_insidesystem = [
         hidden: true,
         meta: {
           title: "当日价格表",
+        }
+      },
+      {
+        path: "StockCheckList",
+        component: () => import("@/views/store/stockCheckLog"),
+        name: "StockCheckList",
+        hidden: true,
+        meta: {
+          title: "盘点记录",
         },
       },
     ],
