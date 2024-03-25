@@ -32,7 +32,7 @@
             />
             <div class="notice">注意：邀请说明</div>
           </el-form-item> -->
-          <el-form-item label="当日价格表" prop="price_list">
+          <el-form-item label="回收联系" prop="price_list">
         <local-upload
           class-name="avatar-uploader"
           @handleBeforeUpload="beforePricelistUpload"
