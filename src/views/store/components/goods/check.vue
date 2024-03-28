@@ -200,8 +200,6 @@ export default {
                 }
                 this.specs_properties = attrsValues;
 
-                console.log(attrsValues);
-
                 // this.tinymceVisible = true;
                 // this.loading = false;
               }

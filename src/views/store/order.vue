@@ -20,6 +20,17 @@
             @keyup.enter.native="getList(1)"
           />
         </el-form-item>
+
+        <el-form-item label="机型:" prop="cate_id">
+          <el-cascader
+            ref="category"
+            v-model="search.cate_id"
+            :props="category"
+            clearable
+            @change="getList(1)"
+          />
+        </el-form-item>
+
         <el-form-item label="UID">
           <el-input
             v-model="search.uid"
@@ -292,6 +303,7 @@ import OrderShip from "./components/OrderShip";
 import Logistics from "./components/Logistics";
 import RefundLog from "./components/RefundLog";
 import Detailed from "./components/Detailed";
+import { getCategory } from "@/api/main";
 
 export default {
   name: "StoreOrderList",
@@ -315,6 +327,22 @@ export default {
         pay_status: null,
         status: null,
         refund_status: null,
+        cate_id: null,
+      },
+      category: {
+        lazy: true,
+        lazyLoad(node, resolve) {
+          getCategory({ pid: node.value })
+            .then((response) => {
+              const category = response.data.map((item) => ({
+                value: item.value,
+                label: item.label,
+                leaf: item.pid > 0,
+              }));
+              resolve(category);
+            })
+            .catch(() => {});
+        },
       },
       pages: {
         total: 0,

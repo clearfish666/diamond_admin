@@ -13,8 +13,16 @@
         <el-input v-model="form.express_no" placeholder="快递单号" clearable />
       </el-form-item>
 
-      <el-form-item label="IMIE" prop="imie">
-        <el-input v-model="form.imie" placeholder="IMIE" clearable />
+      <el-form-item label="IMIE" prop="check_imie">
+        <el-input
+          v-model="form.check_imie"
+          placeholder="check_imie"
+          clearable
+          @keyup.enter.native="checkImie()"
+        />
+      </el-form-item>
+      <el-form-item label="应发货的IMIE码：">
+        <el-tag type="danger">{{ form.imie }}</el-tag>
       </el-form-item>
     </el-form>
     <div slot="footer" class="dialog-footer">
@@ -40,6 +48,7 @@ export default {
       form: {
         express_no: "",
         imie: "",
+        check_imie: "",
       },
       rules: {
         express_no: [
@@ -64,9 +73,21 @@ export default {
       this.visible = true;
       if (data) {
         this.form = Object.assign({}, data);
+
+        if (
+          data.pay_status == 1 &&
+          data.status == 1 &&
+          data.refund_status < 1
+        ) {
+          this.form.check_imie = this.form.imie;
+        }
       }
     },
     onFormSubmit() {
+      if (this.form.check_imie !== this.form.imie) {
+        this.$message.error("发错货了哦！");
+        return;
+      }
       this.$refs["form"].validate((valid) => {
         if (valid) {
           this.btnLoading = true;
@@ -84,6 +105,16 @@ export default {
             });
         }
       });
+    },
+    checkImie() {
+      if (this.form.check_imie !== this.form.imie) {
+        this.$message.error("发错货了哦！");
+      } else {
+        this.$message({
+          message: "IMIE校验成功",
+          type: "success",
+        });
+      }
     },
     onClose() {
       this.btnLoading = false;

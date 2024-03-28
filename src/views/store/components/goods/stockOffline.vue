@@ -2,7 +2,7 @@
   <el-dialog
     top="30px"
     class="el-form-dialog"
-    width="60%"
+    width="50%"
     :title="title"
     :visible.sync="visible"
     :close-on-click-modal="false"
@@ -54,6 +54,16 @@
         {{ baseInfoForm.stock_status_txt }}
       </el-descriptions-item>
     </el-descriptions>
+    <el-row :gutter="24">
+      <el-col :span="8" :offset="8">
+        <el-image
+          v-if="baseInfoForm.image"
+          style="width: 240px; height: 240px"
+          :src="baseInfoForm.image"
+        >
+        </el-image>
+      </el-col>
+    </el-row>
     <div slot="footer" class="dialog-footer">
       <el-button
         type="primary"
@@ -91,6 +101,8 @@ export default {
         name: "",
         phone_attr: "",
         stock_status_txt: "",
+        image: "",
+        pics: [],
       },
 
       rules: {
@@ -136,6 +148,9 @@ export default {
                 this[model][key] = goods[key];
               });
             });
+            if (this.baseInfoForm.pics.length > 0) {
+              this.baseInfoForm.image = this.baseInfoForm.pics[0];
+            }
 
             //出库按钮展示
             if (this.type === 1 && goods.stock_status == 1) {

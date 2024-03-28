@@ -20,6 +20,17 @@
             @keyup.enter.native="getList(1)"
           />
         </el-form-item>
+
+        <el-form-item label="机型:" prop="cate_id">
+          <el-cascader
+            ref="category"
+            v-model="search.cate_id"
+            :props="category"
+            clearable
+            @change="getList(1)"
+          />
+        </el-form-item>
+
         <el-button icon="el-icon-search" @click="getList(1)">
           {{ $t("table.search") }}
         </el-button>
@@ -70,6 +81,7 @@
         </template>
       </el-table-column>
       <el-table-column prop="name" label="名称" align="center" />
+      <!-- <el-table-column prop="name" label="分类" align="center" /> -->
 
       <el-table-column prop="phone_str" label="属性" align="center" />
 
@@ -84,10 +96,16 @@
       </el-table-column>
       <el-table-column label="上架状态" width="120" align="center">
         <template slot-scope="{ row }">
-          <el-tag v-if="row.status === 1" :type="statusColors[row.status]">
+          <el-tag :type="statusColors[row.status]">
             {{ row.status | paraphrase(statusOptions) }}
           </el-tag>
-          <span v-else>-</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="库存状态" width="120" align="center">
+        <template slot-scope="{ row }">
+          <el-tag :type="stockStatusColors[row.stock_status]">
+            {{ row.stock_status | paraphrase(stockStatusOptions) }}
+          </el-tag>
         </template>
       </el-table-column>
 
@@ -178,6 +196,7 @@ import Check from "./components/goods/check";
 import ImageUpdate from "./components/goods/image";
 import PriceUpdate from "./components/goods/price";
 import StockOffline from "./components/goods/stockOffline";
+import { getCategory } from "@/api/main";
 
 import { getGoodsList, deleteData } from "@/api/store/goods";
 import { mixin } from "@/utils/mixin";
@@ -196,11 +215,27 @@ export default {
   mixins: [mixin],
   data() {
     return {
+      category: {
+        lazy: true,
+        lazyLoad(node, resolve) {
+          getCategory({ pid: node.value })
+            .then((response) => {
+              const category = response.data.map((item) => ({
+                value: item.value,
+                label: item.label,
+                leaf: item.pid > 0,
+              }));
+              resolve(category);
+            })
+            .catch(() => {});
+        },
+      },
       domin: getToken(DominKey),
       list: [],
       search: {
         name: null,
         imie: null,
+        cate_id: null,
       },
       pages: {
         total: 0,
@@ -212,8 +247,17 @@ export default {
         { label: "上架", value: 1 },
       ],
       statusColors: {
-        0: "info",
+        0: "danger",
         1: "primary",
+        // 2: "success",
+      },
+      stockStatusOptions: [
+        { label: "在库", value: 0 },
+        { label: "已出仓", value: 1 },
+      ],
+      stockStatusColors: {
+        0: "success",
+        1: "danger",
         // 2: "success",
       },
       loading: false,

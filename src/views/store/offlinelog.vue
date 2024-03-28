@@ -66,12 +66,12 @@
     <el-dialog
       :title="form.id > 0 ? '销售-编辑' + form.name : '销售-新增'"
       :visible.sync="addOrUpdateVisible"
-      width="1000px"
+      width="800px"
       :top="'2vh'"
       class="el-form-dialog"
       :close-on-click-modal="false"
     >
-      <el-form ref="form" :model="form" :rules="rules">
+      <el-form ref="form" :model="form" :rules="rules" label-width="100px">
         <el-form-item label="商品名称" prop="name">
           <el-input v-model="form.name" autocomplete="off" />
         </el-form-item>
@@ -85,40 +85,45 @@
           <el-input v-model="form.base_price" autocomplete="off" />
         </el-form-item>
         <el-form-item label="销售日期" prop="date">
-          <el-input v-model="form.date" autocomplete="off" />
+          <!-- <el-input v-model="form.date" autocomplete="off" /> -->
+          <el-date-picker
+            v-model="form.date"
+            type="date"
+            placeholder="销售日期"
+            value-format="yyyy-MM-dd"
+          >
+          </el-date-picker>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="addOrUpdateVisible = false">取 消</el-button>
-        <el-button
-          type="primary"
-          :loading="btnLoading"
-          @click="onFormSubmit()"
-        >确 定</el-button>
+        <el-button type="primary" :loading="btnLoading" @click="onFormSubmit()"
+          >确 定</el-button
+        >
       </div>
     </el-dialog>
   </div>
 </template>
 <script>
-import Pagination from '@/components/Pagination'
-import { getOfflineList, addOrUpdate, deleteData } from '@/api/store/offline'
-import { mixin } from '@/utils/mixin'
-import Tinymce from '@/components/Tinymce'
+import Pagination from "@/components/Pagination";
+import { getOfflineList, addOrUpdate, deleteData } from "@/api/store/offline";
+import { mixin } from "@/utils/mixin";
+import Tinymce from "@/components/Tinymce";
 
 export default {
-  name: 'Article',
+  name: "Article",
   components: { Pagination, Tinymce },
   mixins: [mixin],
   data() {
     return {
       list: [],
       search: {
-        name: ''
+        name: "",
       },
       pages: {
         total: 0,
         limit: 20,
-        current: 1
+        current: 1,
       },
       visible: false,
       loading: false,
@@ -126,89 +131,89 @@ export default {
       addOrUpdateVisible: false,
       form: {
         id: 0,
-        name: '',
+        name: "",
         price: 0,
         base_price: 0,
         sales_volume: 0,
-        date:''
+        date: "",
       },
-      rules: {}
-    }
+      rules: {},
+    };
   },
   created() {
-    this.init()
+    this.init();
   },
   methods: {
     init() {
-      this.getList()
+      this.getList();
     },
     getList(page = this.pages.current, loading = true) {
-      if (this.loading) return
-      this.loading = loading
-      if (page === 1) this.pages.current = page
+      if (this.loading) return;
+      this.loading = loading;
+      if (page === 1) this.pages.current = page;
       getOfflineList({ page, ...this.search, limit: this.pages.limit })
         .then((response) => {
-          if (response.code !== 0) return
-          this.list = response.data.data
-          this.pages.total = response.data.total
+          if (response.code !== 0) return;
+          this.list = response.data.data;
+          this.pages.total = response.data.total;
         })
         .catch((error) => {
-          this.$message.error(error.msg)
+          this.$message.error(error.msg);
         })
         .finally(() => {
-          this.loading = false
-        })
+          this.loading = false;
+        });
     },
     onAddOrUpdate(data) {
-      this.visible = true
-      this.addOrUpdateVisible = true
+      this.visible = true;
+      this.addOrUpdateVisible = true;
       this.form = {
         id: 0,
-        name: '',
+        name: "",
         price: 0,
         base_price: 0,
         sales_volume: 0,
-        date:''
-      }
+        date: "",
+      };
       if (data) {
-        this.form = Object.assign({}, data)
+        this.form = Object.assign({}, data);
       }
     },
     onFormSubmit() {
-      this.$refs['form'].validate((valid) => {
+      this.$refs["form"].validate((valid) => {
         if (valid) {
-          this.btnLoading = true
+          this.btnLoading = true;
           addOrUpdate(this.form)
             .then(({ msg }) => {
-              this.$message.success(msg)
-              this.addOrUpdateVisible = false
-              this.btnLoading = false
-              this.getList()
+              this.$message.success(msg);
+              this.addOrUpdateVisible = false;
+              this.btnLoading = false;
+              this.getList();
             })
             .catch(() => {
-              this.btnLoading = false
-            })
+              this.btnLoading = false;
+            });
         }
-      })
+      });
     },
     onDelete({ id }) {
-      this.$confirm(`确定对[(#${id})]进行[删除]操作?`, '删除', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'error'
+      this.$confirm(`确定对[(#${id})]进行[删除]操作?`, "删除", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "error",
       })
         .then(() => {
           deleteData(id)
-            .then(({ msg = '删除成功' }) => {
-              this.$message.success(msg)
-              this.init()
+            .then(({ msg = "删除成功" }) => {
+              this.$message.success(msg);
+              this.init();
             })
             .catch(() => {
-              this.$message.error('删除失败')
-            })
+              this.$message.error("删除失败");
+            });
         })
-        .catch(() => {})
-    }
-  }
-}
+        .catch(() => {});
+    },
+  },
+};
 </script>
