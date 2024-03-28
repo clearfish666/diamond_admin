@@ -116,7 +116,7 @@ export default {
       baseInfoRules: {
         price: [
           { required: true, message: "价格不能为空", trigger: "blur" },
-          { validator: this.validateExampleField, trigger: "blur" },
+          // { validator: this.validateExampleField, trigger: "blur" },
         ],
         status: [{ required: true, message: "请选择状态" }],
       },

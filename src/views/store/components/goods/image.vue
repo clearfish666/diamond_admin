@@ -65,9 +65,9 @@ export default {
         details: "",
       },
       goodsDetailRules: {
-        details: [
-          { required: true, message: "请填写商品详情", trigger: "blur" },
-        ],
+        // details: [
+        //   { required: true, message: "请填写商品详情", trigger: "blur" },
+        // ],
       },
       goodsPoster: [],
       goodsImages: [],

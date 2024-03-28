@@ -82,6 +82,7 @@
       :top="'2vh'"
       class="el-form-dialog"
       :close-on-click-modal="false"
+      @closed="onClose()"
     >
       <el-form ref="form" :model="form" :rules="rules">
         <el-row :gutter="24">
@@ -102,21 +103,59 @@
 
         <el-form-item label="商品IMIE码" prop="imie">
           <el-input
-            v-model="form.name"
+            v-model="form.imie"
             autocomplete="off"
-            @change="stockCheckGoods()"
+            clearable
+            @keyup.enter.native="getInfo()"
           />
         </el-form-item>
-
-        <div class="progress-container">
-          <el-progress
-            type="dashboard"
-            :percentage="percentage"
-            :color="colors"
-          ></el-progress>
-        </div>
       </el-form>
-
+      <el-descriptions
+        v-if="detailShow"
+        class="margin-top"
+        title="商品信息"
+        :column="2"
+        border
+      >
+        <el-descriptions-item>
+          <template slot="label">
+            <i class="el-icon-user"></i>
+            名称
+          </template>
+          {{ detail.name }}
+        </el-descriptions-item>
+        <el-descriptions-item>
+          <template slot="label">
+            <i class="el-icon-mobile-phone"></i>
+            属性
+          </template>
+          {{ detail.phone_attr }}
+        </el-descriptions-item>
+        <el-descriptions-item>
+          <template slot="label">
+            <i class="el-icon-tickets"></i>
+            IMIE
+          </template>
+          {{ detail.imie }}
+        </el-descriptions-item>
+        <el-descriptions-item>
+          <template slot="label">
+            <i class="el-icon-office-building"></i>
+            库存状态
+          </template>
+          {{ detail.stock_status_txt }}
+        </el-descriptions-item>
+      </el-descriptions>
+      <el-row :gutter="24">
+        <el-col :span="8" :offset="8">
+          <el-image
+            v-if="detail.image"
+            style="width: 240px; height: 240px"
+            :src="detail.image"
+          >
+          </el-image>
+        </el-col>
+      </el-row>
       <div slot="footer" class="dialog-footer">
         <el-button @click="addOrUpdateVisible = false">取 消</el-button>
         <el-button type="primary" :loading="btnLoading" @click="onFormSubmit()"
@@ -124,39 +163,6 @@
         >
       </div>
     </el-dialog>
-
-    <!-- <el-dialog
-      :title="form.id > 0 ? '销售-编辑' + form.name : '销售-新增'"
-      :visible.sync="addOrUpdateVisible"
-      width="1000px"
-      :top="'2vh'"
-      class="el-form-dialog"
-      :close-on-click-modal="false"
-    >
-      <el-form ref="form" :model="form" :rules="rules">
-        <el-form-item label="商品名称" prop="name">
-          <el-input v-model="form.name" autocomplete="off" />
-        </el-form-item>
-        <el-form-item label="销量" prop="sales_volume">
-          <el-input v-model="form.sales_volume" autocomplete="off" />
-        </el-form-item>
-        <el-form-item label="售卖价格" prop="price">
-          <el-input v-model="form.price" autocomplete="off" />
-        </el-form-item>
-        <el-form-item label="成本价格" prop="base_price">
-          <el-input v-model="form.base_price" autocomplete="off" />
-        </el-form-item>
-        <el-form-item label="销售日期" prop="date">
-          <el-input v-model="form.date" autocomplete="off" />
-        </el-form-item>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="addOrUpdateVisible = false">取 消</el-button>
-        <el-button type="primary" :loading="btnLoading" @click="onFormSubmit()"
-          >确 定</el-button
-        >
-      </div>
-    </el-dialog> -->
   </div>
 </template>
 <script>
@@ -170,6 +176,7 @@ import {
 } from "@/api/store/stockCheck";
 import { mixin } from "@/utils/mixin";
 import Tinymce from "@/components/Tinymce";
+import { goodsInfoByImie } from "@/api/store/goods";
 
 export default {
   name: "StockCheck",
@@ -189,6 +196,7 @@ export default {
       visible: false,
       loading: false,
       btnLoading: false,
+      detailShow: false,
       addOrUpdateVisible: false,
       form: {
         id: 0,
@@ -201,8 +209,16 @@ export default {
       cout_list: [
         { title: "总库存数", num: 0 },
         { title: "已盘点数量", num: 0 },
-        { title: "异常商品数量", num: 0 },
+        { title: "待盘点商品数量", num: 0 },
       ],
+      detail: {
+        name: "",
+        phone_attr: "",
+        imie: "",
+        stock_status_txt: "",
+        image: "",
+        pics: [],
+      },
       rules: {},
       statusOptions: [
         { label: "正常", value: "0" },
@@ -212,15 +228,6 @@ export default {
         0: "success",
         1: "warning",
       },
-
-      percentage: 0,
-      colors: [
-        { color: "#f56c6c", percentage: 20 },
-        { color: "#e6a23c", percentage: 40 },
-        { color: "#5cb87a", percentage: 60 },
-        { color: "#1989fa", percentage: 80 },
-        { color: "#6f7ad3", percentage: 100 },
-      ],
     };
   },
   created() {
@@ -280,10 +287,54 @@ export default {
         });
     },
 
+    //查询库存信息
+    getInfo() {
+      let temp_imie = this.form.imie;
+      goodsInfoByImie({ imie: temp_imie })
+        .then(({ data: goods }) => {
+          if (goods) {
+            // 保留商品原始信息
+            // this.detail = goods;
+
+            // 商品基础信息
+            ["detail"].forEach((model) => {
+              Object.keys(this[model]).forEach((key) => {
+                this[model][key] = goods[key];
+              });
+            });
+
+            if (this.detail.pics.length > 0) {
+              this.detail.image = this.detail.pics[0];
+            }
+
+            this.loading = false;
+            this.detailShow = true;
+            this.cout_list[1].num += 1;
+            this.cout_list[2].num =
+              this.cout_list[0].num - this.cout_list[1].num;
+            this.form.imie = "";
+          }
+        })
+        .catch(
+          ({
+            message: errMsg,
+            response: { data: { message } } = {
+              data: { message: errMsg || "获取“商品详情失败”！" },
+            },
+          }) => {
+            console.error(message);
+            this.loading = false;
+          }
+        );
+    },
+
     //新增盘点库存
     onAddOrUpdate(data) {
       this.visible = true;
       this.addOrUpdateVisible = true;
+      this.getGoodsCount();
+      this.detailShow = false;
+
       this.form = {
         id: 0,
         name: "",
@@ -291,27 +342,71 @@ export default {
         base_price: 0,
         sales_volume: 0,
         date: "",
+        imie: "",
       };
+      this.cout_list = [
+        { title: "总库存数", num: 0 },
+        { title: "已盘点数量", num: 0 },
+        { title: "待盘点商品数量", num: 0 },
+      ];
+      this.detail = {
+        name: "",
+        phone_attr: "",
+        imie: "",
+        stock_status_txt: "",
+        image: "",
+        pics: [],
+      };
+
       if (data) {
         this.form = Object.assign({}, data);
       }
     },
     onFormSubmit() {
-      this.$refs["form"].validate((valid) => {
-        if (valid) {
-          this.btnLoading = true;
-          addOrUpdate(this.form)
-            .then(({ msg }) => {
+      this.$confirm(`确定结束盘点操作?`, "结束", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "error",
+      })
+        .then(() => {
+          addOrUpdate()
+            .then(({ msg = "生成报告成功" }) => {
               this.$message.success(msg);
               this.addOrUpdateVisible = false;
               this.btnLoading = false;
+
               this.getList();
             })
             .catch(() => {
-              this.btnLoading = false;
+              this.$message.error("生成失败");
             });
-        }
-      });
+        })
+        .catch(() => {});
+
+      // this.$refs["form"].validate((valid) => {
+      //   if (valid) {
+      //     this.btnLoading = true;
+      //     addOrUpdate(this.form)
+      //       .then(({ msg }) => {
+      //         this.$message.success(msg);
+      //         this.addOrUpdateVisible = false;
+      //         this.btnLoading = false;
+      //         this.getList();
+      //       })
+      //       .catch(() => {
+      //         this.btnLoading = false;
+      //       });
+      //   }
+      // });
+    },
+
+    onClose() {
+      // this.btnLoading = false;
+      // this.$reset("form");
+      // this.cout_list[0].num = 0;
+      // this.cout_list[1].num = 0;
+      // this.cout_list[2].num = 0;
+      this.getList();
     },
     onDelete({ id }) {
       this.$confirm(`确定对[(#${id})]进行[删除]操作?`, "删除", {
