@@ -94,6 +94,7 @@ export default {
       if (data) {
         this.baseInfoForm = Object.assign({}, data);
         this.title = "编辑";
+        console.log(this.baseInfoForm);
       }
     },
     // 保存
@@ -137,6 +138,7 @@ export default {
 
     onClose() {
       this.btnLoading = false;
+      this.visible = false;
       this.$reset("baseInfoForm");
     },
   },
