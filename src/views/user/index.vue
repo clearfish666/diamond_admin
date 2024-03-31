@@ -90,22 +90,22 @@
               @click="onAddOrUpdate(row)"
               >编辑
             </el-button>
-            <el-button
+            <!-- <el-button
               v-if="hasPermissionNode('LooKUserWallets')"
               type="primary"
               @click="onWallet(row)"
               >钱包</el-button
-            >
+            > -->
           </el-button-group>
           <p v-if="hasPermissionNode('LooKUserInvite')" />
-          <el-button-group>
+          <!-- <el-button-group>
             <el-button
               v-if="hasPermissionNode('LooKUserInvite')"
               type="primary"
               @click="onSubset(row)"
               >邀请</el-button
             >
-          </el-button-group>
+          </el-button-group> -->
         </template>
       </el-table-column>
     </el-table>

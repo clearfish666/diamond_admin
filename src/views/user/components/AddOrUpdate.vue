@@ -16,12 +16,16 @@
           @handleBeforeUpload="beforeAvatarUpload"
           @handleSuccess="handleAvatarSuccess"
         >
-          <img v-if="form.avatar" :src="showImage" class="avatar">
+          <img
+            v-if="form.avatar"
+            :src="getResourceUrl(showImage)"
+            class="avatar"
+          />
           <i v-else class="el-icon-plus avatar-uploader-icon" />
         </local-upload>
       </el-form-item>
-      <el-form-item label="昵称" prop="name">
-        <el-input v-model="form.name" placeholder="昵称" clearable />
+      <el-form-item label="昵称" prop="nickname">
+        <el-input v-model="form.nickname" placeholder="昵称" clearable />
       </el-form-item>
       <el-form-item label="手机号" prop="phone">
         <el-input
@@ -31,7 +35,7 @@
           clearable
         />
       </el-form-item>
-      <el-form-item label="密码" prop="password">
+      <!-- <el-form-item label="密码" prop="password">
         <el-input
           v-model="form.password"
           type="password"
@@ -60,16 +64,16 @@
           <el-radio :label="0">否</el-radio>
           <el-radio :label="1">是</el-radio>
         </el-radio-group>
-      </el-form-item>
+      </el-form-item> -->
       <el-form-item label="状态" prop="state">
         <el-radio-group v-model="form.state">
           <el-radio :label="0">正常</el-radio>
           <el-radio :label="1">禁用</el-radio>
         </el-radio-group>
       </el-form-item>
-      <el-form-item label="个人简介" prop="introduction">
+      <!-- <el-form-item label="个人简介" prop="introduction">
         <el-input v-model="form.introduction" type="textarea" />
-      </el-form-item>
+      </el-form-item> -->
     </el-form>
     <div slot="footer" class="dialog-footer">
       <el-button type="primary" :loading="btnLoading" @click="onFormSubmit()">
@@ -83,44 +87,47 @@
 </template>
 
 <script>
-import { validEmail } from '@/utils/validate'
-import { getBaseUrl } from '@/utils/auth'
-import { addOrUpdate } from '@/api/user'
-import LocalUpload from '@/components/Upload/LocalUpload'
+import { validEmail } from "@/utils/validate";
+import { getBaseUrl } from "@/utils/auth";
+import { addOrUpdate } from "@/api/user";
+import LocalUpload from "@/components/Upload/LocalUpload";
+import { mixin } from "@/utils/mixin";
 
 export default {
-  name: 'AddOrUpdate',
+  name: "AddOrUpdate",
+  mixins: [mixin],
+
   components: { LocalUpload },
   data() {
     const validateEmail = (rule, value, callback) => {
       if (!validEmail(value)) {
-        callback(new Error('邮箱格式错误'))
+        callback(new Error("邮箱格式错误"));
       } else {
-        callback()
+        callback();
       }
-    }
+    };
     const validatePassword = (rule, value, callback) => {
       if (!this.form.id && !/\S/.test(value)) {
-        callback(new Error('密码不能为空'))
+        callback(new Error("密码不能为空"));
       } else {
-        callback()
+        callback();
       }
-    }
+    };
     const validateConfirmPassword = (rule, value, callback) => {
       if (!this.form.id && !/\S/.test(value)) {
-        callback(new Error('确认密码不能为空'))
+        callback(new Error("确认密码不能为空"));
       } else if (this.form.password !== value) {
-        callback(new Error('确认密码与密码输入不一致'))
+        callback(new Error("确认密码与密码输入不一致"));
       } else {
-        callback()
+        callback();
       }
-    }
+    };
     return {
       loading: true,
       visible: false,
       btnLoading: false,
       domin: getBaseUrl(),
-      showImage: '',
+      showImage: "",
       form: {
         id: 0,
         nickname: null,
@@ -131,88 +138,89 @@ export default {
         state: 0,
         introduction: null,
         set_level: 0,
-        level: null
+        level: null,
       },
       rules: {
         nickname: [
           {
             required: true,
-            message: '昵称不能为空',
-            trigger: ['blur', 'change']
-          }
+            message: "昵称不能为空",
+            trigger: ["blur", "change"],
+          },
         ],
         email: [
           {
             required: true,
-            message: '邮箱不能为空',
-            trigger: ['blur', 'change']
+            message: "邮箱不能为空",
+            trigger: ["blur", "change"],
           },
-          { validator: validateEmail, trigger: ['blur', 'change'] }
+          { validator: validateEmail, trigger: ["blur", "change"] },
         ],
         password: [
-          { validator: validatePassword, trigger: ['blur', 'change'] }
+          { validator: validatePassword, trigger: ["blur", "change"] },
         ],
         password_confirmation: [
-          { validator: validateConfirmPassword, trigger: ['blur', 'change'] }
-        ]
-      }
-    }
+          { validator: validateConfirmPassword, trigger: ["blur", "change"] },
+        ],
+      },
+    };
   },
   methods: {
     init(data) {
-      this.visible = true
+      this.visible = true;
       if (data) {
-        this.form = Object.assign({}, data)
-        this.showImage = this.domin + this.form.image
+        this.form = Object.assign({}, data);
+        this.showImage = this.form.avatar;
       }
-      this.loading = false
+      this.loading = false;
     },
     onFormSubmit() {
-      this.$refs['form'].validate((valid) => {
+      this.$refs["form"].validate((valid) => {
         if (valid) {
-          this.btnLoading = true
-          const data = {}
+          this.btnLoading = true;
+          const data = {};
           for (const i in this.form) {
-            if (i !== 'password' || i !== 'password_confirmation') {
-              data[i] = this.form[i]
+            if (i !== "password" || i !== "password_confirmation") {
+              data[i] = this.form[i];
             }
           }
           addOrUpdate(data)
             .then(({ msg }) => {
-              this.$message.success(msg)
-              this.visible = false
-              this.$emit('refreshList')
+              this.$message.success(msg);
+              this.visible = false;
+              this.$emit("refreshList");
             })
             .catch(() => {
-              this.btnLoading = false
-            })
+              this.btnLoading = false;
+            });
         }
-      })
+      });
     },
     onClose() {
-      this.btnLoading = false
-      this.$reset()
+      this.btnLoading = false;
+      this.$reset();
     },
     handleAvatarSuccess(response, file) {
-      this.form.avatar = response.filename
-      this.showImage = this.domin + response.data.filename
+      this.form.avatar = response.data.filename;
+      this.showImage = this.domin + response.data.filename;
+      console.log(this.showImage);
     },
     beforeAvatarUpload(file, cb) {
-      const type = ['image/jpeg', 'image/jpg', 'image/png']
-      const isLt2M = file.size / 1024 / 1024 < 2
+      const type = ["image/jpeg", "image/jpg", "image/png"];
+      const isLt2M = file.size / 1024 / 1024 < 2;
 
       if (!type.includes(file.type)) {
-        this.$message.error('上传图片只能是 ' + type.join(',') + ' 格式!')
-        cb(false)
+        this.$message.error("上传图片只能是 " + type.join(",") + " 格式!");
+        cb(false);
       }
       if (!isLt2M) {
-        this.$message.error('上传图片大小不能超过 2M')
-        cb(false)
+        this.$message.error("上传图片大小不能超过 2M");
+        cb(false);
       }
-      cb(true)
-    }
-  }
-}
+      cb(true);
+    },
+  },
+};
 </script>
 
 <style scoped>

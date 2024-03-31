@@ -3,13 +3,16 @@
     <el-avatar
       :key="user.id"
       icon="el-icon-user-solid"
-      :src="user.avatar ? domin + user.avatar : ''"
+      :src="user.avatar ? getResourceUrl(user.avatar) : ''"
     />
     <div class="content-box">
-      <div v-if="showId" class="content-overflow"># {{ user.id ? user.id : "-" }}</div>
+      <div v-if="showId" class="content-overflow">
+        # {{ user.id ? user.id : "-" }}
+      </div>
       <div class="content-overflow">
         # {{ user.nickname ? user.nickname : "-" }}
       </div>
+
       <el-popover
         placement="top-start"
         title="用户信息"
@@ -34,25 +37,28 @@
 </template>
 
 <script>
-import { getToken, DominKey } from '@/utils/auth'
+import { getToken, DominKey } from "@/utils/auth";
+import { mixin } from "@/utils/mixin";
 
 export default {
   props: {
     showId: {
       type: Boolean,
-      default: false
+      default: false,
     },
     user: {
       type: Object,
-      default: Object
-    }
+      default: Object,
+    },
   },
+  mixins: [mixin],
+
   data() {
     return {
-      domin: getToken(DominKey)
-    }
-  }
-}
+      domin: getToken(DominKey),
+    };
+  },
+};
 </script>
 
 <style lang="scss" scoped>

@@ -237,7 +237,7 @@ export const routes_insidesystem = [
         hidden: true,
         meta: {
           title: "当日价格表",
-        }
+        },
       },
       {
         path: "StockCheckList",
@@ -298,7 +298,7 @@ export const routes_insidesystem = [
     name: "ArticleManage",
     hidden: true,
     meta: {
-      title: "文章管理",
+      title: "协议管理",
       icon: "help",
     },
     children: [
@@ -308,7 +308,7 @@ export const routes_insidesystem = [
         name: "ArticleList",
         hidden: true,
         meta: {
-          title: "文章列表",
+          title: "协议列表",
         },
       },
     ],
