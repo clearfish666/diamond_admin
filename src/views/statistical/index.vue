@@ -1,10 +1,13 @@
 <template>
   <div class="dashboard-container">
-    <el-row :gutter="40" class="panel-group">
+    <el-row :gutter="20" class="panel-group">
       <el-col :span="8" class="card-panel-col">
         <div class="card-panel">
           <div class="card-panel-icon-wrapper icon-money">
-            <img :src="avatar + '?imageView2/1/w/80/h/80'" style="width: 45px">
+            <img
+              :src="avatar + '?imageView2/1/w/80/h/80'"
+              style="width: 45px"
+            />
           </div>
           <div class="card-panel-description">
             <div class="card-panel-text">总用户数量</div>
@@ -17,7 +20,10 @@
       <el-col :span="8" class="card-panel-col">
         <div class="card-panel">
           <div class="card-panel-icon-wrapper icon-money">
-            <img :src="avatar + '?imageView2/1/w/80/h/80'" style="width: 45px">
+            <img
+              :src="avatar + '?imageView2/1/w/80/h/80'"
+              style="width: 45px"
+            />
           </div>
           <div class="card-panel-description">
             <div class="card-panel-text">今日登录用户</div>
@@ -30,7 +36,10 @@
       <el-col :span="8" class="card-panel-col">
         <div class="card-panel">
           <div class="card-panel-icon-wrapper icon-money">
-            <img :src="avatar + '?imageView2/1/w/80/h/80'" style="width: 45px">
+            <img
+              :src="avatar + '?imageView2/1/w/80/h/80'"
+              style="width: 45px"
+            />
           </div>
           <div class="card-panel-description">
             <div class="card-panel-text">今日新增用户</div>
@@ -40,10 +49,13 @@
           </div>
         </div>
       </el-col>
-      <el-col :span="8" class="card-panel-col">
+      <el-col :span="6" class="card-panel-col">
         <div class="card-panel">
           <div class="card-panel-icon-wrapper icon-money">
-            <img :src="avatar + '?imageView2/1/w/80/h/80'" style="width: 45px">
+            <img
+              :src="avatar + '?imageView2/1/w/80/h/80'"
+              style="width: 45px"
+            />
           </div>
           <div class="card-panel-description">
             <div class="card-panel-text">今日营业额</div>
@@ -53,7 +65,7 @@
           </div>
         </div>
       </el-col>
-      <el-col :span="8" class="card-panel-col">
+      <!-- <el-col :span="8" class="card-panel-col">
         <div class="card-panel">
           <div class="card-panel-icon-wrapper icon-money">
             <img :src="avatar + '?imageView2/1/w/80/h/80'" style="width: 45px">
@@ -65,11 +77,14 @@
             </span>
           </div>
         </div>
-      </el-col>
-      <el-col :span="8" class="card-panel-col">
+      </el-col> -->
+      <!-- <el-col :span="6" class="card-panel-col">
         <div class="card-panel">
           <div class="card-panel-icon-wrapper icon-money">
-            <img :src="avatar + '?imageView2/1/w/80/h/80'" style="width: 45px">
+            <img
+              :src="avatar + '?imageView2/1/w/80/h/80'"
+              style="width: 45px"
+            />
           </div>
           <div class="card-panel-description">
             <div class="card-panel-text">今日成本价</div>
@@ -78,11 +93,14 @@
             </span>
           </div>
         </div>
-      </el-col>
-      <el-col :span="8" class="card-panel-col">
+      </el-col> -->
+      <el-col :span="6" class="card-panel-col">
         <div class="card-panel">
           <div class="card-panel-icon-wrapper icon-money">
-            <img :src="avatar + '?imageView2/1/w/80/h/80'" style="width: 45px">
+            <img
+              :src="avatar + '?imageView2/1/w/80/h/80'"
+              style="width: 45px"
+            />
           </div>
           <div class="card-panel-description">
             <div class="card-panel-text">今日利润</div>
@@ -92,10 +110,13 @@
           </div>
         </div>
       </el-col>
-      <el-col :span="8" class="card-panel-col">
+      <el-col :span="6" class="card-panel-col">
         <div class="card-panel">
           <div class="card-panel-icon-wrapper icon-money">
-            <img :src="avatar + '?imageView2/1/w/80/h/80'" style="width: 45px">
+            <img
+              :src="avatar + '?imageView2/1/w/80/h/80'"
+              style="width: 45px"
+            />
           </div>
           <div class="card-panel-description">
             <div class="card-panel-text">本月营业额</div>
@@ -105,10 +126,13 @@
           </div>
         </div>
       </el-col>
-      <el-col :span="8" class="card-panel-col">
+      <!-- <el-col :span="8" class="card-panel-col">
         <div class="card-panel">
           <div class="card-panel-icon-wrapper icon-money">
-            <img :src="avatar + '?imageView2/1/w/80/h/80'" style="width: 45px">
+            <img
+              :src="avatar + '?imageView2/1/w/80/h/80'"
+              style="width: 45px"
+            />
           </div>
           <div class="card-panel-description">
             <div class="card-panel-text">本月退款</div>
@@ -117,11 +141,14 @@
             </span>
           </div>
         </div>
-      </el-col>
-      <el-col :span="8" class="card-panel-col">
+      </el-col> -->
+      <!-- <el-col :span="8" class="card-panel-col">
         <div class="card-panel">
           <div class="card-panel-icon-wrapper icon-money">
-            <img :src="avatar + '?imageView2/1/w/80/h/80'" style="width: 45px">
+            <img
+              :src="avatar + '?imageView2/1/w/80/h/80'"
+              style="width: 45px"
+            />
           </div>
           <div class="card-panel-description">
             <div class="card-panel-text">本月成本价</div>
@@ -130,11 +157,14 @@
             </span>
           </div>
         </div>
-      </el-col>
-      <el-col :span="8" class="card-panel-col">
+      </el-col> -->
+      <el-col :span="6" class="card-panel-col">
         <div class="card-panel">
           <div class="card-panel-icon-wrapper icon-money">
-            <img :src="avatar + '?imageView2/1/w/80/h/80'" style="width: 45px">
+            <img
+              :src="avatar + '?imageView2/1/w/80/h/80'"
+              style="width: 45px"
+            />
           </div>
           <div class="card-panel-description">
             <div class="card-panel-text">本月利润</div>
@@ -146,123 +176,130 @@
       </el-col>
     </el-row>
 
-    <div id="registerTotal" class="c-chart-box" :style="{
-      minHeight: height,
-      width: width,
-    }" />
+    <div
+      id="registerTotal"
+      class="c-chart-box"
+      :style="{
+        minHeight: height,
+        width: width,
+      }"
+    />
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import * as echarts from 'echarts'
-import { userCount } from '@/api/stats'
+import { mapGetters } from "vuex";
+import * as echarts from "echarts";
+import { userCount } from "@/api/stats";
 
 export default {
-  name: 'Statistical',
+  name: "Statistical",
   props: {
     id: {
       type: String,
-      default: 'J_chart__trend'
+      default: "J_chart__trend",
     },
     width: {
       type: String,
-      default: '100%'
+      default: "100%",
     },
     height: {
       type: String,
-      default: '450px'
-    }
+      default: "450px",
+    },
   },
   data() {
     return {
       count: {
-        registerTotal: 0,
-        Logintoday: 0,
-        Registertoday: 0,
-        TodayTotal: 0,
-        Refundtoday:0,
-        Todaycostprice:0,
-        Todayprofit:0,
-        Monthperformance:0,
-        Monthrefund:0,
-        Monthcost:0,
-        Monthprofit:0,
+        registerTotal: 0, //总注册数
+        Logintoday: 0, //今天登录人数
+        Registertoday: 0, //今天注册人数
+        TodayTotal: 0, //今天营业额
+        Refundtoday: 0,
+        Todaycostprice: 0,
+        Todayprofit: 0, //今天利润
+        Monthperformance: 0, //本月营业额
+        Monthrefund: 0,
+        Monthcost: 0,
+        Monthprofit: 0, //本月利润
       },
       loading: false,
       registerChart: null,
       registerChartOption: {
         title: {
-          text: '每日注册总数'
+          text: "每日营业额",
         },
         tooltip: {
-          trigger: 'axis'
+          trigger: "axis",
         },
         xAxis: {
-          type: 'category',
-          data: []
+          type: "category",
+          data: [],
         },
         yAxis: {
-          type: 'value'
+          type: "value",
         },
-        series: []
-      }
-    }
+        series: [],
+      },
+    };
   },
   computed: {
-    ...mapGetters(['avatar'])
+    ...mapGetters(["avatar"]),
   },
   created() {
-    this.init()
+    this.init();
   },
   mounted() {
-    this.initChartTrend()
+    this.initChartTrend();
   },
   methods: {
     init() {
-      this.getCount()
+      this.getCount();
     },
     getCount() {
       if (this.registerChart) {
-        this.registerChart.showLoading()
+        this.registerChart.showLoading();
       }
       userCount()
         .then((response) => {
-          this.count = response.data
-          this.updateTrendChartData()
+          this.count = response.data;
+          this.updateTrendChartData();
         })
-        .catch(() => { })
+        .catch(() => {})
         .finally(() => {
-          this.registerChart.hideLoading()
-        })
+          this.registerChart.hideLoading();
+        });
     },
     updateTrendChartData() {
-      const xAxisData = this.count.time
-      const userData = this.count.userCount
+      const xAxisData = this.count.time;
+      const userData = this.count.userCount;
       const xAxis = {
-        type: 'category',
+        type: "category",
         boundaryGap: false,
-        data: xAxisData
-      }
+        data: xAxisData,
+      };
 
+      //设置Y轴数据
       const userSeries = {
         data: userData,
-        type: 'line',
-        smooth: true
-      }
-      this.registerChart.setOption({ xAxis, series: userSeries })
+        type: "line",
+        smooth: true,
+      };
+
+      this.registerChart.setOption({ xAxis, series: userSeries });
+      //this.registerChart.setOption({ xAxis, series: costSeries });
     },
     initChartTrend() {
       this.registerChart = echarts.init(
-        document.getElementById('registerTotal')
-      )
-      this.registerChart.showLoading()
+        document.getElementById("registerTotal")
+      );
+      this.registerChart.showLoading();
       this.$nextTick(() => {
-        this.registerChart.setOption(this.registerChartOption)
-      })
-    }
-  }
-}
+        this.registerChart.setOption(this.registerChartOption);
+      });
+    },
+  },
+};
 </script>
 <style lang="scss" scoped>
 .dashboard-container {
