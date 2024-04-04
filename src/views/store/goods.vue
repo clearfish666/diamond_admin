@@ -150,6 +150,13 @@
               </el-button>
 
               <el-button
+                v-if="hasPermissionNode('StoreGoodsEdit')"
+                type="primary"
+                @click="onStockLog(row)"
+                >库存记录
+              </el-button>
+
+              <el-button
                 v-if="hasPermissionNode('StoreGoodsDelete')"
                 type="danger"
                 @click="onGoodsDelete(row)"
@@ -186,6 +193,13 @@
       ref="offlineRef"
       @refreshList="getList()"
     />
+
+    <!-- 库存记录 -->
+    <goods-stock-log
+      v-if="goodsStockLogVisible"
+      ref="goodsStockLogRef"
+      @refreshList="getList()"
+    />
   </div>
 </template>
 
@@ -195,6 +209,7 @@ import AddStock from "./components/goods/addStock";
 import Check from "./components/goods/check";
 import ImageUpdate from "./components/goods/image";
 import PriceUpdate from "./components/goods/price";
+import GoodsStockLog from "./components/goods/GoodsStockLog";
 import StockOffline from "./components/goods/stockOffline";
 import { getCategory } from "@/api/main";
 
@@ -211,6 +226,7 @@ export default {
     ImageUpdate,
     PriceUpdate,
     StockOffline,
+    GoodsStockLog,
   },
   mixins: [mixin],
   data() {
@@ -266,6 +282,7 @@ export default {
       imageVisible: false,
       priceVisible: false,
       offlineVisible: false,
+      goodsStockLogVisible: false,
     };
   },
   watch: {
@@ -389,6 +406,14 @@ export default {
       this.offlineVisible = true;
       this.$nextTick(() => {
         this.$refs.offlineRef && this.$refs.offlineRef.init(type);
+      });
+    },
+
+    //库存操作记录
+    onStockLog(row) {
+      this.goodsStockLogVisible = true;
+      this.$nextTick(() => {
+        this.$refs.goodsStockLogRef && this.$refs.goodsStockLogRef.init(row);
       });
     },
   },

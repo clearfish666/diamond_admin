@@ -2,28 +2,6 @@
   <div class="app-container">
     <div id="search-box" class="filter-container">
       <el-form :inline="true" :model="search">
-        <!-- <el-form-item label="商品名称">
-          <el-input
-            v-model="search.name"
-            placeholder="商品名称"
-            clearable
-            @clear="getList(1)"
-            @keyup.enter.native="getList(1)"
-          />
-        </el-form-item>
-        <el-form-item label="IMIE">
-          <el-input
-            v-model="search.imie"
-            placeholder="IMIE"
-            clearable
-            @clear="getList(1)"
-            @keyup.enter.native="getList(1)"
-          />
-        </el-form-item> -->
-
-        <!-- <el-button icon="el-icon-search" @click="getList(1)">
-          {{ $t("table.search") }}
-        </el-button> -->
         <el-button type="primary" icon="el-icon-plus" @click="onAddOrUpdate()">
           开始盘点
         </el-button>
@@ -40,7 +18,17 @@
       <el-table-column prop="id" label="ID" align="center" />
       <el-table-column prop="date" label="盘点日期" align="center" />
       <el-table-column prop="total_count" label="盘点总数" align="center" />
-      <el-table-column prop="lost_count" label="异常商品数量" align="center" />
+      <el-table-column prop="lost_count" label="异常商品数量" align="center">
+        <template slot-scope="scope">
+          <el-button
+            v-if="scope.row.lost_count > 0"
+            type="danger"
+            @click="onFailStockGoods(scope.row)"
+            >{{ scope.row.lost_count }}</el-button
+          >
+          <span v-else>{{ scope.row.lost_count }}</span>
+        </template>
+      </el-table-column>
       <el-table-column
         label="盘点状态"
         width="138"
@@ -173,6 +161,9 @@
         >
       </div>
     </el-dialog>
+
+    <!-- 盘点异常商品 -->
+    <failStockGoods v-if="failStockVisible" ref="failStockGoods" />
   </div>
 </template>
 <script>
@@ -187,10 +178,11 @@ import {
 import { mixin } from "@/utils/mixin";
 import Tinymce from "@/components/Tinymce";
 import { goodsInfoByImie } from "@/api/store/goods";
+import FailStockGoods from "./components/FailStockGoods";
 
 export default {
   name: "StockCheck",
-  components: { Pagination, Tinymce },
+  components: { Pagination, Tinymce, FailStockGoods },
   mixins: [mixin],
   data() {
     return {
@@ -232,6 +224,7 @@ export default {
       },
       arr_check_imie: [], //已经校验的IMIE码
       rules: {},
+      failStockVisible: false,
       statusOptions: [
         { label: "正常", value: 0 },
         { label: "异常", value: 1 },
@@ -388,6 +381,17 @@ export default {
 
       if (data) {
         this.form = Object.assign({}, data);
+      }
+    },
+
+    //盘点异常商品
+    onFailStockGoods(row) {
+      this.failStockVisible = true;
+      if (row) {
+        this.$nextTick(() => {
+          this.$refs.failStockGoods &&
+            this.$refs.failStockGoods.init(row.lost_goods_id);
+        });
       }
     },
     onFormSubmit() {

@@ -54,3 +54,10 @@ export function goodsInfoByImie({ ...data }) {
 
   return request({ url, method, data });
 }
+
+// 商品库存操作列表
+export function getGoodsStockLog(params) {
+  return request.get("/store/goods/stock/logs", {
+    params,
+  });
+}
