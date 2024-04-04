@@ -31,7 +31,7 @@
           />
         </el-form-item>
 
-        <el-form-item label="UID">
+        <!-- <el-form-item label="UID">
           <el-input
             v-model="search.uid"
             placeholder="UID"
@@ -39,7 +39,7 @@
             @clear="getList(1)"
             @keyup.enter.native="getList(1)"
           />
-        </el-form-item>
+        </el-form-item> -->
         <el-form-item label="用户昵称、手机号">
           <el-input
             v-model="search.user"
@@ -396,6 +396,18 @@ export default {
       if (this.loading) return;
       this.loading = loading;
       if (page === 1) this.pages.current = page;
+
+      // // 判断变量是否为数组
+      // let arr_cate_id = this.search.cate_id;
+      // if (Array.isArray(arr_cate_id)) {
+      //   // 获取数组的最后一位
+      //   let lastItem = arr_cate_id[arr_cate_id.length - 1];
+      //   console.log("最后一位:", lastItem);
+      //   this.search.cate_id = lastItem;
+      // } else {
+      //   console.log("变量不是数组");
+      // }
+
       getOrderList({ page, ...this.search, limit: this.pages.limit })
         .then((response) => {
           if (response.code !== 0) return;

@@ -28,7 +28,7 @@
       :height="pageheight"
     >
       <el-table-column prop="id" label="ID" align="center" />
-      <el-table-column prop="date" label="盘点日期" align="center" />
+      <el-table-column prop="date" label="销售日期" align="center" />
       <el-table-column prop="name" label="商品名称" align="center" />
       <el-table-column label="价格信息" width="138" header-align="center">
         <template slot-scope="{ row }">

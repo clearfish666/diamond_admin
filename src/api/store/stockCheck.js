@@ -20,15 +20,15 @@ export function goodsCheck(params) {
 }
 
 // 添加 / 修改
-export function addOrUpdate({ id, ...data }) {
+export function addOrUpdate(data) {
   let method = "POST";
   let url = "/store/stock_check";
 
-  if (id > 0) {
-    method = "PUT";
-    url += `/${id}`;
-    data.id = id;
-  }
+  // if (id > 0) {
+  //   method = "PUT";
+  //   url += `/${id}`;
+  //   data.id = id;
+  // }
 
   return request({ url, method, data });
 }
