@@ -76,7 +76,7 @@ export default {
         //     trigger: ["blur", "change"],
         //   },
         // ],
-        cate_id: [{ required: true, message: "请选择机型", trigger: "change" }],
+        cate_id: [{ required: true, message: "请选择机型" }],
 
         imie: [
           {
@@ -100,40 +100,45 @@ export default {
     // 保存
     submitHandle() {
       if (this.submitting) return;
-      this.submitting = true;
-      // skus
-      const params = {
-        ...this.baseInfoForm,
-        step: "stock",
-      };
 
-      addOrUpdate(params)
-        .then((data) => {
-          const { msg } = {
-            msg: this.isEdit ? "编辑" : "保存",
+      this.$refs["baseInfoForm"].validate((valid) => {
+        if (valid) {
+          this.submitting = true;
+          // skus
+          const params = {
+            ...this.baseInfoForm,
+            step: "stock",
           };
 
-          if (data.code !== 0) {
-            this.$message.error(msg + "失败：" + data.msg);
-            this.submitting = false;
-            return;
-          }
-          this.$message.success(msg + "成功，跳转至商品列表页");
+          addOrUpdate(params)
+            .then((data) => {
+              const { msg } = {
+                msg: this.isEdit ? "编辑" : "保存",
+              };
 
-          this.submitting = false;
+              if (data.code !== 0) {
+                this.$message.error(msg + "失败：" + data.msg);
+                this.submitting = false;
+                return;
+              }
+              this.$message.success(msg + "成功，跳转至商品列表页");
 
-          const that = this;
-          setTimeout(function () {
-            Object.assign(that.$data, that.$options.data());
-          }, 1000);
+              this.submitting = false;
 
-          this.$message.success(msg);
-          this.visible = false;
-          this.$emit("refreshList");
-        })
-        .catch((_error) => {
-          this.submitting = false;
-        });
+              const that = this;
+              setTimeout(function () {
+                Object.assign(that.$data, that.$options.data());
+              }, 1000);
+
+              this.$message.success(msg);
+              this.visible = false;
+              this.$emit("refreshList");
+            })
+            .catch((_error) => {
+              this.submitting = false;
+            });
+        }
+      });
     },
 
     onClose() {

@@ -158,10 +158,10 @@ export default {
 
       // 详情
       const details = this.goodsDetail.details;
-      if (details.length === 0) {
-        this.submitting = false;
-        return;
-      }
+      // if (details.length === 0) {
+      //   this.submitting = false;
+      //   return;
+      // }
 
       // 图片
       const pics = [...this.goodsPoster, ...this.goodsImages].map(
