@@ -103,9 +103,17 @@
       </el-table-column>
       <el-table-column label="库存状态" width="120" align="center">
         <template slot-scope="{ row }">
-          <el-tag :type="stockStatusColors[row.stock_status]">
-            {{ row.stock_status | paraphrase(stockStatusOptions) }}
-          </el-tag>
+          <div>
+            <el-tag :type="stockStatusColors[row.stock_status]">
+              {{ row.stock_status | paraphrase(stockStatusOptions) }}
+            </el-tag>
+          </div>
+
+          <div>
+            <el-tag type="primary">
+              {{ row.action_text }}
+            </el-tag>
+          </div>
         </template>
       </el-table-column>
 
@@ -268,8 +276,8 @@ export default {
         // 2: "success",
       },
       stockStatusOptions: [
-        { label: "在库", value: 0 },
-        { label: "已出仓", value: 1 },
+        { label: "可售卖", value: 0 },
+        { label: "不可售卖", value: 1 },
       ],
       stockStatusColors: {
         0: "success",
