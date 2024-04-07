@@ -120,7 +120,7 @@ export default {
 
                 // const category = this.$refs["category"];
                 // category.panel.lazyLoad();
-                console.log(this.baseInfoForm.image);
+                console.log(this.goodsDetail.details);
 
                 const { pics, attrsValues } = goods;
 
