@@ -27,7 +27,16 @@
       </el-form-item>
 
       <el-form-item label="详情" prop="details" label-width="100px">
-        <tinymce v-model="goodsDetail.details" :height="300" :width="1000" />
+        <keep-alive>
+          <tinymce
+            :init="init"
+            ref="tinymce"
+            :key="tinymceFlag"
+            v-model="goodsDetail.details"
+            :height="300"
+            :width="1000"
+          />
+        </keep-alive>
       </el-form-item>
     </el-form>
     <div slot="footer" class="dialog-footer">
@@ -52,6 +61,7 @@ export default {
   components: { GoodsImages, Tinymce },
   data() {
     return {
+      tinymceFlag: 1, //是防止组件缓存导致编辑器不能正常使用，每次切换来都更改key,使其重新渲染
       visible: false,
       btnLoading: false,
       title: "新增图片信息",
@@ -75,6 +85,14 @@ export default {
         image: [{ required: true, message: "请上传封面图", trigger: "change" }],
       },
     };
+  },
+  beforeDestroy() {
+    // 销毁组件前销毁编辑器
+    this.$refs.tinymce && this.$refs.tinymce.destroy();
+  },
+  activated() {
+    // 每次都给编辑器改变不同的key值使其每次切换页面都重新加载
+    this.tinymceFlag++;
   },
   watch: {
     goodsPoster(images) {
@@ -121,6 +139,7 @@ export default {
                 // const category = this.$refs["category"];
                 // category.panel.lazyLoad();
                 console.log(this.goodsDetail.details);
+                this.$refs.tinymce.setContent(this.goodsDetail.details);
 
                 const { pics, attrsValues } = goods;
 

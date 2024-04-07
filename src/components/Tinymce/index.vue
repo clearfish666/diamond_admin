@@ -112,13 +112,13 @@ export default {
   },
   mounted() {
     console.log("mounted");
+
     this.init();
   },
   activated() {
     console.log("activated");
-    if (window.tinymce) {
-      console.log("activated +1");
 
+    if (window.tinymce) {
       this.initTinymce();
     }
   },
