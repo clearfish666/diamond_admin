@@ -160,7 +160,7 @@ export const routes_insidesystem = [
   {
     path: "/reserve",
     component: Layout,
-    name: "StoreManage",
+    name: "ReserveManage",
     hidden: true,
     meta: {
       title: "场地管理",
@@ -209,7 +209,7 @@ export const routes_insidesystem = [
         name: "RechargeOrderList",
         hidden: true,
         meta: {
-          title: "充值订单管理",
+          title: "充值订单",
         },
       },
     ],
