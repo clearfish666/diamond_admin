@@ -158,94 +158,58 @@ export const routes_insidesystem = [
   //   ],
   // },
   {
-    path: "/store",
+    path: "/reserve",
     component: Layout,
     name: "StoreManage",
     hidden: true,
     meta: {
-      title: "商店管理",
+      title: "场地管理",
       icon: "store",
     },
     children: [
       {
         path: "index",
-        component: () => import("@/views/store/goods"),
-        name: "StoreGoodsList",
+        component: () => import("@/views/reserve/category"),
+        name: "CategoryList",
         hidden: true,
         meta: {
-          title: "商品列表",
-        },
-      },
-      {
-        path: "category",
-        component: () => import("@/views/store/category"),
-        name: "StoreGoodsCategoryList",
-        hidden: true,
-        meta: {
-          title: "手机型号",
+          title: "场地分类",
         },
       },
       {
         path: "goods",
-        component: () => import("@/views/store/AddOrUpdate"),
-        name: "StoreGoodsEdit",
+        component: () => import("@/views/reserve/goods"),
+        name: "GoodsList",
         hidden: true,
         meta: {
-          title: "商品编辑",
+          title: "场地列表",
+        },
+      },
+      // {
+      //   path: "goods",
+      //   component: () => import("@/views/reserve/AddOrUpdate"),
+      //   name: "StoreGoodsEdit",
+      //   hidden: true,
+      //   meta: {
+      //     title: "商品编辑",
+      //   },
+      // },
+      {
+        path: "reserveOrder",
+        component: () => import("@/views/reserve/order"),
+        name: "ReserveOrderList",
+        hidden: true,
+        meta: {
+          title: "订场订单",
         },
       },
       {
-        path: "order",
-        component: () => import("@/views/store/order"),
-        name: "StoreOrderList",
+        path: "rechargeOrder",
+        component: () => import("@/views/reserve/recharge"),
+        name: "RechargeOrderList",
         hidden: true,
         meta: {
-          title: "订单管理",
-        },
-      },
-      {
-        path: "usergoodslog",
-        component: () => import("@/views/store/goodslog"),
-        name: "StoreGoodsUserLog",
-        hidden: true,
-        meta: {
-          title: "用户浏览记录",
-        },
-      },
-      {
-        path: "offlinelog",
-        component: () => import("@/views/store/offlinelog"),
-        name: "StoreOfflineList",
-        hidden: true,
-        meta: {
-          title: "线下销售登记",
-        },
-      },
-      {
-        path: "offlinelogEdit",
-        component: () => import("@/views/store/offline_AddOrUpdate"),
-        name: "StoreOfflineLogEdit",
-        hidden: true,
-        meta: {
-          title: "销售登记编辑",
-        },
-      },
-      {
-        path: "todayprice",
-        component: () => import("@/views/store/link/index"),
-        name: "TodayPriceList",
-        hidden: true,
-        meta: {
-          title: "当日价格表",
-        },
-      },
-      {
-        path: "StockCheckList",
-        component: () => import("@/views/store/stockCheckLog"),
-        name: "StockCheckList",
-        hidden: true,
-        meta: {
-          title: "盘点记录",
+          title: "充值订单管理",
         },
       },
     ],

@@ -1,413 +1,375 @@
 <template>
-  <div class="dashboard-container">
-    <el-row :gutter="20" class="panel-group">
-      <el-col :span="8" class="card-panel-col">
-        <div class="card-panel">
-          <div class="card-panel-icon-wrapper icon-money">
-            <img
-              :src="avatar + '?imageView2/1/w/80/h/80'"
-              style="width: 45px"
-            />
-          </div>
-          <div class="card-panel-description">
-            <div class="card-panel-text">总用户数量</div>
-            <span class="card-panel-num">
-              {{ count.registerTotal }}
-            </span>
-          </div>
-        </div>
-      </el-col>
-      <el-col :span="8" class="card-panel-col">
-        <div class="card-panel">
-          <div class="card-panel-icon-wrapper icon-money">
-            <img
-              :src="avatar + '?imageView2/1/w/80/h/80'"
-              style="width: 45px"
-            />
-          </div>
-          <div class="card-panel-description">
-            <div class="card-panel-text">今日登录用户</div>
-            <span class="card-panel-num">
-              {{ count.Logintoday }}
-            </span>
-          </div>
-        </div>
-      </el-col>
-      <el-col :span="8" class="card-panel-col">
-        <div class="card-panel">
-          <div class="card-panel-icon-wrapper icon-money">
-            <img
-              :src="avatar + '?imageView2/1/w/80/h/80'"
-              style="width: 45px"
-            />
-          </div>
-          <div class="card-panel-description">
-            <div class="card-panel-text">今日新增用户</div>
-            <span class="card-panel-num">
-              {{ count.Registertoday }}
-            </span>
-          </div>
-        </div>
-      </el-col>
-      <el-col :span="6" class="card-panel-col">
-        <div class="card-panel">
-          <div class="card-panel-icon-wrapper icon-money">
-            <img
-              :src="avatar + '?imageView2/1/w/80/h/80'"
-              style="width: 45px"
-            />
-          </div>
-          <div class="card-panel-description">
-            <div class="card-panel-text">今日营业额</div>
-            <span class="card-panel-num">
-              {{ count.TodayTotal }}
-            </span>
-          </div>
-        </div>
-      </el-col>
-      <!-- <el-col :span="8" class="card-panel-col">
-        <div class="card-panel">
-          <div class="card-panel-icon-wrapper icon-money">
-            <img :src="avatar + '?imageView2/1/w/80/h/80'" style="width: 45px">
-          </div>
-          <div class="card-panel-description">
-            <div class="card-panel-text">今日退款</div>
-            <span class="card-panel-num">
-              {{ count.Refundtoday }}
-            </span>
-          </div>
-        </div>
-      </el-col> -->
-      <!-- <el-col :span="6" class="card-panel-col">
-        <div class="card-panel">
-          <div class="card-panel-icon-wrapper icon-money">
-            <img
-              :src="avatar + '?imageView2/1/w/80/h/80'"
-              style="width: 45px"
-            />
-          </div>
-          <div class="card-panel-description">
-            <div class="card-panel-text">今日成本价</div>
-            <span class="card-panel-num">
-              {{ count.Todaycostprice }}
-            </span>
-          </div>
-        </div>
-      </el-col> -->
-      <el-col :span="6" class="card-panel-col">
-        <div class="card-panel">
-          <div class="card-panel-icon-wrapper icon-money">
-            <img
-              :src="avatar + '?imageView2/1/w/80/h/80'"
-              style="width: 45px"
-            />
-          </div>
-          <div class="card-panel-description">
-            <div class="card-panel-text">今日利润</div>
-            <span class="card-panel-num">
-              {{ count.Todayprofit }}
-            </span>
-          </div>
-        </div>
-      </el-col>
-      <el-col :span="6" class="card-panel-col">
-        <div class="card-panel">
-          <div class="card-panel-icon-wrapper icon-money">
-            <img
-              :src="avatar + '?imageView2/1/w/80/h/80'"
-              style="width: 45px"
-            />
-          </div>
-          <div class="card-panel-description">
-            <div class="card-panel-text">本月营业额</div>
-            <span class="card-panel-num">
-              {{ count.Monthperformance }}
-            </span>
-          </div>
-        </div>
-      </el-col>
-      <!-- <el-col :span="8" class="card-panel-col">
-        <div class="card-panel">
-          <div class="card-panel-icon-wrapper icon-money">
-            <img
-              :src="avatar + '?imageView2/1/w/80/h/80'"
-              style="width: 45px"
-            />
-          </div>
-          <div class="card-panel-description">
-            <div class="card-panel-text">本月退款</div>
-            <span class="card-panel-num">
-              {{ count.Monthrefund }}
-            </span>
-          </div>
-        </div>
-      </el-col> -->
-      <!-- <el-col :span="8" class="card-panel-col">
-        <div class="card-panel">
-          <div class="card-panel-icon-wrapper icon-money">
-            <img
-              :src="avatar + '?imageView2/1/w/80/h/80'"
-              style="width: 45px"
-            />
-          </div>
-          <div class="card-panel-description">
-            <div class="card-panel-text">本月成本价</div>
-            <span class="card-panel-num">
-              {{ count.Monthcost }}
-            </span>
-          </div>
-        </div>
-      </el-col> -->
-      <el-col :span="6" class="card-panel-col">
-        <div class="card-panel">
-          <div class="card-panel-icon-wrapper icon-money">
-            <img
-              :src="avatar + '?imageView2/1/w/80/h/80'"
-              style="width: 45px"
-            />
-          </div>
-          <div class="card-panel-description">
-            <div class="card-panel-text">本月利润</div>
-            <span class="card-panel-num">
-              {{ count.Monthprofit }}
-            </span>
-          </div>
-        </div>
-      </el-col>
-    </el-row>
+    <div class="app-container">
+        <!-- <el-descriptions direction="vertical" :column="6" border>
+      <el-descriptions-item label="总用户数">{{
+        recharge.user_count
+      }}</el-descriptions-item>
 
-    <div
-      id="registerTotal"
-      class="c-chart-box"
-      :style="{
-        minHeight: height,
-        width: width,
-      }"
-    />
-  </div>
+      <el-descriptions-item label="总充值USDT">{{
+        recharge.performance
+      }}</el-descriptions-item>
+      <el-descriptions-item label="总提现USDT">{{
+        recharge.total_withdrawal
+      }}</el-descriptions-item>
+      <el-descriptions-item label="总兑换USDT">{{
+        recharge.exchange_usdt
+      }}</el-descriptions-item>
+      <el-descriptions-item label="待提现USDT">{{
+        recharge.wait_usdt
+      }}</el-descriptions-item>
+      <el-descriptions-item label="待兑换DNA">{{
+        recharge.wait_dna
+      }}</el-descriptions-item>
+    </el-descriptions> -->
+
+        <!-- 头部数量 -->
+        <div class="tops3">
+            <div class="topsList back1">
+                <p>总用户数</p>
+                <div>{{ recharge.user_count || 0 }}<span>人</span></div>
+            </div>
+            <div class="topsList back2">
+                <p>总订场微信入金</p>
+                <div>{{ recharge.total_reserve_amount || 0 }}</div>
+            </div>
+            <div class="topsList back3">
+                <p>总充值入金</p>
+                <div>{{ recharge.total_recharge_amount || 0 }}</div>
+            </div>
+            <div class="topsList back4">
+                <p>总订场订单</p>
+                <div>{{ recharge.total_reserve_count || 0 }}</div>
+            </div>
+
+            <!-- <div class="topsList back3">
+        <p>总提现ALEO</p>
+        <div>{{ recharge.total_aleo_withdrawal || 0 }}</div>
+      </div>
+      <div class="topsList back4">
+        <p>待提现ALEO</p>
+        <div>{{ recharge.ready_aleo_balance || 0 }}</div>
+      </div> -->
+        </div>
+        <!-- <div class="tops3">
+
+    </div> -->
+        <!-- <div>
+          <div id="home_chart" :style="'width:100%;height:' + (pageheight - 90) + 'px;'" />
+        </div> -->
+        <div class="app-container">
+            <div id="search-box" class="filter-container">
+                <el-form :inline="true" :model="search">
+                    <el-form-item label="筛选时间">
+                        <el-date-picker
+                            v-model="dateRangeValue"
+                            type="datetimerange"
+                            value-format="yyyy-MM-dd HH:mm:ss"
+                            :picker-options="pickerOptions"
+                            range-separator="至"
+                            start-placeholder="开始日期"
+                            end-placeholder="结束日期"
+                            align="right"
+                            @change="onChangeDateRange"
+                        />
+                    </el-form-item>
+                    <el-button icon="el-icon-search" @click="getList(1)">
+                        {{ $t('table.search') }}
+                    </el-button>
+                    <!-- <el-button type="primary" @click="updateToday()">
+            刷新今天数据
+          </el-button>
+          <el-tag style="margin-left:10px;" type="danger">今天数据默认10分钟自动刷新一次，可以手动刷新（限制10秒刷一次）</el-tag> -->
+                </el-form>
+            </div>
+            <el-table
+                :data="list"
+                border
+                :max-height="pageheight"
+                stripe
+                :row-class-name="tableRowClassName"
+            >
+                <el-table-column
+                    fixed
+                    label="日期"
+                    :align="tableAlign"
+                    prop="date"
+                />
+                <el-table-column
+                    label="新增用户"
+                    prop="inc_user"
+                    :align="tableAlign"
+                />
+
+                <el-table-column
+                    label="订场入金"
+                    prop="inc_reserve_amount"
+                    :align="tableAlign"
+                />
+                <el-table-column
+                    label="充值入金"
+                    prop="inc_recharge_amount"
+                    :align="tableAlign"
+                />
+
+                <el-table-column
+                    label="订场订单"
+                    prop="inc_reserve_count"
+                    :align="tableAlign"
+                />
+            </el-table>
+            <pagination
+                v-show="pages.total > 0"
+                :total="pages.total"
+                :page.sync="pages.current"
+                :limit.sync="pages.limit"
+                @pagination="getList()"
+            />
+        </div>
+    </div>
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-import * as echarts from "echarts";
-import { userCount } from "@/api/stats";
+import Pagination from '@/components/Pagination'
+import { getRechargeHome, update } from '@/api/statistical'
+import { mixin } from '@/utils/mixin'
 
 export default {
-  name: "Statistical",
-  props: {
-    id: {
-      type: String,
-      default: "J_chart__trend",
-    },
-    width: {
-      type: String,
-      default: "100%",
-    },
-    height: {
-      type: String,
-      default: "450px",
-    },
-  },
-  data() {
-    return {
-      count: {
-        registerTotal: 0, //总注册数
-        Logintoday: 0, //今天登录人数
-        Registertoday: 0, //今天注册人数
-        TodayTotal: 0, //今天营业额
-        Refundtoday: 0,
-        Todaycostprice: 0,
-        Todayprofit: 0, //今天利润
-        Monthperformance: 0, //本月营业额
-        Monthrefund: 0,
-        Monthcost: 0,
-        Monthprofit: 0, //本月利润
-      },
-      loading: false,
-      registerChart: null,
-      registerChartOption: {
-        title: {
-          text: "每日营业额",
-        },
-        tooltip: {
-          trigger: "axis",
-        },
-        xAxis: {
-          type: "category",
-          data: [],
-        },
-        yAxis: {
-          type: "value",
-        },
-        series: [],
-      },
-    };
-  },
-  computed: {
-    ...mapGetters(["avatar"]),
-  },
-  created() {
-    this.init();
-  },
-  mounted() {
-    this.initChartTrend();
-  },
-  methods: {
-    init() {
-      this.getCount();
-    },
-    getCount() {
-      if (this.registerChart) {
-        this.registerChart.showLoading();
-      }
-      userCount()
-        .then((response) => {
-          this.count = response.data;
-          this.updateTrendChartData();
-        })
-        .catch(() => {})
-        .finally(() => {
-          this.registerChart.hideLoading();
-        });
-    },
-    updateTrendChartData() {
-      const xAxisData = this.count.time;
-      const userData = this.count.userCount;
-      const xAxis = {
-        type: "category",
-        boundaryGap: false,
-        data: xAxisData,
-      };
+    name: 'Statistical',
+    components: { Pagination },
 
-      //设置Y轴数据
-      const userSeries = {
-        data: userData,
-        type: "line",
-        smooth: true,
-      };
+    mixins: [mixin],
+    data() {
+        return {
+            loading: false,
+            dateRangeValue: [],
 
-      this.registerChart.setOption({ xAxis, series: userSeries });
-      //this.registerChart.setOption({ xAxis, series: costSeries });
+            activeName: 'first',
+            tableAlign: 'center',
+            recharge: [],
+            list: [],
+            chart: null,
+            search: {
+                start_time: '',
+                end_time: ''
+            },
+            pickerOptions: {
+                shortcuts: [
+                    {
+                        text: '最近一周',
+                        onClick(picker) {
+                            const end = new Date()
+                            const start = new Date()
+                            start.setTime(
+                                start.getTime() - 3600 * 1000 * 24 * 7
+                            )
+                            picker.$emit('pick', [start, end])
+                        }
+                    },
+                    {
+                        text: '最近一个月',
+                        onClick(picker) {
+                            const end = new Date()
+                            const start = new Date()
+                            start.setTime(
+                                start.getTime() - 3600 * 1000 * 24 * 30
+                            )
+                            picker.$emit('pick', [start, end])
+                        }
+                    }
+                ]
+            },
+            recharges: [],
+            tableRowClassName({ row, rowIndex }) {
+                if (rowIndex === 0) {
+                    return 'today-row'
+                }
+                return ''
+            },
+            option: {
+                tooltip: {
+                    trigger: 'axis'
+                },
+                toolbox: {
+                    show: true,
+                    feature: {
+                        magicType: { type: ['line', 'bar'] }
+                    }
+                },
+                legend: {
+                    data: ['PIPA', 'MUCG', 'MUCNFT', 'BUSD']
+                },
+                xAxis: {
+                    type: 'category',
+                    data: []
+                },
+                yAxis: {
+                    type: 'value'
+                },
+                series: [
+                    {
+                        name: 'PIPA',
+                        data: [],
+                        type: 'line',
+                        smooth: true
+                    },
+                    {
+                        name: 'MUCG',
+                        data: [],
+                        type: 'line',
+                        smooth: true
+                    },
+                    {
+                        name: 'MUCNFT',
+                        data: [],
+                        type: 'line',
+                        smooth: true
+                    },
+                    {
+                        name: 'BUSD',
+                        data: [],
+                        type: 'line',
+                        smooth: true
+                    }
+                ]
+            },
+            pages: {
+                total: 0,
+                limit: 10,
+                current: 1
+            }
+        }
     },
-    initChartTrend() {
-      this.registerChart = echarts.init(
-        document.getElementById("registerTotal")
-      );
-      this.registerChart.showLoading();
-      this.$nextTick(() => {
-        this.registerChart.setOption(this.registerChartOption);
-      });
+    created() {
+        this.init()
     },
-  },
-};
+    mounted() {},
+    methods: {
+        init() {
+            this.getList()
+        },
+        getList(page = this.pages.current, loading = true) {
+            if (this.loading) return
+            this.loading = loading
+            if (page === 1) this.pages.current = page
+            getRechargeHome({ page, ...this.search, limit: this.pages.limit })
+                .then((response) => {
+                    if (response.code !== 0) return
+                    this.list = response.data.ret.data
+                    this.pages.total = response.data.ret.total
+                    this.recharge = response.data.total
+                })
+                .catch(() => {})
+                .finally(() => {
+                    this.loading = false
+                })
+        },
+        updateToday() {
+            update()
+                .then((response) => {
+                    if (response.code !== 0) return
+                    this.getList()
+                })
+                .catch(() => {})
+                .finally(() => {})
+        },
+        onChangeDateRange(value) {
+            if (Array.isArray(value)) {
+                this.search.start_time = value[0]
+                this.search.end_time = value[1]
+            } else {
+                this.search.start_time = this.search.end_time = ''
+                this.getList(1)
+            }
+        }
+    }
+}
 </script>
+
 <style lang="scss" scoped>
-.dashboard-container {
-  padding: 32px;
-  background-color: #f0f2f5;
-  position: relative;
+.clear-cache-button {
+    margin-bottom: 20px;
+}
+.today-row td {
+    background: #4caf50 !important;
+    color: #fff !important;
+    font-weight: bold !important;
+}
+.el-date-editor.el-input {
+    width: 115px !important;
+}
+.danger {
+    color: #f56c6c;
+    background: #fef0f0;
 }
 
-.panel-group {
-  margin-top: 18px;
-
-  .card-panel-col {
-    margin-bottom: 32px;
-  }
-
-  .card-panel {
-    height: 108px;
-    cursor: pointer;
-    font-size: 12px;
-    position: relative;
-    overflow: hidden;
-    color: #666;
-    background: #fff;
-    box-shadow: 4px 4px 40px rgba(0, 0, 0, 0.05);
-    border-color: rgba(0, 0, 0, 0.05);
-    display: flex;
-
-    &:hover {
-      .card-panel-icon-wrapper {
-        color: #fff;
-      }
-
-      .icon-people {
-        background: #40c9c6;
-      }
-
-      .icon-message {
-        background: #36a3f7;
-      }
-
-      .icon-shopping {
-        background: #34bfa3;
-      }
-    }
-
-    .icon-people {
-      color: #40c9c6;
-    }
-
-    .icon-message {
-      color: #36a3f7;
-    }
-
-    .icon-money {
-      color: #f4516c;
-    }
-
-    .icon-shopping {
-      color: #34bfa3;
-    }
-
-    .card-panel-icon-wrapper {
-      margin: 14px 0 0 14px;
-      padding: 16px;
-      transition: all 0.38s ease-out;
-      border-radius: 6px;
-    }
-
-    .card-panel-icon {
-      float: left;
-      font-size: 48px;
-    }
-
-    .card-panel-description {
-      font-weight: bold;
-      margin: 26px;
-      margin-left: 0px;
-
-      .card-panel-text {
-        line-height: 18px;
-        color: rgba(0, 0, 0, 0.45);
-        font-size: 16px;
-        margin-bottom: 12px;
-      }
-
-      .card-panel-num {
-        font-size: 20px;
-      }
-    }
-  }
-}
-
-@media (max-width: 550px) {
-  .card-panel-description {
-    display: none;
-  }
-
-  .card-panel-icon-wrapper {
-    float: none !important;
+::v-deep .el-select {
     width: 100%;
-    height: 100%;
-    margin: 0 !important;
-
-    .svg-icon {
-      display: block;
-      margin: 14px auto !important;
-      float: none !important;
+}
+::v-deep .el-cascader {
+    width: 100%;
+}
+.tops {
+    position: relative;
+    .boxShadow {
+        position: absolute;
+        top: 42px;
+        left: 0px;
+        width: 90%;
+        // height: 100px;
+        background: #fff;
+        padding: 10px;
+        z-index: 10;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
+        border-radius: 5px;
     }
-  }
+}
+.tops3 {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    .topsList {
+        width: 15%;
+        padding: 8px;
+        background: #86898f;
+        border-radius: 10px;
+        font-size: 18px;
+        font-family: AlibabaPuHuiTiR;
+        font-weight: 400;
+        color: #fff;
+        div {
+            font-size: 22px;
+            font-weight: bold;
+            color: #fff;
+            span {
+                font-size: 14px;
+            }
+        }
+    }
+    .back1 {
+        background: url(../img/back1.png);
+        background-size: 100% 100%;
+    }
+    .back2 {
+        background: url(../img/back2.png);
+        background-size: 100% 100%;
+    }
+    .back3 {
+        background: url(../img/back3.png);
+        background-size: 100% 100%;
+    }
+    .back4 {
+        background: url(../img/back4.png);
+        background-size: 100% 100%;
+    }
+    .back5 {
+        background: url(../img/back3.png);
+        background-size: 100% 100%;
+    }
+    .back6 {
+        background: url(../img/back4.png);
+        background-size: 100% 100%;
+    }
 }
 </style>

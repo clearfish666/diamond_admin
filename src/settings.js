@@ -1,5 +1,5 @@
 module.exports = {
-  title: '人人回收',
+  title: '白松公园球场',
 
   /**
    * @type {boolean} true | false
