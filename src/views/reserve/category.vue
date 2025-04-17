@@ -52,6 +52,11 @@
                             @click="onAttrAddOrUpdate(row)"
                             >规则
                         </el-button>
+                        <el-button
+                            type="primary"
+                            @click="onAttrAddOrUpdate(row)"
+                            >场地
+                        </el-button>
                     </el-button-group>
 
                     <el-button-group>
@@ -78,6 +83,12 @@
             ref="category"
             @refreshList="getList(1)"
         />
+
+        <!-- <reserveGoods
+            v-if="reserveGoodsVisible"
+            ref="reserveGoods"
+            @refreshList="getList(1)"
+        /> -->
         <categoryRule
             v-if="categoryRuleVisible"
             ref="categoryRule"
@@ -90,13 +101,14 @@
 import Pagination from '@/components/Pagination'
 import { getCategoryList, deleteData } from '@/api/store/category'
 import { mixin } from '@/utils/mixin'
-import category from './components/category'
 import categoryRule from './components/categoryRule'
+import reserveGoods from './components/reserveGoods'
+// import reserveGoods from './components/reserveGoods'
 import { getBaseUrl } from '@/utils/auth'
 
 export default {
     name: 'StoreGoodsCategoryList',
-    components: { Pagination, category, categoryRule },
+    components: { Pagination, categoryRule, reserveGoods },
     mixins: [mixin],
     data() {
         return {
@@ -112,7 +124,8 @@ export default {
             },
             loading: false,
             categoryVisible: false,
-            categoryRuleVisible: false
+            categoryRuleVisible: false,
+            reserveGoodsVisible: false
         }
     },
     created() {

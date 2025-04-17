@@ -12,14 +12,14 @@
             <el-form-item label="名称" prop="name">
                 <el-input v-model="form.name" placeholder="名称" clearable />
             </el-form-item>
-            <el-form-item label="图标" prop="pic">
+            <el-form-item label="图标" prop="image">
                 <local-upload
                     class-name="pic-uploader"
                     type="category"
                     @handleBeforeUpload="beforePicUpload"
                     @handleSuccess="handlePicSuccess"
                 >
-                    <img v-if="form.pic" :src="showImage" class="pic" />
+                    <img v-if="form.image" :src="showImage" class="pic" />
                     <i v-else class="el-icon-plus pic-uploader-icon" />
                 </local-upload>
                 <p>建议尺寸，点击图片可替换</p>
@@ -78,6 +78,7 @@ export default {
                 id: 0,
                 name: null,
                 pic: null,
+                image: '',
                 pid: 0,
                 sort: 0
             },
@@ -103,23 +104,27 @@ export default {
     methods: {
         init(data) {
             this.visible = true
-            this.onGetCategory()
-                .then(() => {
-                    if (data) {
-                        this.form = Object.assign({}, data)
-                        this.showImage = this.domin + this.form.pic
-                    }
-                })
-                .catch(() => {})
+            // this.onGetCategory()
+            //     .then(() => {
+            //         if (data) {
+            //             this.form = Object.assign({}, data)
+            //             this.showImage = this.domin + this.form.image
+            //         }
+            //     })
+            //     .catch(() => {})
+            if (data) {
+                this.form = Object.assign({}, data)
+                this.showImage = this.domin + this.form.image
+            }
             this.loading = false
         },
         onFormSubmit() {
             this.$refs['form'].validate((valid) => {
                 if (valid) {
                     this.btnLoading = true
-                    const s = this.form.pic.indexOf(process.env.VUE_APP_IMAGE)
+                    const s = this.form.image.indexOf(process.env.VUE_APP_IMAGE)
                     if (s > -1) {
-                        this.showImage = this.domin + this.form.pic
+                        this.showImage = this.domin + this.form.image
                     }
                     addOrUpdate(this.form)
                         .then(({ msg }) => {
@@ -133,21 +138,21 @@ export default {
                 }
             })
         },
-        async onGetCategory() {
-            await getCategory()
-                .then((response) => {
-                    this.category = [{ value: 0, label: '顶级' }].concat(
-                        response.data
-                    )
-                })
-                .catch(() => {})
-        },
+        //   async onGetCategory() {
+        //       await getCategory()
+        //           .then((response) => {
+        //               this.category = [{ value: 0, label: '顶级' }].concat(
+        //                   response.data
+        //               )
+        //           })
+        //           .catch(() => {})
+        //   },
         onClose() {
             this.btnLoading = false
             this.$reset()
         },
         handlePicSuccess(response, file) {
-            this.form.pic = response.data.filename
+            this.form.image = response.data.filename
             this.showImage = this.domin + response.data.filename
         },
         beforePicUpload(file, cb) {
@@ -170,11 +175,6 @@ export default {
             if (JSON.parse(error.message).error.indexOf('token') !== -1) {
                 this.$message.error('上传功能已失效，请重新登录')
             }
-        },
-        async getPosList() {
-            await posList().then((response) => {
-                this.posList = response.data
-            })
         }
     }
 }
