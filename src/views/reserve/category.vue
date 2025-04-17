@@ -84,11 +84,11 @@
             @refreshList="getList(1)"
         />
 
-        <!-- <reserveGoods
+        <reserveGoods
             v-if="reserveGoodsVisible"
             ref="reserveGoods"
             @refreshList="getList(1)"
-        /> -->
+        />
         <categoryRule
             v-if="categoryRuleVisible"
             ref="categoryRule"
@@ -102,13 +102,13 @@ import Pagination from '@/components/Pagination'
 import { getCategoryList, deleteData } from '@/api/store/category'
 import { mixin } from '@/utils/mixin'
 import categoryRule from './components/categoryRule'
-import reserveGoods from './components/reserveGoods'
+import ReserveGoods from './components/ReserveGoods'
 // import reserveGoods from './components/reserveGoods'
 import { getBaseUrl } from '@/utils/auth'
 
 export default {
     name: 'StoreGoodsCategoryList',
-    components: { Pagination, categoryRule, reserveGoods },
+    components: { Pagination, categoryRule, ReserveGoods },
     mixins: [mixin],
     data() {
         return {
