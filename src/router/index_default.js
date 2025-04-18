@@ -176,15 +176,15 @@ export const routes_insidesystem = [
           title: "场地分类",
         },
       },
-      {
-        path: "goods",
-        component: () => import("@/views/reserve/goods"),
-        name: "GoodsList",
-        hidden: true,
-        meta: {
-          title: "场地列表",
-        },
-      },
+      // {
+      //   path: "goods",
+      //   component: () => import("@/views/reserve/goods"),
+      //   name: "GoodsList",
+      //   hidden: true,
+      //   meta: {
+      //     title: "场地列表",
+      //   },
+      // },
       // {
       //   path: "goods",
       //   component: () => import("@/views/reserve/AddOrUpdate"),

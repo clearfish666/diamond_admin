@@ -52,9 +52,7 @@
                             @click="onAttrAddOrUpdate(row)"
                             >规则
                         </el-button>
-                        <el-button
-                            type="primary"
-                            @click="onAttrAddOrUpdate(row)"
+                        <el-button type="primary" @click="onGoodsList(row)"
                             >场地
                         </el-button>
                     </el-button-group>
@@ -162,6 +160,13 @@ export default {
             this.categoryRuleVisible = true
             this.$nextTick(() => {
                 this.$refs.categoryRule && this.$refs.categoryRule.init(row)
+            })
+        },
+
+        onGoodsList(row) {
+            this.reserveGoodsVisible = true
+            this.$nextTick(() => {
+                this.$refs.reserveGoods && this.$refs.reserveGoods.init(row)
             })
         },
         onDelete({ name, id }) {
