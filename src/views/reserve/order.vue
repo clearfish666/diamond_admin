@@ -65,14 +65,20 @@
             :height="pageheight"
         >
             <el-table-column prop="id" label="ID" width="80" align="center" />
-            <el-table-column prop="order_no" label="订单编号" align="center" />
-            <el-table-column prop="date" label="日期" align="center" />
 
-            <el-table-column label="帐号" width="200" header-align="center">
+            <el-table-column prop="order_no" label="订单编号" align="center" />
+            <el-table-column
+                prop="user.phone"
+                label="用户手机号码"
+                align="center"
+            />
+            <!-- <el-table-column prop="date" label="日期" align="center" /> -->
+
+            <!-- <el-table-column label="手机号码" width="200" header-align="center">
                 <template slot-scope="{ row }">
                     <user-info :user="row.user" />
                 </template>
-            </el-table-column>
+            </el-table-column> -->
 
             <el-table-column prop="order_no" label="订场信息" align="center">
                 <template slot-scope="{ row }">
@@ -83,11 +89,18 @@
                 </template>
             </el-table-column>
 
-            <el-table-column prop="order_no" label="订场时间" align="center">
+            <el-table-column
+                prop="order_no"
+                label="订场时间"
+                width="138"
+                align="center"
+            >
                 <template slot-scope="{ row }">
                     <div>
-                        <div>开始时间：{{ row.time_id }}</div>
-                        <div>结束时间：{{ row.time_id }}</div>
+                        <div>日期{{ row.date }}</div>
+
+                        <div>开始时间：{{ row.start_time }}</div>
+                        <div>结束时间：{{ row.end_time }}</div>
                     </div>
                 </template>
             </el-table-column>
@@ -107,11 +120,9 @@
             <el-table-column label="支付状态" width="120" align="center">
                 <template slot-scope="{ row }">
                     <el-popover
-                        :disabled="row.pay_status != -1"
                         placement="bottom-start"
                         max-width="280"
                         trigger="hover"
-                        :content="row.close_reason"
                     >
                         <el-tag
                             slot="reference"

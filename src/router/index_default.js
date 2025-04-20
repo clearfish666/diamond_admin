@@ -234,28 +234,49 @@ export const routes_insidesystem = [
   //       },
   //     },
   //   ],
-  // },
-  // {
-  //   path: '/feedback',
-  //   component: Layout,
-  //   name: 'FeedbackManage',
-  //   hidden: true,
-  //   meta: {
-  //     title: '反馈管理',
-  //     icon: 'feedback'
-  //   },
-  //   children: [
-  //     {
-  //       path: 'index',
-  //       component: () => import('@/views/feedback/index'),
-  //       name: 'FeedbackList',
-  //       hidden: true,
-  //       meta: {
-  //         title: '反馈管理'
-  //       }
-  //     }
-  //   ]
-  // },
+    // },
+    {
+        path: '/coupon',
+        component: Layout,
+        name: 'CouponManage',
+        hidden: true,
+        meta: {
+          title: '优惠券管理',
+          icon: 'feedback'
+        },
+        children: [
+          {
+            path: 'index',
+            component: () => import('@/views/coupon/index'),
+            name: 'CouponList',
+            hidden: true,
+            meta: {
+              title: '优惠券列表'
+            }
+          }
+        ]
+      },
+  {
+    path: '/feedback',
+    component: Layout,
+    name: 'FeedbackManage',
+    hidden: true,
+    meta: {
+      title: '反馈管理',
+      icon: 'feedback'
+    },
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/feedback/index'),
+        name: 'FeedbackList',
+        hidden: true,
+        meta: {
+          title: '反馈管理'
+        }
+      }
+    ]
+  },
   {
     path: "/article",
     component: Layout,

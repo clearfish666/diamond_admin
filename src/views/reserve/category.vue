@@ -100,13 +100,14 @@ import Pagination from '@/components/Pagination'
 import { getCategoryList, deleteData } from '@/api/store/category'
 import { mixin } from '@/utils/mixin'
 import categoryRule from './components/categoryRule'
+import category from './components/category'
 import ReserveGoods from './components/ReserveGoods'
 // import reserveGoods from './components/reserveGoods'
 import { getBaseUrl } from '@/utils/auth'
 
 export default {
     name: 'StoreGoodsCategoryList',
-    components: { Pagination, categoryRule, ReserveGoods },
+    components: { Pagination, categoryRule, category, ReserveGoods },
     mixins: [mixin],
     data() {
         return {
