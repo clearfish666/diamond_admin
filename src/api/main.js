@@ -26,11 +26,15 @@ export function getWalletLogType() {
 
 // 获取订单支付状态
 export function getOrderPayStatus() {
+   // console.log('payStatusOptions')
+
   return request.get('/main/get-order-pay-status')
 }
 
 // 获取订单状态
 export function getOrderStatus() {
+   // console.log('getOrderStatus')
+
   return request.get('/main/get-order-status')
 }
 

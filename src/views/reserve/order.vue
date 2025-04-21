@@ -83,8 +83,8 @@
             <el-table-column prop="order_no" label="订场信息" align="center">
                 <template slot-scope="{ row }">
                     <div>
-                        <div>类型：{{ row.category_id }}</div>
-                        <div>场地：{{ row.goods_id }}</div>
+                        <div>类型：{{ row.category.name }}</div>
+                        <div>场地：{{ row.goods.name }}</div>
                     </div>
                 </template>
             </el-table-column>
@@ -97,7 +97,7 @@
             >
                 <template slot-scope="{ row }">
                     <div>
-                        <div>日期{{ row.date }}</div>
+                        <div>日期：{{ row.date }}</div>
 
                         <div>开始时间：{{ row.start_time }}</div>
                         <div>结束时间：{{ row.end_time }}</div>
@@ -128,8 +128,8 @@
                             slot="reference"
                             :type="payStatusColors[row.pay_status]"
                         >
-                            {{ row.pay_status | paraphrase(payStatusOptions)
-                            }}<i
+                            {{ row.pay_status | paraphrase(payStatusOptions) }}
+                            <i
                                 v-if="row.pay_status == -1"
                                 class="el-icon-info"
                             />
@@ -397,6 +397,7 @@ export default {
         async getOrderStatus() {
             await getOrderStatus()
                 .then((response) => {
+                    console.log(response.data)
                     if (response.data) {
                         this.statusOptions = [
                             { value: null, label: '全部' }
