@@ -204,19 +204,14 @@
                     >
                         <el-button
                             v-if="
-                                hasPermissionNode('StoreOrderAgree') &&
-                                (row.refund_status == 1 ||
-                                    row.refund_status == 3)
+                                row.refund_status == 1 || row.refund_status == 3
                             "
                             type="success"
                             @click="agree(row)"
                             >通过</el-button
                         >
                         <el-button
-                            v-if="
-                                hasPermissionNode('StoreOrderReject') &&
-                                row.refund_status == 1
-                            "
+                            v-if="row.refund_status == 1"
                             type="danger"
                             @click="reject(row)"
                             >驳回</el-button
