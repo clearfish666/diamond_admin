@@ -2,7 +2,7 @@
     <div class="app-container">
         <div id="search-box" class="filter-container">
             <el-form :inline="true" :model="search">
-                <el-form-item label="商品名称">
+                <!-- <el-form-item label="商品名称">
                     <el-input
                         v-model="search.name"
                         placeholder="商品名称"
@@ -10,12 +10,35 @@
                         @clear="getList(1)"
                         @keyup.enter.native="getList(1)"
                     />
+                </el-form-item> -->
+
+                <el-form-item label="场地类型:" prop="category_id">
+                    <!-- <el-cascader
+                        ref="category"
+                        v-model="search.category_id"
+                        :props="category"
+                        clearable
+                        @change="getList(1)"
+                    /> -->
+
+                    <el-select
+                        v-model="search.category_id"
+                        clearable
+                        @change="getList(1)"
+                    >
+                        <el-option
+                            v-for="item in categoryOptions"
+                            :key="item.value"
+                            :label="item.label"
+                            :value="item.value"
+                        />
+                    </el-select>
                 </el-form-item>
 
-                <el-form-item label="用户昵称、手机号">
+                <el-form-item label="手机号">
                     <el-input
-                        v-model="search.user"
-                        placeholder="用户昵称"
+                        v-model="search.phone"
+                        placeholder="手机号"
                         clearable
                         @clear="getList(1)"
                         @keyup.enter.native="getList(1)"
@@ -66,7 +89,12 @@
         >
             <el-table-column prop="id" label="ID" width="80" align="center" />
 
-            <el-table-column prop="order_no" label="订单编号" align="center" />
+            <el-table-column
+                prop="order_no"
+                label="订单编号"
+                width="160"
+                align="center"
+            />
             <el-table-column
                 prop="user.phone"
                 label="用户手机号码"
@@ -117,12 +145,13 @@
                 label="支付方式"
                 align="center"
             />
-            <el-table-column label="支付状态" width="120" align="center">
+            <el-table-column label="支付状态" width="90" align="center">
                 <template slot-scope="{ row }">
                     <el-popover
                         placement="bottom-start"
                         max-width="280"
                         trigger="hover"
+                        :content="row.close_reason"
                     >
                         <el-tag
                             slot="reference"
@@ -137,7 +166,7 @@
                     </el-popover>
                 </template>
             </el-table-column>
-            <el-table-column label="订单状态" width="120" align="center">
+            <el-table-column label="订单状态" width="100" align="center">
                 <template slot-scope="{ row }">
                     <el-tag
                         v-if="row.pay_status == 1"
@@ -148,7 +177,7 @@
                     <span v-else>-</span>
                 </template>
             </el-table-column>
-            <el-table-column label="售后状态" width="130" align="center">
+            <el-table-column label="售后状态" width="100" align="center">
                 <template slot-scope="{ row }">
                     <el-tag
                         v-if="row.pay_status == 1 && row.refund_status != 0"
@@ -168,28 +197,28 @@
             <el-table-column label="时间" width="200" align="center">
                 <template slot-scope="{ row }">
                     <div>创建时间： {{ row.created_at }}</div>
+                    <div>付款时间： {{ row.pay_at }}</div>
                 </template></el-table-column
             >
 
             <el-table-column
                 label="操作"
-                width="200"
+                width="180"
                 align="center"
                 fixed="right"
             >
                 <template slot-scope="{ row }">
-                    <el-button-group>
+                    <!-- <el-button-group>
                         <el-button
                             v-if="hasPermissionNode('StoreOrderDetailed')"
                             type="primary"
                             @click="onDetailed(row)"
                             >订单明细</el-button
                         >
-                    </el-button-group>
+                    </el-button-group> -->
                     <el-button-group>
                         <el-button
                             v-if="
-                                hasPermissionNode('StoreOrderCancel') &&
                                 row.pay_status == 0 &&
                                 row.status == 0 &&
                                 row.refund_status == 0
@@ -279,28 +308,27 @@ export default {
             search: {
                 name: null,
                 uid: null,
-                user: null,
-                addressee: null,
+                phone: null,
                 pay_status: null,
                 status: null,
                 refund_status: null,
                 cate_id: null
             },
-            category: {
-                lazy: true,
-                lazyLoad(node, resolve) {
-                    getCategory({ pid: node.value })
-                        .then((response) => {
-                            const category = response.data.map((item) => ({
-                                value: item.value,
-                                label: item.label,
-                                leaf: item.pid > 0
-                            }))
-                            resolve(category)
-                        })
-                        .catch(() => {})
-                }
-            },
+            // category: {
+            //     lazy: true,
+            //     lazyLoad(node, resolve) {
+            //         getCategory({ pid: node.value })
+            //             .then((response) => {
+            //                 const category = response.data.map((item) => ({
+            //                     value: item.value,
+            //                     label: item.label,
+            //                     leaf: item.pid > 0
+            //                 }))
+            //                 resolve(category)
+            //             })
+            //             .catch(() => {})
+            //     }
+            // },
             pages: {
                 total: 0,
                 limit: 20,
@@ -308,6 +336,8 @@ export default {
             },
             payStatusOptions: [],
             statusOptions: [],
+            categoryOptions: [], // 存储分类数据
+
             refundStatusOptions: [],
             payStatusColors: {
                 '-1': 'danger',
@@ -343,6 +373,7 @@ export default {
                 .then(() => {
                     this.getOrderStatus().then(() => {
                         this.getOrderRefundStatus().then(() => {
+                            this.getCategory()
                             this.getList()
                         })
                     })
@@ -398,6 +429,17 @@ export default {
                             { value: null, label: '全部' }
                         ].concat(response.data)
                     }
+                })
+                .catch(() => {})
+        },
+        async getCategory() {
+            await getCategory({ pid: 0 })
+                .then((response) => {
+                    this.categoryOptions = response.data.map((item) => ({
+                        value: item.value,
+                        label: item.label
+                    }))
+                    resolve(category)
                 })
                 .catch(() => {})
         },
