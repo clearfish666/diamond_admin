@@ -232,9 +232,7 @@
                         v-if="row.pay_status == 1 && row.refund_status > 0"
                     >
                         <el-button
-                            v-if="
-                                row.refund_status == 1 || row.refund_status == 3
-                            "
+                            v-if="row.refund_status == 1"
                             type="success"
                             @click="agree(row)"
                             >通过</el-button
