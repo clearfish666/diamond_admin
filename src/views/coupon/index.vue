@@ -18,45 +18,38 @@
             :data="list"
             :height="pageheight"
         >
+            <el-table-column prop="id" label="ID" align="center" />
+            <el-table-column prop="name" label="名称" align="center" />
+            <el-table-column prop="coupon_code" label="领取码" align="center" />
+            <el-table-column prop="total" label="发行量" align="center" />
             <el-table-column
-                prop="id"
-                label="ID"
-                min-width="10%"
+                prop="received"
+                label="已领取数量"
                 align="center"
             />
-            <el-table-column
-                prop="name"
-                label="名称"
-                min-width="10%"
-                align="center"
-            />
-            <el-table-column
-                prop="type"
-                label="类型"
-                min-width="10%"
-                align="center"
-            >
+
+            <el-table-column prop="type" label="类型" align="center">
                 <template slot-scope="{ row }">
                     <div>
-                        {{ posOptions[row.type].name }}
+                        {{ typeOptions[row.type] }}
                     </div>
                 </template>
             </el-table-column>
             <el-table-column prop="discount_rate" label="折扣" align="center" />
-            <el-table-column prop="discount_rate" label="折扣" align="center" />
-            <el-table-column
-                prop="sort"
-                label="排序"
-                min-width="10%"
-                align="center"
-            />
+            <el-table-column prop="amount" label="代金金额" align="center" />
+            <el-table-column label="使用时间" width="220" align="center">
+                <template slot-scope="{ row }">
+                    <div>开始时间：{{ row.start_time }}</div>
+                    <div>结束时间：{{ row.end_time }}</div>
+                </template>
+            </el-table-column>
             <el-table-column
                 prop="created_at"
                 label="创建时间"
                 width="160"
                 align="center"
             />
-            <el-table-column label="操作" min-width="20%" align="center">
+            <el-table-column label="操作" align="center">
                 <template slot-scope="{ row }">
                     <el-button type="primary" @click="onAddOrUpdate(row)"
                         >修改</el-button
@@ -87,13 +80,12 @@
 <script>
 import Pagination from '@/components/Pagination'
 import AddOrUpdate from './components/AddOrUpdate'
-import { dataList, deleteData } from '@/api/ad'
-import { posList } from '@/api/main'
+import { dataList, deleteData } from '@/api/coupon'
 import { getBaseUrl } from '@/utils/auth'
 import { mixin } from '@/utils/mixin'
 
 export default {
-    name: 'Ads',
+    name: 'Coupon',
     components: { Pagination, AddOrUpdate },
     mixins: [mixin],
     data() {
@@ -109,12 +101,10 @@ export default {
                 limit: 20,
                 current: 1
             },
-            adTypeOptions: [
-                { label: '静态展示', value: 0 },
-                { label: '外链广告', value: 1 },
-                { label: '内联广告', value: 2 }
-            ],
-            posOptions: [],
+            typeOptions: {
+                2: '折扣券', // 类型 2 表示折扣券
+                3: '代金券' // 类型 3 表示代金券
+            },
             loading: false,
             addOrUpdateVisible: false
         }
@@ -124,11 +114,7 @@ export default {
     },
     methods: {
         init() {
-            this.getPosList()
-                .then(() => {
-                    this.getList()
-                })
-                .catch(() => {})
+            this.getList()
         },
         getList(page = this.pages.current, loading = true) {
             if (this.loading) return
@@ -170,11 +156,6 @@ export default {
                         })
                 })
                 .catch(() => {})
-        },
-        async getPosList() {
-            await posList().then((response) => {
-                this.posOptions = response.data
-            })
         }
     }
 }
