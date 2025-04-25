@@ -403,25 +403,25 @@ export const routes_insidesystem = [
       },
     ],
   },
-  {
-    path: "/configs",
-    component: Layout,
-    name: "ConfigManage",
-    hidden: true,
-    meta: {
-      title: "系统配置",
-      icon: "configs",
-    },
-    children: [
-      {
-        path: "system",
-        component: () => import("@/views/configs/system"),
-        name: "SystemConfig",
-        hidden: true,
-        meta: {
-          title: "基础配置",
-        },
-      },
+//   {
+//     path: "/configs",
+//     component: Layout,
+//     name: "ConfigManage",
+//     hidden: true,
+//     meta: {
+//       title: "系统配置",
+//       icon: "configs",
+//     },
+//     children: [
+//       {
+//         path: "system",
+//         component: () => import("@/views/configs/system"),
+//         name: "SystemConfig",
+//         hidden: true,
+//         meta: {
+//           title: "基础配置",
+//         },
+//       },
       // {
       //   path: "vip",
       //   component: () => import("@/views/configs/vip"),
@@ -458,17 +458,17 @@ export const routes_insidesystem = [
       //     title: "配售权益配置",
       //   },
       // },
-      {
-        path: "store",
-        component: () => import("@/views/configs/store"),
-        name: "StoreConfig",
-        hidden: true,
-        meta: {
-          title: "商城配置",
-        },
-      },
-    ],
-  },
+      // {
+      //   path: "store",
+      //   component: () => import("@/views/configs/store"),
+      //   name: "StoreConfig",
+      //   hidden: true,
+      //   meta: {
+      //     title: "商城配置",
+      //   },
+      // },
+   //  ],
+//   },
   // 404 page must be placed at the end !!!
   { path: "*", redirect: "/404", hidden: true },
 ];
