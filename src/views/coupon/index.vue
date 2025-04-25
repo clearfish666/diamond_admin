@@ -51,12 +51,19 @@
             />
             <el-table-column label="操作" align="center">
                 <template slot-scope="{ row }">
-                    <el-button type="primary" @click="onAddOrUpdate(row)"
-                        >修改</el-button
-                    >
-                    <el-button type="danger" @click="onDelete(row)"
-                        >删除</el-button
-                    >
+                    <el-button-group>
+                        <el-button type="primary" @click="onUserCoupon(row)"
+                            >领取记录</el-button
+                        >
+                    </el-button-group>
+                    <el-button-group>
+                        <el-button type="primary" @click="onAddOrUpdate(row)"
+                            >修改</el-button
+                        >
+                        <el-button type="danger" @click="onDelete(row)"
+                            >删除</el-button
+                        >
+                    </el-button-group>
                 </template>
             </el-table-column>
         </el-table>
@@ -74,19 +81,25 @@
             ref="addOrUpdate"
             @refreshList="getList(1)"
         />
+        <user-coupon
+            v-if="userCouponVisible"
+            ref="userCouponRef"
+            @refreshList="getList(1)"
+        />
     </div>
 </template>
 
 <script>
 import Pagination from '@/components/Pagination'
 import AddOrUpdate from './components/AddOrUpdate'
+import UserCoupon from './components/UserCoupon'
 import { dataList, deleteData } from '@/api/coupon'
 import { getBaseUrl } from '@/utils/auth'
 import { mixin } from '@/utils/mixin'
 
 export default {
     name: 'Coupon',
-    components: { Pagination, AddOrUpdate },
+    components: { Pagination, AddOrUpdate, UserCoupon },
     mixins: [mixin],
     data() {
         return {
@@ -106,7 +119,8 @@ export default {
                 3: '代金券' // 类型 3 表示代金券
             },
             loading: false,
-            addOrUpdateVisible: false
+            addOrUpdateVisible: false,
+            userCouponVisible: false
         }
     },
     created() {
@@ -139,6 +153,12 @@ export default {
                 this.$refs.addOrUpdate && this.$refs.addOrUpdate.init(data)
             })
         },
+        onUserCoupon(data) {
+            this.userCouponVisible = true
+            this.$nextTick(() => {
+                this.$refs.userCouponRef && this.$refs.userCouponRef.init(data)
+            })
+        },
         onDelete({ id }) {
             this.$confirm(`确定对[(#${id})]进行[删除]操作?`, '删除', {
                 confirmButtonText: '确定',
@@ -160,3 +180,10 @@ export default {
     }
 }
 </script>
+
+<style>
+.el-button-group {
+    margin: 5px 0;
+}
+</style>
+

@@ -198,14 +198,10 @@ export default {
     methods: {
         init(data) {
             this.visible = true
-            this.getPosList()
-                .then(() => {
-                    if (data) {
-                        this.form = JSON.parse(JSON.stringify(data))
-                        this.showImage = this.domin + this.form.image
-                    }
-                })
-                .catch(() => {})
+            if (data) {
+                this.form = JSON.parse(JSON.stringify(data))
+                this.dateRangeValue = [this.form.start_time, this.form.end_time]
+            }
         },
         onChangeDateRange(value) {
             if (Array.isArray(value)) {
@@ -237,14 +233,16 @@ export default {
             this.showImage = ''
             this.form = {
                 id: 0,
-                type: '',
-                image: '',
-                url: '',
-                url_type: 0,
-                sort: 0,
-                display_interval: 0
+                type: 2,
+                name: '',
+                limit_per_user: 1,
+                total: 0,
+                discount_rate: 0,
+                amount: 0,
+                start_time: '',
+                end_time: ''
             }
-            this.imageInfo = ''
+            this.dateRangeValue = []
         },
         //   onChangeUrlType() {
         //       this.$refs.form.clearValidate()
