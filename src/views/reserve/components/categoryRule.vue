@@ -9,13 +9,13 @@
         @closed="onClose()"
     >
         <el-form ref="form" :model="form" :rules="rules" label-width="130px">
-            <el-form-item label="半小时基础价:" prop="base_price">
+            <el-form-item label="基础价:" prop="base_price">
                 <el-input-number
                     v-model="form.base_price"
                     :min="0"
                     :step="1"
                     :precision="2"
-                    placeholder="半小时基础价"
+                    placeholder="基础价"
                 />
             </el-form-item>
             <el-form-item label="高峰期附加费:" prop="add_peak_price">

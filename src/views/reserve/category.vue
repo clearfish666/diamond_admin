@@ -38,8 +38,8 @@
                 <template slot-scope="{ row }">
                     <el-image
                         style="width: 100px; height: 100px"
-                        :src="image_domin + row.pic"
-                        :preview-src-list="[image_domin + row.pic]"
+                        :src="row.image"
+                        :preview-src-list="[row.image]"
                     />
                 </template>
             </el-table-column>
