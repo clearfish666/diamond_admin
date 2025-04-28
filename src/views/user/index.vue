@@ -79,6 +79,13 @@
                     </el-tag>
                 </template>
             </el-table-column>
+            <el-table-column prop="is_admin" label="管理员" align="center">
+                <template slot-scope="{ row }">
+                    <el-tag :type="row.is_admin ? 'danger' : 'success'"
+                        >{{ row.is_admin | paraphrase(adminOptions) }}
+                    </el-tag>
+                </template>
+            </el-table-column>
             <el-table-column
                 prop="created_at"
                 label="创建时间"
@@ -173,6 +180,10 @@ export default {
                 { label: '全部', value: null },
                 { label: '正常', value: 0 },
                 { label: '禁用', value: 1 }
+            ],
+            adminOptions: [
+                { label: '否', value: 0 },
+                { label: '是', value: 1 }
             ],
             loading: false,
             addOrUpdateVisible: false,

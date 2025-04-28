@@ -283,7 +283,7 @@ export const routes_insidesystem = [
     name: "ArticleManage",
     hidden: true,
     meta: {
-      title: "协议管理",
+      title: "内容管理",
       icon: "help",
     },
     children: [
@@ -295,7 +295,16 @@ export const routes_insidesystem = [
         meta: {
           title: "协议列表",
         },
-      },
+       },
+       {
+         path: "information",
+         component: () => import("@/views/articles/information"),
+         name: "InformationList",
+         hidden: true,
+         meta: {
+           title: "资讯列表",
+         },
+       },
     ],
   },
   // {
