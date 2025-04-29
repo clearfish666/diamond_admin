@@ -28,28 +28,20 @@
                 />
             </el-form-item>
             <el-form-item label="高峰开始时间" prop="start">
-                <el-time-picker
+                <el-time-select
                     v-model="form.start"
-                    :picker-options="{
-                        selectableRange: '00:00:00 - 23:30:00',
-                        step: '00:30'
-                    }"
-                    format="HH:mm"
-                    value-format="HH:mm"
+                    :picker-options="startPickerOptions"
                     placeholder="选择开始时间"
+                    @change="handleStartChange"
                 />
             </el-form-item>
 
             <el-form-item label="高峰结束时间" prop="end">
-                <el-time-picker
+                <el-time-select
                     v-model="form.end"
-                    :picker-options="{
-                        selectableRange: '00:30:00 - 24:00:00',
-                        step: '00:30'
-                    }"
-                    format="HH:mm"
-                    value-format="HH:mm"
+                    :picker-options="endPickerOptions"
                     placeholder="选择结束时间"
+                    @change="handleEndChange"
                 />
             </el-form-item>
 
@@ -111,10 +103,20 @@ export default {
                 category_id: 0,
                 base_price: 0,
                 add_peak_price: 0,
-                start: '08:00',
-                end: '10:00',
+                start: '',
+                end: '',
                 start_time: '08:00',
                 end_time: '22:00'
+            },
+            startPickerOptions: {
+                start: '00:00',
+                end: '23:00',
+                step: '01:00' // 每小时一个选项
+            },
+            endPickerOptions: {
+                start: '01:00',
+                end: '24:00',
+                step: '01:00'
             },
             rules: {
                 start: [
@@ -206,11 +208,53 @@ export default {
         init(data) {
             this.visible = true
             this.category_id = data.id
-            this.form.category_id = this.category_id
+
             this.getRule()
-                .then(() => {})
+                .then(() => {
+                    if (data) {
+                        this.form.category_id = this.category_id
+                    }
+                })
                 .catch(() => {})
+
             this.loading = false
+        },
+        handleStartChange(value) {
+            if (value) {
+                const startHour = parseInt(value.split(':')[0], 10)
+
+                // 自动更新结束时间可选范围
+                let minEndHour = startHour + 1
+                if (minEndHour > 24) minEndHour = 24
+
+                this.endPickerOptions.start = `${String(minEndHour).padStart(
+                    2,
+                    '0'
+                )}:00`
+
+                // 如果当前选择的结束时间小于等于开始时间，需要清空
+                if (this.form.end) {
+                    const endHour = parseInt(this.form.end.split(':')[0], 10)
+                    if (endHour <= startHour) {
+                        this.form.end = ''
+                    }
+                }
+            } else {
+                // 如果开始时间被清空，恢复结束时间范围
+                this.endPickerOptions.start = '01:00'
+            }
+        },
+
+        handleEndChange(value) {
+            if (value && this.form.start) {
+                const startHour = parseInt(this.form.start.split(':')[0], 10)
+                const endHour = parseInt(value.split(':')[0], 10)
+
+                if (endHour <= startHour) {
+                    this.$message.error('结束时间必须大于开始时间')
+                    this.form.end = ''
+                }
+            }
         },
         compareTime(t1, t2) {
             const [h1, m1] = t1.split(':').map(Number)
@@ -222,7 +266,8 @@ export default {
                 (response) => {
                     if (response.data) {
                         this.form = response.data
-                        console.log(this.form)
+                        console.log(this.form.start)
+                        console.log(this.form.end)
                     }
                 }
             )
