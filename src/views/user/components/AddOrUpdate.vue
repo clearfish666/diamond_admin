@@ -39,6 +39,16 @@
                     clearable
                 />
             </el-form-item>
+            <el-form-item label="等级" prop="level">
+                <el-select v-model="form.level" placeholder="请选择">
+                    <el-option
+                        v-for="item in userLevel"
+                        :key="item.id"
+                        :label="item.label"
+                        :value="item.value"
+                    />
+                </el-select>
+            </el-form-item>
             <!-- <el-form-item label="密码" prop="password">
         <el-input
           v-model="form.password"
@@ -106,6 +116,7 @@ import { getBaseUrl } from '@/utils/auth'
 import { addOrUpdate } from '@/api/user'
 import LocalUpload from '@/components/Upload/LocalUpload'
 import { mixin } from '@/utils/mixin'
+import { getUserLevel } from '@/api/main'
 
 export default {
     name: 'AddOrUpdate',
@@ -142,6 +153,7 @@ export default {
             btnLoading: false,
             domin: getBaseUrl(),
             showImage: '',
+            userLevel: [],
             form: {
                 id: 0,
                 nickname: null,
@@ -185,11 +197,22 @@ export default {
     methods: {
         init(data) {
             this.visible = true
-            if (data) {
-                this.form = Object.assign({}, data)
-                this.showImage = this.form.avatar
-            }
+            this.getUserLevelList()
+                .then(() => {
+                    if (data) {
+                        this.form = JSON.parse(JSON.stringify(data))
+                        this.form.level = this.form.level.level
+                        this.showImage = this.form.avatar
+                    }
+                })
+                .catch(() => {})
             this.loading = false
+
+            // if (data) {
+            //     this.form = Object.assign({}, data)
+            //     this.showImage = this.form.avatar
+            // }
+            // this.loading = false
         },
         onFormSubmit() {
             this.$refs['form'].validate((valid) => {
@@ -237,6 +260,11 @@ export default {
                 cb(false)
             }
             cb(true)
+        },
+        async getUserLevelList() {
+            await getUserLevel().then((response) => {
+                this.userLevel = response.data
+            })
         }
     }
 }
