@@ -211,7 +211,16 @@ export const routes_insidesystem = [
         meta: {
           title: "充值订单",
         },
-      },
+       },
+       {
+         path: "lockOrder",
+         component: () => import("@/views/reserve/lockOrder"),
+         name: "LockOrderList",
+         hidden: true,
+         meta: {
+           title: "后台锁单",
+         },
+       },
     ],
   },
   // {

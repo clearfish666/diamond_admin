@@ -18,7 +18,7 @@
                     placeholder="基础价"
                 />
             </el-form-item>
-            <el-form-item label="高峰期附加费:" prop="add_peak_price">
+            <!-- <el-form-item label="高峰期附加费:" prop="add_peak_price">
                 <el-input-number
                     v-model="form.add_peak_price"
                     :min="0"
@@ -44,32 +44,30 @@
                     @change="handleEndChange"
                 />
             </el-form-item>
-
-            <el-form-item label="开放开始时间" prop="start_time">
-                <el-time-picker
+  -->
+            <!-- <el-form-item label="开放开始时间" prop="start_time">
+                <el-time-select
                     v-model="form.start_time"
                     :picker-options="{
-                        selectableRange: '00:00:00 - 23:30:00',
+                        start: '00:00',
+                        end: '23:30',
                         step: '00:30'
                     }"
-                    format="HH:mm"
-                    value-format="HH:mm"
                     placeholder="选择开始时间"
                 />
             </el-form-item>
 
             <el-form-item label="开放结束时间" prop="end_time">
-                <el-time-picker
+                <el-time-select
                     v-model="form.end_time"
                     :picker-options="{
-                        selectableRange: '00:30:00 - 24:00:00',
+                        start: '00:30',
+                        end: '23:59',
                         step: '00:30'
                     }"
-                    format="HH:mm"
-                    value-format="HH:mm"
                     placeholder="选择结束时间"
                 />
-            </el-form-item>
+            </el-form-item> -->
         </el-form>
         <div slot="footer" class="dialog-footer">
             <el-button
@@ -105,8 +103,8 @@ export default {
                 add_peak_price: 0,
                 start: '',
                 end: '',
-                start_time: '08:00',
-                end_time: '22:00'
+                start_time: '08:30',
+                end_time: '22:30'
             },
             startPickerOptions: {
                 start: '00:00',
@@ -119,44 +117,44 @@ export default {
                 step: '01:00'
             },
             rules: {
-                start: [
-                    {
-                        required: true,
-                        message: '请选择开始时间',
-                        trigger: 'change'
-                    },
-                    {
-                        validator: (rule, value, callback) => {
-                            if (!value || !this.form.end) return callback()
-                            if (this.compareTime(value, this.form.end) >= 0) {
-                                callback(
-                                    new Error('开始时间不能大于或等于结束时间')
-                                )
-                            } else {
-                                callback()
-                            }
-                        },
-                        trigger: 'change'
-                    }
-                ],
-                end: [
-                    {
-                        required: true,
-                        message: '请选择结束时间',
-                        trigger: 'change'
-                    },
-                    {
-                        validator: (rule, value, callback) => {
-                            if (!value || !this.form.start) return callback()
-                            if (this.compareTime(this.form.start, value) >= 0) {
-                                callback(new Error('结束时间必须大于开始时间'))
-                            } else {
-                                callback()
-                            }
-                        },
-                        trigger: 'change'
-                    }
-                ],
+                //  start: [
+                //      {
+                //          required: true,
+                //          message: '请选择开始时间',
+                //          trigger: 'change'
+                //      },
+                //      {
+                //          validator: (rule, value, callback) => {
+                //              if (!value || !this.form.end) return callback()
+                //              if (this.compareTime(value, this.form.end) >= 0) {
+                //                  callback(
+                //                      new Error('开始时间不能大于或等于结束时间')
+                //                  )
+                //              } else {
+                //                  callback()
+                //              }
+                //          },
+                //          trigger: 'change'
+                //      }
+                //  ],
+                //  end: [
+                //      {
+                //          required: true,
+                //          message: '请选择结束时间',
+                //          trigger: 'change'
+                //      },
+                //      {
+                //          validator: (rule, value, callback) => {
+                //              if (!value || !this.form.start) return callback()
+                //              if (this.compareTime(this.form.start, value) >= 0) {
+                //                  callback(new Error('结束时间必须大于开始时间'))
+                //              } else {
+                //                  callback()
+                //              }
+                //          },
+                //          trigger: 'change'
+                //      }
+                //  ],
                 start_time: [
                     {
                         required: true,

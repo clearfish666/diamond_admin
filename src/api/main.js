@@ -61,3 +61,19 @@ export function getCategory(params) {
     params
   })
 }
+
+
+// 根据分类获取场所
+export function getCategoryGoods(params) {
+   return request.get('/get-category-goods', {
+     params
+   })
+}
+ 
+
+// 获取时间
+export function getTime(params) {
+   return request.get('/get-time', {
+     params
+   })
+ }
