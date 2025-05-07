@@ -4,6 +4,7 @@
         :visible.sync="visible"
         :close-on-click-modal="false"
         @closed="onClose"
+        :top="'1.5vh'"
         width="600px"
     >
         <el-form ref="form" :model="form" :rules="rules" label-width="100px">
@@ -252,35 +253,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.img-cover {
-    width: 200px;
-    height: auto;
-}
-
-.avatar-uploader >>> .el-upload {
-    border: 1px dashed #d9d9d9;
-    border-radius: 6px;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-}
-
-.avatar-uploader .el-upload:hover {
-    border-color: #409eff;
-}
-
-.avatar-uploader-icon {
-    font-size: 28px;
-    color: #8c939d;
-    width: 100px;
-    height: 100px;
-    line-height: 100px;
-    text-align: center;
-}
-
-.avatar {
-    width: 178px;
-    max-height: 178px;
-    display: block;
-}
 </style>
