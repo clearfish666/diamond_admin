@@ -55,7 +55,7 @@ export function getRechargeOrderList(params) {
 
 // 导出
 export function onExport(params) {
-  return request.post('/reserve/export', { ...params })
+  return request.post('/reserve/order/export', { ...params })
 }
 
 
