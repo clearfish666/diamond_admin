@@ -109,54 +109,36 @@ export const routes_insidesystem = [
     ],
   },
 
-  // {
-  //   path: "/wallet",
-  //   component: Layout,
-  //   name: "WalletManage",
-  //   hidden: true,
-  //   meta: {
-  //     title: "钱包管理",
-  //     icon: "money",
-  //   },
-  //   children: [
-  //     {
-  //       path: "index",
-  //       component: () => import("@/views/wallet/index"),
-  //       name: "WalletList",
-  //       hidden: true,
-  //       meta: {
-  //         title: "钱包列表",
-  //       },
-  //     },
-  //     {
-  //       path: "logs",
-  //       component: () => import("@/views/wallet/logs"),
-  //       name: "WalletLogList",
-  //       hidden: true,
-  //       meta: {
-  //         title: "钱包日志",
-  //       },
-  //     },
-  //     {
-  //       path: "transfer",
-  //       component: () => import("@/views/wallet/transfer"),
-  //       name: "WalletTransfer",
-  //       hidden: true,
-  //       meta: {
-  //         title: "转仓管理",
-  //       },
-  //     },
-  //     {
-  //       path: "exchange",
-  //       component: () => import("@/views/wallet/exchange"),
-  //       name: "WalletExchange",
-  //       hidden: true,
-  //       meta: {
-  //         title: "兑换管理",
-  //       },
-  //     },
-  //   ],
-  // },
+  {
+    path: "/wallet",
+    component: Layout,
+    name: "WalletManage",
+    hidden: true,
+    meta: {
+      title: "钱包管理",
+      icon: "money",
+    },
+    children: [
+      {
+        path: "index",
+        component: () => import("@/views/wallet/index"),
+        name: "WalletList",
+        hidden: true,
+        meta: {
+          title: "钱包列表",
+        },
+      },
+      {
+        path: "logs",
+        component: () => import("@/views/wallet/logs"),
+        name: "WalletLogList",
+        hidden: true,
+        meta: {
+          title: "钱包日志",
+        },
+      },
+    ],
+  },
   {
     path: "/reserve",
     component: Layout,

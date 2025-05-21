@@ -31,6 +31,14 @@
                 <el-button icon="el-icon-search" @click="getList(1)">
                     {{ $t('table.search') }}
                 </el-button>
+                <el-button
+                    :loading="downloadLoading"
+                    type="primary"
+                    icon="el-icon-document"
+                    @click="handleDownload"
+                >
+                    {{ $t('excel.export') }} Excel
+                </el-button>
             </el-form>
         </div>
         <el-table
@@ -90,7 +98,7 @@
 
 <script>
 import Pagination from '@/components/Pagination'
-import { getRechargeOrderList } from '@/api/store/order'
+import { getRechargeOrderList, onRechargeExport } from '@/api/store/order'
 import { mixin } from '@/utils/mixin'
 import {
     getOrderPayStatus,
@@ -349,6 +357,22 @@ export default {
                     })
                     .catch(() => {})
             }
+        },
+        handleDownload() {
+            this.downloadLoading = true
+            onRechargeExport(this.search)
+                .then((response) => {
+                    this.$router.push({
+                        name: 'data_output',
+                        params: { id: response.data.id }
+                    })
+                })
+                .catch((error) => {
+                    this.$message.error(error.msg)
+                })
+                .finally(() => {
+                    this.downloadLoading = false
+                })
         },
         reject(row) {
             const { id, order_no } = row

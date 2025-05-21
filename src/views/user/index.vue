@@ -101,12 +101,9 @@
                             @click="onAddOrUpdate(row)"
                             >编辑
                         </el-button>
-                        <!-- <el-button
-              v-if="hasPermissionNode('LooKUserWallets')"
-              type="primary"
-              @click="onWallet(row)"
-              >钱包</el-button
-            > -->
+                        <el-button type="primary" @click="onWallet(row)"
+                            >钱包</el-button
+                        >
                     </el-button-group>
                     <p v-if="hasPermissionNode('LooKUserInvite')" />
                     <!-- <el-button-group>
