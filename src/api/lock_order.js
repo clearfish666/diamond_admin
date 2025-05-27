@@ -27,3 +27,8 @@ export function addOrUpdate({ id, ...data }) {
 export function deleteData(id) {
   return request.delete(`/reserve/lock/${id}`)
 }
+
+
+export function onExport(params) {
+  return request.post('/reserve/lock/export', { ...params })
+}

@@ -151,7 +151,8 @@ export default {
             typeType: [
                 { label: '全部', value: '' },
                 { label: '订场订单', value: 'orders' },
-                { label: '充值订单', value: 'recharge_orders' }
+                { label: '充值订单', value: 'recharge_orders' },
+                { label: '锁场订单', value: 'lock_orders' }
             ],
             statusType: [
                 { label: '生成中', value: 0, type: 'warning' },

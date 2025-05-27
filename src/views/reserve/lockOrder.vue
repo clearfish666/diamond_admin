@@ -27,6 +27,14 @@
                 >
                     {{ $t('table.add') }}
                 </el-button>
+                <el-button
+                    :loading="downloadLoading"
+                    type="primary"
+                    icon="el-icon-document"
+                    @click="handleDownload"
+                >
+                    {{ $t('excel.export') }} Excel
+                </el-button>
             </el-form>
         </div>
         <el-table
@@ -96,7 +104,7 @@
 
 <script>
 import Pagination from '@/components/Pagination'
-import { dataList, deleteData } from '@/api/lock_order'
+import { dataList, deleteData, onExport } from '@/api/lock_order'
 import { mixin } from '@/utils/mixin'
 import LockAddOrUpdate from './components/LockAddOrUpdate'
 import { getCategory } from '@/api/main'
@@ -134,6 +142,22 @@ export default {
         init() {
             this.getCategory()
             this.getList()
+        },
+        handleDownload() {
+            this.downloadLoading = true
+            onExport(this.search)
+                .then((response) => {
+                    this.$router.push({
+                        name: 'data_output',
+                        params: { id: response.data.id }
+                    })
+                })
+                .catch((error) => {
+                    this.$message.error(error.msg)
+                })
+                .finally(() => {
+                    this.downloadLoading = false
+                })
         },
         getList(page = this.pages.current, loading = true) {
             if (this.loading) return
