@@ -86,6 +86,13 @@
                     </el-tag>
                 </template>
             </el-table-column>
+            <el-table-column prop="can_pay" label="允许订场" align="center">
+                <template slot-scope="{ row }">
+                    <el-tag :type="row.can_pay ? 'success' : 'danger'"
+                        >{{ row.can_pay | paraphrase(canPayOptions) }}
+                    </el-tag>
+                </template>
+            </el-table-column>
             <el-table-column
                 prop="created_at"
                 label="创建时间"
@@ -179,6 +186,10 @@ export default {
                 { label: '禁用', value: 1 }
             ],
             adminOptions: [
+                { label: '否', value: 0 },
+                { label: '是', value: 1 }
+            ],
+            canPayOptions: [
                 { label: '否', value: 0 },
                 { label: '是', value: 1 }
             ],

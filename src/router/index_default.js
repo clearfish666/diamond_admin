@@ -403,25 +403,27 @@ export const routes_insidesystem = [
       },
     ],
   },
-//   {
-//     path: "/configs",
-//     component: Layout,
-//     name: "ConfigManage",
-//     hidden: true,
-//     meta: {
-//       title: "系统配置",
-//       icon: "configs",
-//     },
-//     children: [
-//       {
-//         path: "system",
-//         component: () => import("@/views/configs/system"),
-//         name: "SystemConfig",
-//         hidden: true,
-//         meta: {
-//           title: "基础配置",
-//         },
-//       },
+   {
+      path: "/configs",
+      component: Layout,
+      name: "ConfigManage",
+      hidden: true,
+      meta: {
+         title: "系统配置",
+         icon: "configs",
+      },
+      children: [
+         {
+            path: "system",
+            component: () => import("@/views/configs/system"),
+            name: "SystemConfig",
+            hidden: true,
+            meta: {
+               title: "基础配置",
+            },
+         },
+      ]
+   },
       // {
       //   path: "vip",
       //   component: () => import("@/views/configs/vip"),

@@ -91,6 +91,12 @@
                     <el-radio :label="1">是</el-radio>
                 </el-radio-group>
             </el-form-item>
+            <el-form-item label="允许订场" prop="can_pay">
+                <el-radio-group v-model="form.can_pay">
+                    <el-radio :label="0">否</el-radio>
+                    <el-radio :label="1">是</el-radio>
+                </el-radio-group>
+            </el-form-item>
             <!-- <el-form-item label="个人简介" prop="introduction">
         <el-input v-model="form.introduction" type="textarea" />
       </el-form-item> -->
