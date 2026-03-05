@@ -53,6 +53,12 @@
                             >删除</el-button
                         >
                     </el-button-group>
+
+                    <el-button-group style="margin: 15px 0px">
+                        <el-button type="success" @click="onSetPriceList(row)"
+                            >指定价格
+                        </el-button>
+                    </el-button-group>
                 </template>
             </el-table-column>
         </el-table>
@@ -70,6 +76,11 @@
             @refreshList="getList(1)"
         /> -->
 
+        <set-pirce
+            v-if="setPriceVisible"
+            ref="setPriceRef"
+            @refreshList="getList(1)"
+        />
         <reserve-goods-update
             v-if="reserveGoodsVisible"
             ref="reserveGoodsRef"
@@ -83,13 +94,15 @@ import Pagination from '@/components/Pagination'
 import { mixin } from '@/utils/mixin'
 import { getGoodsList, deleteData } from '@/api/store/goods'
 import ReserveGoodsUpdate from './goods/ReserveGoodsUpdate'
+import setPirce from './setPrice'
 
 export default {
     name: 'ReserveGoods',
-    components: { Pagination, ReserveGoodsUpdate },
+    components: { Pagination, ReserveGoodsUpdate, setPirce },
     mixins: [mixin],
     data() {
         return {
+            setPriceVisible: false,
             visible: false,
             data: {},
             search: {
@@ -121,7 +134,7 @@ export default {
                 .then((response) => {
                     if (response.code !== 0) return
                     this.list = response.data.data
-                    console.log(this.list)
+                    //   console.log(this.list)
                     this.pages.total = response.data.total
                 })
                 .catch((error) => {
@@ -140,6 +153,13 @@ export default {
             this.$nextTick(() => {
                 this.$refs.reserveGoodsRef &&
                     this.$refs.reserveGoodsRef.init(row)
+            })
+        },
+
+        onSetPriceList(row) {
+            this.setPriceVisible = true
+            this.$nextTick(() => {
+                this.$refs.setPriceRef && this.$refs.setPriceRef.init(row)
             })
         },
         onDelete({ name, id }) {
