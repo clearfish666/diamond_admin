@@ -1,5 +1,5 @@
 module.exports = {
-  title: '白松公园球场',
+  title: '钻石商城管理后台',
 
   /**
    * @type {boolean} true | false

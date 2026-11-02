@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import routes_default from './index_default'
+import diamondRoutes from './modules/diamond'
 Vue.use(Router)
 
 /* Layout */
@@ -78,11 +79,11 @@ export const constantRoutes = [
   {
     path: '/',
     component: Layout,
-    redirect: '/dashboard',
+    redirect: '/diamond/orders',
     children: [
       {
         path: 'dashboard',
-        component: () => import('@/views/dashboard/index'),
+        component: () => import('@/views/diamond/Welcome'),
         name: 'Dashboard',
         meta: { title: 'dashboard', icon: 'dashboard', affix: true }
       }
@@ -117,7 +118,7 @@ export const constantRoutes = [
  * asyncRoutes
  * the routes that need to be dynamically loaded based on user roles
  */
-export const asyncRoutes = routes_default
+export const asyncRoutes = [diamondRoutes].concat(routes_default.filter(route => ['AdminManage', 'RoleManage', 'MenuManage', 'ConfigManage', 'Ad', 'ArticleManage', 'FeedbackManage'].includes(route.name)))
 
 const createRouter = () => new Router({
   // base: base,

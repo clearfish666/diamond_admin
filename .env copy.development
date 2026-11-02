@@ -1,0 +1,20 @@
+# just a flag
+ENV = 'development'
+# 版本
+VERSION = '1.0.0.0'
+VUE_APP_TIMEZONE = 'Asia/Shanghai'
+
+# base api
+VUE_APP_BASE_API = 'http://host.sunex.com/admin/'
+#VUE_APP_BASE_API = 'http://120.79.40.91/admin/'
+
+#VUE_APP_BASE = '120.79.40.91'
+VUE_APP_BASE = 'www.pop.com'
+
+# img
+#VUE_APP_CDN_PREFIX = 'http://120.79.40.91/'
+VUE_APP_CDN_PREFIX = 'http://host.sunex.com/'
+
+
+#websocket 
+#VUE_APP_WEBSOCKET_API = 'ws://120.79.40.91/wss'

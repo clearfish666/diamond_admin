@@ -33,6 +33,7 @@ module.exports = {
   devServer: {
     port: port,
     open: true,
+    proxy: { '/admin': { target: 'http://127.0.0.1:8000', changeOrigin: true } },
     overlay: {
       warnings: false,
       errors: true

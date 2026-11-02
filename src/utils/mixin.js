@@ -33,9 +33,10 @@ export const mixin = {
     getResourceUrl(url) {
       const dominRegex = /(http|https):\/\/([\w.]+\/?)\S*/;
       if (dominRegex.test(url)) return url;
-      url = url.replace("storage/", "");
-      let domin = this.domin.replace("storage/", "");
-      return domin + "storage/" + url;
+      if (!url) return "";
+      const path = url.replace(/^\/+/, "");
+      const domin = this.domin.replace(/\/?storage\/?$/, "").replace(/\/+$/, "");
+      return domin + (/^(assets|storage)\//.test(path) ? "/" : "/storage/") + path;
     },
     formatSecond(value) {
       var theTime = parseInt(value); // 秒

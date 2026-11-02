@@ -62,7 +62,7 @@ router.beforeEach(async(to, from, next) => {
           const accessRoutes = await store.dispatch('permission/generateRoutes', roles)
 
           // dynamically add accessible routes
-          getMenuNav()
+          await getMenuNav()
             .then(response => {
               window.localStorage.setItem('permissionsList', JSON.stringify(response.data.perms))
               const serverRoute = response.data.menus || []

@@ -13,7 +13,7 @@ const CANCELTTYPE = {
 
 // create an axios instance
 const service = axios.create({
-  baseURL: process.env.VUE_APP_BASE_API, // url = base url + request url
+  baseURL: process.env.VUE_APP_BASE_API || '/admin', // url = base url + request url
   // withCredentials: true, // send cookies when cross-domain requests
   timeout: 1200 * 1e3 // request timeout
 })
@@ -115,7 +115,8 @@ service.interceptors.response.use(
     }
   },
   error => {
-    const error_message = JSON.parse(error.message)
+    let error_message = {}
+    try { error_message = JSON.parse(error.message) } catch (e) { /* Ordinary network errors are not JSON. */ }
     if (error_message.type === 1) {
       return error_message.data
     } else if (error.response && error.response.status === 503) {
