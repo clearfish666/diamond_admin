@@ -47,12 +47,14 @@ router.beforeEach(async(to, from, next) => {
           return
         }
         let isRole = true
+        const canOpenQuoteEditor = to.name === 'DiamondQuoteImages' && routes.some(route =>
+          !route.hidden && (route.children || []).some(page => page.name === 'DiamondSettings' && !page.hidden))
         for (const i in routes) {
           if (to.name && to.name === routes[i].name && routes[i].hidden === true) {
             isRole = false
           } else if (routes[i].children) {
             routes[i].children.forEach((x) => {
-              if (to.name === x.name && x.hidden === true) {
+              if (to.name === x.name && x.hidden === true && !canOpenQuoteEditor) {
                 isRole = false
               }
             })
