@@ -11,6 +11,14 @@ NProgress.configure({ showSpinner: false }) // NProgress Configuration
 
 const whiteList = ['/login', '/auth-redirect'] // no redirect whitelist
 
+function collectMenus(menus, entries = new Map()) {
+  menus.forEach(menu => {
+    entries.set(menu.alias, menu)
+    if (Array.isArray(menu.list)) collectMenus(menu.list, entries)
+  })
+  return entries
+}
+
 router.beforeEach(async(to, from, next) => {
   // start progress bar
   NProgress.start()
@@ -31,16 +39,16 @@ router.beforeEach(async(to, from, next) => {
       const hasRoles = store.getters.roles && store.getters.roles.length > 0
       if (hasRoles) {
         const routes = store.getters.permission_routes
-        if (to.path === '/') {
-          const diamond = routes.find(route => route.name === 'DiamondManage' && !route.hidden)
-          const pages = diamond ? diamond.children : []
-          const home = ['DiamondStatistics', 'DiamondOrders'].find(name => pages.some(page => page.name === name && !page.hidden))
+        if (to.path === '/' || (to.name === 'DiamondStatistics' && routes.some(route =>
+          (route.children || []).some(page => page.name === to.name && page.hidden)))) {
+          const home = ['DiamondStatistics', 'DiamondOrders'].find(name => routes.some(route =>
+            !route.hidden && (route.children || []).some(page => page.name === name && !page.hidden)))
           next(home ? { name: home, replace: true } : { path: '/dashboard', replace: true })
           return
         }
         let isRole = true
         for (const i in routes) {
-          if (to.name === routes[i].name && routes[i].hidden === true) {
+          if (to.name && to.name === routes[i].name && routes[i].hidden === true) {
             isRole = false
           } else if (routes[i].children) {
             routes[i].children.forEach((x) => {
@@ -71,8 +79,19 @@ router.beforeEach(async(to, from, next) => {
           // dynamically add accessible routes
           await getMenuNav()
             .then(response => {
-              window.localStorage.setItem('permissionsList', JSON.stringify(response.data.perms))
+              const permissions = response.data.perms || []
+              window.localStorage.setItem('permissionsList', JSON.stringify(permissions))
               const serverRoute = response.data.menus || []
+              const menuEntries = collectMenus(serverRoute)
+              accessRoutes.filter(route => route.meta && route.meta.diamondGroup).forEach(route => {
+                route.children.forEach(page => {
+                  const entry = menuEntries.get(page.name)
+                  const visible = entry ? Number(entry.show) === 1 : permissions.includes(page.name)
+                  page.hidden = !visible
+                  if (visible) page.type = entry ? Number(entry.type) : 1
+                })
+                route.hidden = !route.children.some(page => !page.hidden)
+              })
               serverRoute.forEach((serverValue) => {
                 accessRoutes.forEach((accessValue, accessIndex) => {
                   if (serverValue.alias === accessValue.name && Number(serverValue.show) === 1) {
@@ -105,7 +124,7 @@ router.beforeEach(async(to, from, next) => {
             })
           // hack method to ensure that addRoutes is complete
           // set the replace: true, so the navigation will not leave a history record
-          next({ ...to, replace: true })
+          next({ path: to.path, query: to.query, hash: to.hash, replace: true })
         } catch (error) {
           // remove token and go to login page to re-login
           await store.dispatch('user/resetToken')

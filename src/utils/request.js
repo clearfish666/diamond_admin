@@ -35,7 +35,7 @@ service.interceptors.request.use(
     const source = axios.CancelToken.source()
     config.cancelToken = source.token
 
-    if (config.url.indexOf('/nav') !== -1 || config.url.indexOf('/main/') !== -1) {
+    if (config.url.indexOf('/main/') !== -1) {
       /**
       * 缓存命中判断
       * 成功则取消当次请求
@@ -99,7 +99,7 @@ service.interceptors.response.use(
 
       return Promise.reject(new Error(res.msg || 'Error'))
     } else {
-      if (response.type !== 1 && (response.config.url.indexOf('/nav') !== -1 || response.config.url.indexOf('/main/') !== -1)) {
+      if (response.type !== 1 && response.config.url.indexOf('/main/') !== -1) {
         const dataParse = res.data
         // 添加缓存时间
         if (!dataParse.cacheTime) {

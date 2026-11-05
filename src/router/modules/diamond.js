@@ -1,14 +1,38 @@
 import Layout from '@/layout'
 
-export default {
-  path: '/diamond', component: Layout, name: 'DiamondManage', hidden: true, redirect: '/diamond/orders',
-  meta: { title: '大卖钻', icon: 'shopping' },
-  children: [
-    ['statistics', 'DiamondStatistics', '统计管理'],
-    ['quote-images', 'DiamondQuoteImages', '今日报价'],
-    ['goods', 'DiamondGoods', '商品管理'], ['loose', 'DiamondLoose', '散货配货配置'], ['categories', 'DiamondCategories', '商品分类'], ['orders', 'DiamondOrders', '订单与核销'],
-    ['distributors', 'DiamondDistributors', '分销商管理'], ['commissions', 'DiamondCommissions', '业绩与提成'],
-    ['settings', 'DiamondSettings', '业务配置'], ['exports', 'DiamondExports', '数据导出']
-  ].map(([path, name, title]) => ({ path, name, hidden: true, component: path === 'statistics' ? () => import('@/views/diamond/Statistics') : path === 'quote-images' ? () => import('@/views/diamond/QuoteImages') : path === 'loose' ? () => import('@/views/diamond/LooseManage') : path === 'categories' ? () => import('@/views/diamond/Categories') : () => import('@/views/diamond/Workbench'), props: { section: path }, meta: { title }}))
+const workbench = () => import('@/views/diamond/Workbench')
+
+function page(path, name, title, component = workbench) {
+  return { path: '/diamond/' + path, name, component, hidden: true, props: { section: path }, meta: { title }}
 }
 
+function group(path, title, icon, children, alwaysShow = false) {
+  return { path, component: Layout, hidden: true, type: 0, alwaysShow, meta: { title, icon, diamondGroup: true }, children }
+}
+
+export default [
+  group('/diamond-overview', '统计管理', 'chart', [
+    page('statistics', 'DiamondStatistics', '统计管理', () => import('@/views/diamond/Statistics'))
+  ]),
+  group('/diamond-products', '商品管理', 'shopping', [
+    page('goods', 'DiamondGoods', '商品管理'),
+    page('loose', 'DiamondLoose', '散货配货配置', () => import('@/views/diamond/LooseManage')),
+    page('categories', 'DiamondCategories', '商品分类', () => import('@/views/diamond/Categories'))
+  ], true),
+  group('/diamond-orders', '订单管理', 'order', [
+    page('orders', 'DiamondOrders', '订单与核销')
+  ], true),
+  group('/diamond-users', '用户管理', 'people', [
+    page('distributors', 'DiamondDistributors', '分销商管理')
+  ], true),
+  group('/diamond-finance', '业绩与提成', 'money', [
+    page('commissions', 'DiamondCommissions', '业绩与提成')
+  ]),
+  group('/diamond-operations', '运营配置', 'configs', [
+    page('settings', 'DiamondSettings', '业务配置'),
+    page('quote-images', 'DiamondQuoteImages', '今日报价', () => import('@/views/diamond/QuoteImages'))
+  ], true),
+  group('/diamond-data', '数据导出', 'excel', [
+    page('exports', 'DiamondExports', '数据导出')
+  ])
+]

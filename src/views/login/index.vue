@@ -173,7 +173,6 @@ export default {
             capsTooltip: false,
             loading: false,
             showDialog: false,
-            redirect: undefined,
             otherQuery: {},
             logo: 'favicon.png',
             img_codes: ''
@@ -184,7 +183,6 @@ export default {
             handler: function (route) {
                 const query = route.query
                 if (query) {
-                    this.redirect = query.redirect
                     this.otherQuery = this.getOtherQuery(query)
                 }
             },
@@ -261,7 +259,7 @@ export default {
                         .dispatch('user/login', this.loginForm)
                         .then(() => {
                             this.$router.push({
-                                path: this.redirect || '/',
+                                path: '/diamond/statistics',
                                 query: this.otherQuery
                             })
                             this.loading = false

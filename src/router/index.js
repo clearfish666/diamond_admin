@@ -117,7 +117,7 @@ export const constantRoutes = [
  * asyncRoutes
  * the routes that need to be dynamically loaded based on user roles
  */
-export const asyncRoutes = [diamondRoutes].concat(routes_default.filter(route => ['AdminManage', 'RoleManage', 'MenuManage', 'ConfigManage', 'Ad', 'ArticleManage', 'FeedbackManage'].includes(route.name)))
+export const asyncRoutes = diamondRoutes.concat(routes_default.filter(route => ['AdminManage', 'RoleManage', 'MenuManage', 'ConfigManage', 'Ad', 'ArticleManage', 'FeedbackManage'].includes(route.name)))
 
 const createRouter = () => new Router({
   // base: base,
