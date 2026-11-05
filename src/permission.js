@@ -31,6 +31,13 @@ router.beforeEach(async(to, from, next) => {
       const hasRoles = store.getters.roles && store.getters.roles.length > 0
       if (hasRoles) {
         const routes = store.getters.permission_routes
+        if (to.path === '/') {
+          const diamond = routes.find(route => route.name === 'DiamondManage' && !route.hidden)
+          const pages = diamond ? diamond.children : []
+          const home = ['DiamondStatistics', 'DiamondOrders'].find(name => pages.some(page => page.name === name && !page.hidden))
+          next(home ? { name: home, replace: true } : { path: '/dashboard', replace: true })
+          return
+        }
         let isRole = true
         for (const i in routes) {
           if (to.name === routes[i].name && routes[i].hidden === true) {
@@ -68,21 +75,21 @@ router.beforeEach(async(to, from, next) => {
               const serverRoute = response.data.menus || []
               serverRoute.forEach((serverValue) => {
                 accessRoutes.forEach((accessValue, accessIndex) => {
-                  if (serverValue.alias === accessValue.name && serverValue.show === 1) {
+                  if (serverValue.alias === accessValue.name && Number(serverValue.show) === 1) {
                     accessRoutes[accessIndex].type = serverValue.type
                     accessRoutes[accessIndex].hidden = false
                   }
                   if (serverValue.list && accessValue.children) {
                     serverValue.list.forEach((y) => {
                       accessValue.children.forEach((a, b) => {
-                        if (y.alias === a.name && y.show === 1) {
+                        if (y.alias === a.name && Number(y.show) === 1) {
                           accessRoutes[accessIndex].children[b].type = y.type
                           accessRoutes[accessIndex].children[b].hidden = false
                         }
                         if (y.list) {
                           y.list.forEach((x) => {
                             accessValue.children.forEach((c, d) => {
-                              if (x.alias === a.name && x.show === 1) {
+                              if (x.alias === a.name && Number(x.show) === 1) {
                                 accessRoutes[accessIndex].children[b].type = x.type
                                 accessRoutes[accessIndex].children[b].hidden = false
                               }

@@ -79,7 +79,6 @@ export const constantRoutes = [
   {
     path: '/',
     component: Layout,
-    redirect: '/diamond/orders',
     children: [
       {
         path: 'dashboard',

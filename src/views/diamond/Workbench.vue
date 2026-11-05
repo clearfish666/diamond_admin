@@ -59,9 +59,26 @@ export default {
   computed: { agreementLabels() { return { user_agreement_id: '用户协议文章ID', privacy_agreement_id: '隐私政策文章ID', distribution_agreement_id: '分销说明文章ID' } } },
   props: { section: { type: String, required: true } },
   data() { return { titles: { goods: '商品管理', orders: '订单与核销', distributors: '分销商管理', commissions: '业绩与提成', settings: '业务配置', exports: '数据导出' }, types: { loose: '培育散货', single: '单颗钻石', jewelry: '成品钻饰' }, labels: { pending: '待核销', verified: '已核销', cancelled: '已取消' }, reviewLabels: { none: '普通用户', pending: '待确认/审核中', approved: '已通过', rejected: '未通过', revoked: '已取消资格' }, settlementLabels: { not_applicable: '未进入结算', pending: '待线下结算', settled: '已登记结算' }, rows: [], categories: [], filters: {}, dates: [], page: 1, total: 0, busy: false, settings: {}, memberTab: 'users', exportType: 'orders', verificationCode: '', verificationOrder: null, verifyDialog: false, verifiedCheck: false, authorizationDialog: false, authorization: null, deliveryDialog: false, deliveryOrder: null, deliveryDistributorId: null, deliveryCandidates: [] } },
-  watch: { section() { this.filters = {}; this.dates = []; this.load(1) } },
-  created() { this.load(1) },
+  watch: { $route() { this.$nextTick(this.loadRoute) } },
+  created() { this.loadRoute() },
   methods: {
+    loadRoute() {
+      const query = this.$route.query
+      this.filters = {}
+      this.dates = []
+      if (this.section === 'orders') {
+        for (const key of ['status', 'fulfillment_method']) if (query[key]) this.filters[key] = query[key]
+        if (query.unassigned_delivery === '1') this.filters.unassigned_delivery = true
+      }
+      if (this.section === 'commissions') {
+        for (const key of ['review_status', 'settlement_status']) if (query[key]) this.filters[key] = query[key]
+      }
+      if (this.section === 'distributors') {
+        this.memberTab = query.tab === 'applications' ? 'applications' : 'users'
+        if (this.memberTab === 'applications' && query.status === 'pending') this.filters.status = 'pending'
+      }
+      this.load(1)
+    },
     can(alias) { try { return JSON.parse(localStorage.getItem('permissionsList') || '[]').includes(alias) } catch (e) { return false } },
     params() { return { ...this.filters, exclude_loose: this.section === 'goods' ? 1 : undefined, from: this.dates && this.dates[0], to: this.dates && this.dates[1] } },
     async load(page = 1) {

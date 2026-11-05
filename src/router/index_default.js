@@ -87,27 +87,27 @@ export const routes_insidesystem = [
   //     },
   //   ],
   // },
-  {
-    path: "/ad",
-    component: Layout,
-    name: "Ad",
-    hidden: true,
-    meta: {
-      title: "广告管理",
-      icon: "poster",
-    },
-    children: [
-      {
-        path: "index",
-        component: () => import("@/views/ad/index"),
-        name: "Ads",
-        hidden: true,
-        meta: {
-          title: "广告管理",
-        },
-      },
-    ],
-  },
+  // {
+  //   path: "/ad",
+  //   component: Layout,
+  //   name: "Ad",
+  //   hidden: true,
+  //   meta: {
+  //     title: "广告管理",
+  //     icon: "poster",
+  //   },
+  //   children: [
+  //     {
+  //       path: "index",
+  //       component: () => import("@/views/ad/index"),
+  //       name: "Ads",
+  //       hidden: true,
+  //       meta: {
+  //         title: "广告管理",
+  //       },
+  //     },
+  //   ],
+  // },
 
   {
     path: "/wallet",
