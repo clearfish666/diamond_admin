@@ -1,5 +1,5 @@
 <template>
-  <div class="app-container diamond-workbench">
+  <div class="app-container diamond-workbench"><el-button v-if="section==='settings'" @click="$router.push('/diamond/quote-images')">编辑今日报价</el-button>
     <h2>{{ titles[section] }}</h2>
     <el-alert title="订单无在线支付；核销后业绩待平台确认，实际提成在线下结算。" type="info" :closable="false" />
     <template v-if="section==='settings'">

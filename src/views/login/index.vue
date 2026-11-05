@@ -11,7 +11,7 @@
             <div class="title-container">
                 <h3 class="title">
                     <img v-if="logo" :src="logo" class="sidebar-logo" />
-                    <p>钻石商城{{ $t('login.title') }}</p>
+                    <p>大卖钻{{ $t('login.title') }}</p>
                 </h3>
             </div>
             <el-form-item prop="username">

@@ -1,6 +1,6 @@
 <template>
     <div class="dashboard-container">
-        <div class="welcome">欢迎登录白松公园球场后台管理系统</div>
+        <div class="welcome">欢迎登录大卖钻后台管理系统</div>
         <div
             class="test-clock-container"
             :style="'height:' + pageheight + 'px;'"

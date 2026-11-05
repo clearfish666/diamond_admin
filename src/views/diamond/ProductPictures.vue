@@ -15,18 +15,13 @@
 </template>
 <script>
 import request from '@/utils/request'
+import { diamondImageUrl } from '@/utils/diamondImage'
 export default {
   props: { value: { type: Array, default: () => [] }, limit: { type: Number, default: 10 }, uploadType: { type: String, default: 'goods' } },
   data() { return { uploading: false } },
   computed: { pictureUrls() { return this.value.map(this.pictureUrl) } },
   methods: {
-    pictureUrl(path) {
-      if (!path || /^https?:\/\//.test(path)) return path
-      const base = new URL(process.env.VUE_APP_BASE_API || '/admin', window.location.origin)
-      base.pathname = base.pathname.replace(/\/admin\/?$/, '/')
-      const relative = path.replace(/^\/+/, '')
-      return new URL(/^(assets|storage)\//.test(relative) ? relative : 'storage/' + relative, base).href
-    },
+    pictureUrl: diamondImageUrl,
     before(file) {
       if (!['image/png','image/jpeg','image/gif','image/webp','image/bmp'].includes(file.type) || file.size > 5 * 1024 * 1024) { this.$message.error('请选择5MB以内的PNG、JPG、GIF、WebP或BMP图片'); return false }
       return true
@@ -36,9 +31,7 @@ export default {
       try {
         const data = new FormData(); data.append('file', options.file); data.append('type', this.uploadType)
         const result = await request.post('/upload', data)
-        const base = new URL(process.env.VUE_APP_BASE_API || '/admin', window.location.origin)
-        base.pathname = base.pathname.replace(/\/admin\/?$/, '/storage/')
-        const url = new URL(result.data.filename, base).href
+        const url = diamondImageUrl(result.data.filename)
         this.$emit('input', this.value.concat(url)); options.onSuccess(result)
       } catch (error) { options.onError(error) } finally { this.uploading = false; this.$emit('busy', false) }
     },

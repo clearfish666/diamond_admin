@@ -1,5 +1,5 @@
 module.exports = {
-  title: '钻石商城管理后台',
+  title: '大卖钻管理后台',
 
   /**
    * @type {boolean} true | false

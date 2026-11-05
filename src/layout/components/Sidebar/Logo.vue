@@ -29,7 +29,7 @@ export default {
     },
     data() {
         return {
-            title: '白松公园球场',
+            title: '大卖钻',
             logo: 'favicon.png'
         }
     }
